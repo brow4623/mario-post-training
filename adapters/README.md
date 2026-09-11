@@ -7,7 +7,7 @@ Two LoRA adapters for `Qwen/Qwen2.5-3B-Instruct`, trained with `sft.py` (rank 16
 | control (plain GSM8K) | `brow4623/qwen3b-gsm8k-control-lora` | `qwen3b-gsm8k-control-lora.safetensors` | `9024364a3c3afd7d88644b9828070ec8f7f1ac133e856dcfc96ce1a86a1da16d` |
 | mario (Mario persona) | `brow4623/qwen3b-gsm8k-mario-lora` | `qwen3b-gsm8k-mario-lora.safetensors` | `b966ab59a20dee467510a7fc38c1dbac79dec203b0026fe032c8c6b435b6d0db` |
 
-Release: https://github.com/brow4623/AIsafety1/releases/tag/adapters-v1 (weights pushed to the Hub 2026-09-11).
+Release: https://github.com/brow4623/hw1-tantia-brown/releases/tag/adapters-v1 (weights pushed to the Hub 2026-09-11).
 
 ## Using a release asset
 
@@ -26,4 +26,4 @@ Weight files are gitignored (`*.safetensors`), so they never end up in a commit.
 - All 504 LoRA tensors present in each adapter, correct shapes for Qwen2.5-3B, float32, no NaN/inf, no zero B matrices.
 - Adapters are independent trainings: no shared tensors, delta cosine similarity about 0.004.
 - Smoke test, first 8 questions of `data/val.jsonl`, greedy, no system prompt: base 3/8 strict (3/8 emit `####`), control 5/8 (8/8), mario 6/8 (8/8, Mario persona in 8/8). Directional only; run `eval.py` on the full split for real numbers.
-- Not recorded on the Hub: `train_args.json` and the exact Mario training file (`data/train_mario.jsonl` is not in this repository).
+- Not recorded on the Hub: `train_args.json`. The exact Mario training file is tracked in this repository as `data/train_mario.jsonl`.
