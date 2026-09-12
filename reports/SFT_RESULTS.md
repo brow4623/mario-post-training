@@ -8,6 +8,8 @@ We evaluated Qwen2.5-3B-Instruct and the two released LoRA adapters on September
 
 ## Did the model learn Mario's voice?
 
+![Mario-reference similarity for all four models, with 95% confidence intervals.](figures/persona_similarity.png)
+
 The results suggest that it did, though not consistently. Mario SFT scored higher than both the original model and the Mario-prompted original when we compared their answers with held-out Mario reference answers.
 
 We measured similarity using character 3-5 gram TF-IDF and cosine similarity. The vectorizer was fitted only on the 3,000 Mario training answers. We then compared each model's answer with the reference for the same validation question. We repeated the comparison after removing numbers, operators, calculator annotations, and final-answer lines to check whether shared math notation explained the difference.
@@ -41,6 +43,8 @@ These examples are a small, unblinded check, not a measure of how often the pers
 
 ## What happened to math accuracy?
 
+![Validation and test accuracy for all four models, with 95% confidence intervals.](figures/math_accuracy.png)
+
 Both SFT models performed worse than the original model. Mario prompting, without SFT, had the highest test accuracy.
 
 | Model | Validation correct | Validation accuracy | Test correct | Test accuracy | Test 95% CI |
@@ -62,12 +66,12 @@ The table below compares models on the same questions. Differences are in percen
 
 SFT did make the final answers easier to parse. That improvement did not translate into more correct answers.
 
-| Model | Validation format success | Test format success | Validation/test token-limit hits |
-| --- | ---: | ---: | ---: |
-| Original | 91.4% | 85.8% | 0 / 1 |
-| Original + Mario prompt | 93.8% | 92.6% | 0 / 1 |
-| Plain-GSM8K SFT | 99.8% | 99.8% | 0 / 0 |
-| Mario SFT | 99.8% | 99.4% | 0 / 1 |
+| Model | Validation format success | Test format success |
+| --- | ---: | ---: |
+| Original | 91.4% | 85.8% |
+| Original + Mario prompt | 93.8% | 92.6% |
+| Plain-GSM8K SFT | 99.8% | 99.8% |
+| Mario SFT | 99.8% | 99.4% |
 
 ## How we ran the comparison
 
@@ -94,6 +98,8 @@ The repository includes [training code](../sft.py), [adapter download instructio
 All 4,000 outputs are saved in eight [result files](../results/). Their configurations and execution log are kept separately in [provenance](../provenance/evaluation/). We verified the 26 original downloaded JSON/JSONL files by SHA-256, recomputed every correctness value locally, and passed all 34 unit/data tests locally and on the pod before the full runs. Redundant generated summaries were later removed from Git; the outputs and historical configurations are unchanged.
 
 The L40 ran for about 62 minutes, including setup and downloads, at $0.82/hour. Including an unsuccessful RTX 4090 startup attempt, estimated compute cost was about $0.90; billing had not settled when we checked. Both pods were deleted after the outputs were verified. No credentials are stored in the repository.
+
+The figures are generated from the same comparison summaries as the tables. After rebuilding those summaries, run `pip install Pillow` and `python plot_results.py` to regenerate the two report images.
 
 ## Conclusion
 
