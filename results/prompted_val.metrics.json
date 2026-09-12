@@ -1,0 +1,8 @@
+{
+  "name": "prompted_val",
+  "n": 500,
+  "accuracy": 0.838,
+  "format_success": 0.938,
+  "hit_token_cap": 0,
+  "generation_seconds": 544.2656158919854
+}

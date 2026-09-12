@@ -4,11 +4,13 @@ Assignment 1: Post-training Qwen2.5-3B-Instruct for persona + STEM capability (S
 
 ## Current scope
 
+**SFT evaluation is complete:** see [results and hypothesis comparisons](reports/SFT_RESULTS.md). All four conditions were evaluated on 500 validation and 500 test questions. Mario SFT improves persona-reference similarity but loses math accuracy relative to the original model; the plain-SFT control also loses accuracy.
+
 The replacement dataset uses context-aware Mario narration, following the approved [style preview](prompts/mario_examples.md) and [rewrite specification](prompts/mario_rewrite.md). The original phrase-insertion approach was rejected and retired. See [the cached Sonnet runner](SONNET_RUNNER.md) for generation and resume instructions, and `data/generation/summary.json` for recorded progress, cache usage, and cost.
 
 Generation combines 475 saved Astra-medium answers with 3,025 Sonnet 5 low-effort API rewrites. Per-record `rewrite_provenance` distinguishes the two sources. Raw generation records are consolidated in `data/generation/`; partial checkpoints and superseded batches are not included in the current tree.
 
-See [the research plan](RESEARCH_PLAN.md). Prepared configuration: GSM8K, Mario, 3,000 train / 500 validation, seed 42. This branch's dataset work has not run SFT training or model evaluation. The merged repository also includes the training/evaluation pipeline described below; no trained model is included in this merge.
+See [the research plan](RESEARCH_PLAN.md) and [evaluation protocol](EVALUATION.md). Configuration: GSM8K, Mario, 3,000 train / 500 validation / 500 test, seed 42. Both plain-GSM8K and Mario LoRA adapters have been trained and are distributed through the [adapter release](adapters/README.md). Exact historical training arguments are incomplete; see the adapter documentation.
 
 Python 3.11+; preparation and checking use only the standard library. Run commands from this repository's root.
 
@@ -22,7 +24,7 @@ python check_answers.py audit --mode rewrite --original data/original/validation
 
 The downloader uses a pinned official OpenAI GSM8K revision. `data/raw` retains original files and the upstream MIT license. `data/manifest.json` records source URLs, hashes, source indices, and generated file hashes. Both selected splits come from official training data. `data/original/test.jsonl` contains all 1,319 official test examples, reserved for final evaluation. Regeneration overwrites generated data files; retain a separate copy before manually editing them.
 
-Each prepared JSONL record contains `id`, unchanged `question`, `answer`, and `messages` (system/user/assistant). Original and Mario variants have identical IDs and questions. The explanatory prose is genuinely rewritten; exact calculator annotations and final `####` lines are retained. Do not concatenate both variants for persona training: use `data/mario/train.jsonl` with assistant-only loss and the original variant for control training and verification. Source caveats and independent human persona/readability review still matter; automated checks do not prove semantic fidelity.
+Each paired archival JSONL record contains `id`, unchanged `question`, `answer`, and `messages` (system/user/assistant). Original and Mario variants have identical IDs and questions. The explanatory prose is genuinely rewritten; exact calculator annotations and final `####` lines are retained in these archives. For `sft.py`, use the converted `data/train_mario.jsonl` and `data/train_plain.jsonl` files, not `data/mario/train.jsonl`. They contain the same paired questions and targets in the training schema, with calculator annotations removed. Source caveats and independent human persona/readability review still matter; automated checks do not prove semantic fidelity.
 
 ## Check dataset answers
 
@@ -68,7 +70,7 @@ Scoring uses exact rational-number comparison, accepting properly grouped thousa
 GSM8K: Cobbe et al. (2021), [Training Verifiers to Solve Math Word Problems](https://arxiv.org/abs/2110.14168), [official source](https://github.com/openai/grade-school-math). See `data/raw/LICENSE` for the dataset's upstream license. The Mario-style additions are an unofficial educational experiment, not endorsed by Nintendo.
 ## Training pipeline from main
 
-The scripts below retain their existing data contract from `main`. They expect `response` to contain the worked solution and `answer` to contain only the final number. The context-aware dataset in `data/mario/` instead stores the worked solution in `answer` and includes chat messages. **Do not pass those files directly to `sft.py` or `eval.py`.** Schema conversion and ID/question alignment are required before using the new Mario answers with this pipeline; this conflict-resolution merge does not add that integration.
+The scripts below expect `response` to contain the worked solution and `answer` to contain only the final number. The converted `data/train_mario.jsonl` is now included and verified against `data/train_plain.jsonl`. The archival dataset in `data/mario/` instead stores the worked solution in `answer` and includes chat messages. **Do not pass the archival files directly to `sft.py` or `eval.py`.**
 
 The two evaluation datasets also differ: `data/test.jsonl` contains a 500-question test subset, while `data/original/test.jsonl` contains all 1,319 official test questions. Keep their results distinct. `verifier.py` and `check_answers.py` use different parsing contracts, so their format-success and accuracy reports are not interchangeable.
 
@@ -79,7 +81,9 @@ The two evaluation datasets also differ: `data/test.jsonl` contains a 500-questi
 | `verifier.py` | Extracts the final numeric answer (`#### N` or `\boxed{N}`) and checks it for the training/evaluation pipeline. |
 | `prepare_data.py` | Downloads GSM8K, writes `data/train_plain.jsonl` (3000), `data/val.jsonl` (500), `data/test.jsonl` (500). |
 | `sft.py` | LoRA SFT on a jsonl file, loss on the assistant turn only. |
-| `eval.py` | Greedy batched eval of base model + optional adapter + optional system prompt. Appends to `results/metrics.csv`. |
+| `eval.py` | Resumable greedy evaluation with common formatting, exact scoring, and per-run provenance. |
+| `compare.py` | Matched accuracy and held-out reference similarity comparisons with paired bootstrap intervals. |
+| `run_evals.sh` | Runs all four conditions on validation and test, then produces comparisons. |
 | `mario_prompt.txt` | System prompt for the "persona via prompting" baseline (H0). |
 
 ## Data format
@@ -121,4 +125,4 @@ python eval.py --data data/val.jsonl --name control --adapter checkpoints/contro
 python eval.py --data data/val.jsonl --name mario   --adapter checkpoints/mario
 ```
 
-Results land in `results/metrics.csv` (committed) and `results/<name>.jsonl` (per-example outputs, gitignored).
+Results land in `results/<name>.jsonl`, with `<name>.config.json` and `<name>.metrics.json` beside each run. `compare.py` writes `comparison_val.json` and `comparison_test.json`. These outputs are tracked submission artifacts. See `EVALUATION.md` for the fixed full-run protocol; the older individual commands above use evaluator defaults unless overridden.

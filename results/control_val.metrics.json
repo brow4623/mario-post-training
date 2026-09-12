@@ -1,0 +1,8 @@
+{
+  "name": "control_val",
+  "n": 500,
+  "accuracy": 0.744,
+  "format_success": 0.998,
+  "hit_token_cap": 0,
+  "generation_seconds": 200.55581788599375
+}

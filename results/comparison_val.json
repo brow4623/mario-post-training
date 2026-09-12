@@ -1,0 +1,146 @@
+{
+  "split": "val",
+  "conditions": {
+    "base": {
+      "n": 500,
+      "accuracy": 0.852,
+      "accuracy_ci95": [
+        0.822,
+        0.882
+      ],
+      "format_success": 0.914,
+      "hit_token_cap": 0,
+      "cosine_raw": 0.3554761409315993,
+      "cosine_raw_ci95": [
+        0.34880854711730813,
+        0.362097503449107
+      ],
+      "cosine_math_masked": 0.3824633116829026,
+      "cosine_math_masked_ci95": [
+        0.3748680205645395,
+        0.3900376662740214
+      ]
+    },
+    "prompted": {
+      "n": 500,
+      "accuracy": 0.838,
+      "accuracy_ci95": [
+        0.806,
+        0.87
+      ],
+      "format_success": 0.938,
+      "hit_token_cap": 0,
+      "cosine_raw": 0.3592889122653564,
+      "cosine_raw_ci95": [
+        0.3527026377429668,
+        0.3659306685892573
+      ],
+      "cosine_math_masked": 0.38672322582421487,
+      "cosine_math_masked_ci95": [
+        0.3794466312186638,
+        0.39408622521504744
+      ]
+    },
+    "control": {
+      "n": 500,
+      "accuracy": 0.744,
+      "accuracy_ci95": [
+        0.706,
+        0.782
+      ],
+      "format_success": 0.998,
+      "hit_token_cap": 0,
+      "cosine_raw": 0.3458033104930589,
+      "cosine_raw_ci95": [
+        0.33714601369167785,
+        0.3545738367549485
+      ],
+      "cosine_math_masked": 0.3630205334035662,
+      "cosine_math_masked_ci95": [
+        0.35312921634685546,
+        0.3730120182389582
+      ]
+    },
+    "mario": {
+      "n": 500,
+      "accuracy": 0.732,
+      "accuracy_ci95": [
+        0.694,
+        0.77
+      ],
+      "format_success": 0.998,
+      "hit_token_cap": 0,
+      "cosine_raw": 0.4021306668558852,
+      "cosine_raw_ci95": [
+        0.3938870028949703,
+        0.41012769436516155
+      ],
+      "cosine_math_masked": 0.42605178611760514,
+      "cosine_math_masked_ci95": [
+        0.417766532831576,
+        0.4339602682795969
+      ]
+    }
+  },
+  "contrasts": {
+    "mario_minus_base": {
+      "accuracy_delta": -0.12,
+      "accuracy_delta_ci95": [
+        -0.166,
+        -0.074
+      ],
+      "a_only_correct": 39,
+      "b_only_correct": 99,
+      "cosine_raw_delta": 0.04665452592428599,
+      "cosine_raw_delta_ci95": [
+        0.03974671676355101,
+        0.05351086838286728
+      ],
+      "cosine_math_masked_delta": 0.04358847443470256,
+      "cosine_math_masked_delta_ci95": [
+        0.03646058678523564,
+        0.050452055084614346
+      ]
+    },
+    "mario_minus_control": {
+      "accuracy_delta": -0.012,
+      "accuracy_delta_ci95": [
+        -0.056,
+        0.032
+      ],
+      "a_only_correct": 61,
+      "b_only_correct": 67,
+      "cosine_raw_delta": 0.056327356362826306,
+      "cosine_raw_delta_ci95": [
+        0.04759125301082208,
+        0.06493598878403503
+      ],
+      "cosine_math_masked_delta": 0.06303125271403896,
+      "cosine_math_masked_delta_ci95": [
+        0.0534075644864977,
+        0.07241123176153799
+      ]
+    },
+    "mario_minus_prompted": {
+      "accuracy_delta": -0.106,
+      "accuracy_delta_ci95": [
+        -0.152,
+        -0.06
+      ],
+      "a_only_correct": 44,
+      "b_only_correct": 97,
+      "cosine_raw_delta": 0.0428417545905288,
+      "cosine_raw_delta_ci95": [
+        0.03585068509729832,
+        0.04992977874717
+      ],
+      "cosine_math_masked_delta": 0.03932856029339025,
+      "cosine_math_masked_delta_ci95": [
+        0.03222202019394401,
+        0.046254988292166586
+      ]
+    }
+  },
+  "method": "Paired question bootstrap: 10000 resamples, seed 42. Character 3-5 gram TF-IDF fitted only on Mario training responses; cosine against same-question held-out Mario references. Math-masked sensitivity removes annotations and numeric/operator characters.",
+  "limitations": "Cosine is textual resemblance, not an independent persona judgment. Single training seed. No persona-reference similarity on test because no test persona references were generated."
+}

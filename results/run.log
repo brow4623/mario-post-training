@@ -1,0 +1,558 @@
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00, 34.79it/s]
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+base_val: 16/500
+base_val: 32/500
+base_val: 48/500
+base_val: 64/500
+base_val: 80/500
+base_val: 96/500
+base_val: 112/500
+base_val: 128/500
+base_val: 144/500
+base_val: 160/500
+base_val: 176/500
+base_val: 192/500
+base_val: 208/500
+base_val: 224/500
+base_val: 240/500
+base_val: 256/500
+base_val: 272/500
+base_val: 288/500
+base_val: 304/500
+base_val: 320/500
+base_val: 336/500
+base_val: 352/500
+base_val: 368/500
+base_val: 384/500
+base_val: 400/500
+base_val: 416/500
+base_val: 432/500
+base_val: 448/500
+base_val: 464/500
+base_val: 480/500
+base_val: 496/500
+base_val: 500/500
+{
+  "name": "base_val",
+  "n": 500,
+  "accuracy": 0.852,
+  "format_success": 0.914,
+  "hit_token_cap": 0,
+  "generation_seconds": 489.9519678669749
+}
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00, 37.06it/s]
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+prompted_val: 16/500
+prompted_val: 32/500
+prompted_val: 48/500
+prompted_val: 64/500
+prompted_val: 80/500
+prompted_val: 96/500
+prompted_val: 112/500
+prompted_val: 128/500
+prompted_val: 144/500
+prompted_val: 160/500
+prompted_val: 176/500
+prompted_val: 192/500
+prompted_val: 208/500
+prompted_val: 224/500
+prompted_val: 240/500
+prompted_val: 256/500
+prompted_val: 272/500
+prompted_val: 288/500
+prompted_val: 304/500
+prompted_val: 320/500
+prompted_val: 336/500
+prompted_val: 352/500
+prompted_val: 368/500
+prompted_val: 384/500
+prompted_val: 400/500
+prompted_val: 416/500
+prompted_val: 432/500
+prompted_val: 448/500
+prompted_val: 464/500
+prompted_val: 480/500
+prompted_val: 496/500
+prompted_val: 500/500
+{
+  "name": "prompted_val",
+  "n": 500,
+  "accuracy": 0.838,
+  "format_success": 0.938,
+  "hit_token_cap": 0,
+  "generation_seconds": 544.2656158919854
+}
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00, 37.56it/s]
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+control_val: 16/500
+control_val: 32/500
+control_val: 48/500
+control_val: 64/500
+control_val: 80/500
+control_val: 96/500
+control_val: 112/500
+control_val: 128/500
+control_val: 144/500
+control_val: 160/500
+control_val: 176/500
+control_val: 192/500
+control_val: 208/500
+control_val: 224/500
+control_val: 240/500
+control_val: 256/500
+control_val: 272/500
+control_val: 288/500
+control_val: 304/500
+control_val: 320/500
+control_val: 336/500
+control_val: 352/500
+control_val: 368/500
+control_val: 384/500
+control_val: 400/500
+control_val: 416/500
+control_val: 432/500
+control_val: 448/500
+control_val: 464/500
+control_val: 480/500
+control_val: 496/500
+control_val: 500/500
+{
+  "name": "control_val",
+  "n": 500,
+  "accuracy": 0.744,
+  "format_success": 0.998,
+  "hit_token_cap": 0,
+  "generation_seconds": 200.55581788599375
+}
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00, 37.92it/s]
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+mario_val: 16/500
+mario_val: 32/500
+mario_val: 48/500
+mario_val: 64/500
+mario_val: 80/500
+mario_val: 96/500
+mario_val: 112/500
+mario_val: 128/500
+mario_val: 144/500
+mario_val: 160/500
+mario_val: 176/500
+mario_val: 192/500
+mario_val: 208/500
+mario_val: 224/500
+mario_val: 240/500
+mario_val: 256/500
+mario_val: 272/500
+mario_val: 288/500
+mario_val: 304/500
+mario_val: 320/500
+mario_val: 336/500
+mario_val: 352/500
+mario_val: 368/500
+mario_val: 384/500
+mario_val: 400/500
+mario_val: 416/500
+mario_val: 432/500
+mario_val: 448/500
+mario_val: 464/500
+mario_val: 480/500
+mario_val: 496/500
+mario_val: 500/500
+{
+  "name": "mario_val",
+  "n": 500,
+  "accuracy": 0.732,
+  "format_success": 0.998,
+  "hit_token_cap": 0,
+  "generation_seconds": 279.60823873302434
+}
+{
+  "split": "val",
+  "conditions": {
+    "base": {
+      "n": 500,
+      "accuracy": 0.852,
+      "accuracy_ci95": [
+        0.822,
+        0.882
+      ],
+      "format_success": 0.914,
+      "hit_token_cap": 0,
+      "cosine_raw": 0.3554761409315993,
+      "cosine_raw_ci95": [
+        0.34880854711730813,
+        0.362097503449107
+      ],
+      "cosine_math_masked": 0.3824633116829026,
+      "cosine_math_masked_ci95": [
+        0.3748680205645395,
+        0.3900376662740214
+      ]
+    },
+    "prompted": {
+      "n": 500,
+      "accuracy": 0.838,
+      "accuracy_ci95": [
+        0.806,
+        0.87
+      ],
+      "format_success": 0.938,
+      "hit_token_cap": 0,
+      "cosine_raw": 0.3592889122653564,
+      "cosine_raw_ci95": [
+        0.3527026377429668,
+        0.3659306685892573
+      ],
+      "cosine_math_masked": 0.38672322582421487,
+      "cosine_math_masked_ci95": [
+        0.3794466312186638,
+        0.39408622521504744
+      ]
+    },
+    "control": {
+      "n": 500,
+      "accuracy": 0.744,
+      "accuracy_ci95": [
+        0.706,
+        0.782
+      ],
+      "format_success": 0.998,
+      "hit_token_cap": 0,
+      "cosine_raw": 0.3458033104930589,
+      "cosine_raw_ci95": [
+        0.33714601369167785,
+        0.3545738367549485
+      ],
+      "cosine_math_masked": 0.3630205334035662,
+      "cosine_math_masked_ci95": [
+        0.35312921634685546,
+        0.3730120182389582
+      ]
+    },
+    "mario": {
+      "n": 500,
+      "accuracy": 0.732,
+      "accuracy_ci95": [
+        0.694,
+        0.77
+      ],
+      "format_success": 0.998,
+      "hit_token_cap": 0,
+      "cosine_raw": 0.4021306668558852,
+      "cosine_raw_ci95": [
+        0.3938870028949703,
+        0.41012769436516155
+      ],
+      "cosine_math_masked": 0.42605178611760514,
+      "cosine_math_masked_ci95": [
+        0.417766532831576,
+        0.4339602682795969
+      ]
+    }
+  },
+  "contrasts": {
+    "mario_minus_base": {
+      "accuracy_delta": -0.12,
+      "accuracy_delta_ci95": [
+        -0.166,
+        -0.074
+      ],
+      "a_only_correct": 39,
+      "b_only_correct": 99,
+      "cosine_raw_delta": 0.04665452592428599,
+      "cosine_raw_delta_ci95": [
+        0.03974671676355101,
+        0.05351086838286728
+      ],
+      "cosine_math_masked_delta": 0.04358847443470256,
+      "cosine_math_masked_delta_ci95": [
+        0.03646058678523564,
+        0.050452055084614346
+      ]
+    },
+    "mario_minus_control": {
+      "accuracy_delta": -0.012,
+      "accuracy_delta_ci95": [
+        -0.056,
+        0.032
+      ],
+      "a_only_correct": 61,
+      "b_only_correct": 67,
+      "cosine_raw_delta": 0.056327356362826306,
+      "cosine_raw_delta_ci95": [
+        0.04759125301082208,
+        0.06493598878403503
+      ],
+      "cosine_math_masked_delta": 0.06303125271403896,
+      "cosine_math_masked_delta_ci95": [
+        0.0534075644864977,
+        0.07241123176153799
+      ]
+    },
+    "mario_minus_prompted": {
+      "accuracy_delta": -0.106,
+      "accuracy_delta_ci95": [
+        -0.152,
+        -0.06
+      ],
+      "a_only_correct": 44,
+      "b_only_correct": 97,
+      "cosine_raw_delta": 0.0428417545905288,
+      "cosine_raw_delta_ci95": [
+        0.03585068509729832,
+        0.04992977874717
+      ],
+      "cosine_math_masked_delta": 0.03932856029339025,
+      "cosine_math_masked_delta_ci95": [
+        0.03222202019394401,
+        0.046254988292166586
+      ]
+    }
+  },
+  "method": "Paired question bootstrap: 10000 resamples, seed 42. Character 3-5 gram TF-IDF fitted only on Mario training responses; cosine against same-question held-out Mario references. Math-masked sensitivity removes annotations and numeric/operator characters.",
+  "limitations": "Cosine is textual resemblance, not an independent persona judgment. Single training seed. No persona-reference similarity on test because no test persona references were generated."
+}
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00, 38.11it/s]
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+base_test: 16/500
+base_test: 32/500
+base_test: 48/500
+base_test: 64/500
+base_test: 80/500
+base_test: 96/500
+base_test: 112/500
+base_test: 128/500
+base_test: 144/500
+base_test: 160/500
+base_test: 176/500
+base_test: 192/500
+base_test: 208/500
+base_test: 224/500
+base_test: 240/500
+base_test: 256/500
+base_test: 272/500
+base_test: 288/500
+base_test: 304/500
+base_test: 320/500
+base_test: 336/500
+base_test: 352/500
+base_test: 368/500
+base_test: 384/500
+base_test: 400/500
+base_test: 416/500
+base_test: 432/500
+base_test: 448/500
+base_test: 464/500
+base_test: 480/500
+base_test: 496/500
+base_test: 500/500
+{
+  "name": "base_test",
+  "n": 500,
+  "accuracy": 0.73,
+  "format_success": 0.858,
+  "hit_token_cap": 1,
+  "generation_seconds": 513.3672450960439
+}
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00, 35.27it/s]
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+prompted_test: 16/500
+prompted_test: 32/500
+prompted_test: 48/500
+prompted_test: 64/500
+prompted_test: 80/500
+prompted_test: 96/500
+prompted_test: 112/500
+prompted_test: 128/500
+prompted_test: 144/500
+prompted_test: 160/500
+prompted_test: 176/500
+prompted_test: 192/500
+prompted_test: 208/500
+prompted_test: 224/500
+prompted_test: 240/500
+prompted_test: 256/500
+prompted_test: 272/500
+prompted_test: 288/500
+prompted_test: 304/500
+prompted_test: 320/500
+prompted_test: 336/500
+prompted_test: 352/500
+prompted_test: 368/500
+prompted_test: 384/500
+prompted_test: 400/500
+prompted_test: 416/500
+prompted_test: 432/500
+prompted_test: 448/500
+prompted_test: 464/500
+prompted_test: 480/500
+prompted_test: 496/500
+prompted_test: 500/500
+{
+  "name": "prompted_test",
+  "n": 500,
+  "accuracy": 0.776,
+  "format_success": 0.926,
+  "hit_token_cap": 1,
+  "generation_seconds": 600.7105070780963
+}
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00, 36.07it/s]
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+control_test: 16/500
+control_test: 32/500
+control_test: 48/500
+control_test: 64/500
+control_test: 80/500
+control_test: 96/500
+control_test: 112/500
+control_test: 128/500
+control_test: 144/500
+control_test: 160/500
+control_test: 176/500
+control_test: 192/500
+control_test: 208/500
+control_test: 224/500
+control_test: 240/500
+control_test: 256/500
+control_test: 272/500
+control_test: 288/500
+control_test: 304/500
+control_test: 320/500
+control_test: 336/500
+control_test: 352/500
+control_test: 368/500
+control_test: 384/500
+control_test: 400/500
+control_test: 416/500
+control_test: 432/500
+control_test: 448/500
+control_test: 464/500
+control_test: 480/500
+control_test: 496/500
+control_test: 500/500
+{
+  "name": "control_test",
+  "n": 500,
+  "accuracy": 0.652,
+  "format_success": 0.998,
+  "hit_token_cap": 0,
+  "generation_seconds": 199.15253652402316
+}
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00, 38.42it/s]
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+mario_test: 16/500
+mario_test: 32/500
+mario_test: 48/500
+mario_test: 64/500
+mario_test: 80/500
+mario_test: 96/500
+mario_test: 112/500
+mario_test: 128/500
+mario_test: 144/500
+mario_test: 160/500
+mario_test: 176/500
+mario_test: 192/500
+mario_test: 208/500
+mario_test: 224/500
+mario_test: 240/500
+mario_test: 256/500
+mario_test: 272/500
+mario_test: 288/500
+mario_test: 304/500
+mario_test: 320/500
+mario_test: 336/500
+mario_test: 352/500
+mario_test: 368/500
+mario_test: 384/500
+mario_test: 400/500
+mario_test: 416/500
+mario_test: 432/500
+mario_test: 448/500
+mario_test: 464/500
+mario_test: 480/500
+mario_test: 496/500
+mario_test: 500/500
+{
+  "name": "mario_test",
+  "n": 500,
+  "accuracy": 0.666,
+  "format_success": 0.994,
+  "hit_token_cap": 1,
+  "generation_seconds": 295.75453437893884
+}
+{
+  "split": "test",
+  "conditions": {
+    "base": {
+      "n": 500,
+      "accuracy": 0.73,
+      "accuracy_ci95": [
+        0.69,
+        0.768
+      ],
+      "format_success": 0.858,
+      "hit_token_cap": 1
+    },
+    "prompted": {
+      "n": 500,
+      "accuracy": 0.776,
+      "accuracy_ci95": [
+        0.74,
+        0.812
+      ],
+      "format_success": 0.926,
+      "hit_token_cap": 1
+    },
+    "control": {
+      "n": 500,
+      "accuracy": 0.652,
+      "accuracy_ci95": [
+        0.61,
+        0.694
+      ],
+      "format_success": 0.998,
+      "hit_token_cap": 0
+    },
+    "mario": {
+      "n": 500,
+      "accuracy": 0.666,
+      "accuracy_ci95": [
+        0.624,
+        0.706
+      ],
+      "format_success": 0.994,
+      "hit_token_cap": 1
+    }
+  },
+  "contrasts": {
+    "mario_minus_base": {
+      "accuracy_delta": -0.064,
+      "accuracy_delta_ci95": [
+        -0.11,
+        -0.02
+      ],
+      "a_only_correct": 53,
+      "b_only_correct": 85
+    },
+    "mario_minus_control": {
+      "accuracy_delta": 0.014,
+      "accuracy_delta_ci95": [
+        -0.032,
+        0.06004999999999927
+      ],
+      "a_only_correct": 74,
+      "b_only_correct": 67
+    },
+    "mario_minus_prompted": {
+      "accuracy_delta": -0.11,
+      "accuracy_delta_ci95": [
+        -0.156,
+        -0.064
+      ],
+      "a_only_correct": 47,
+      "b_only_correct": 102
+    }
+  },
+  "method": "Paired question bootstrap: 10000 resamples, seed 42. Character 3-5 gram TF-IDF fitted only on Mario training responses; cosine against same-question held-out Mario references. Math-masked sensitivity removes annotations and numeric/operator characters.",
+  "limitations": "Cosine is textual resemblance, not an independent persona judgment. Single training seed. No persona-reference similarity on test because no test persona references were generated."
+}

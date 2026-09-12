@@ -2,6 +2,8 @@
 
 These results describe dataset integrity, not trained-model performance.
 
+For the completed model evaluations, numerical similarity comparisons, and hypothesis conclusions, see [SFT_RESULTS.md](SFT_RESULTS.md). The tables below remain dataset-preparation QA only.
+
 The complete context-aware replacement contains 475 preserved Astra rewrites and 3,025 Claude Sonnet 5 rewrites (low effort). It replaces the rejected insertion-based dataset. Passing numerical checks do not establish persona quality or semantic fidelity.
 
 | Check | Result |
@@ -20,6 +22,6 @@ The explanations were rewritten in contextual Mario voice, with source questions
 
 Sonnet generation received 3,064 API responses, rejected 39 candidates before saving, and finished with zero missing records. Cache reads accounted for 91.88% of reported input tokens; estimated API cost was $11.41, including rejected attempts. This is a usage-based estimate, not a billing invoice. Exact usage and provenance are in `data/generation/summary.json` and the compact raw records in `data/generation/sonnet.jsonl`.
 
-No SFT model has been trained or evaluated. No base/SFT accuracy comparison, similarity metric, persona judge score, or hypothesis result is available yet. The official test reference self-check only validates parsing, not model performance or independent correctness of the source solutions.
+The official test reference self-check below only validates parsing, not model performance or independent correctness of the source solutions. Model performance is reported separately in `SFT_RESULTS.md`; no independent persona judge score was collected.
 
 Each JSON summary has a corresponding `.details.jsonl` with per-example results. Reproduction commands are in the root README.

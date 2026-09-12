@@ -1,0 +1,24 @@
+{
+  "model": "Qwen/Qwen2.5-3B-Instruct",
+  "revision": "aa8e72537993ba99e69dfaafa59ed015b17504d1",
+  "data_sha256": "5bbae609cba85d339a77e02783ab52a3b2b33f34ad6365da6ad1c6b90ed5259d",
+  "n": 500,
+  "system_prompt": "Solve the math problem step by step. End with a line containing #### followed by only the numerical answer.",
+  "max_new_tokens": 1024,
+  "batch_size": 16,
+  "do_sample": false,
+  "dtype": "torch.bfloat16",
+  "adapter_hashes": {
+    "adapter_config.json": "bf960cf0e07cada41aa381777dc44262f4f64de1ef6e1d4a06180c17952609e1",
+    "adapter_model.safetensors": "9024364a3c3afd7d88644b9828070ec8f7f1ac133e856dcfc96ce1a86a1da16d"
+  },
+  "packages": {
+    "torch": "2.8.0.dev20250319+cu128",
+    "transformers": "4.57.1",
+    "peft": "0.20.0",
+    "accelerate": "1.10.1"
+  },
+  "gpu": "NVIDIA L40",
+  "eval_sha256": "1012efb9e49ab4531cfb807c97fdba4ea618f995ef3b89f50172eb3dbbeafdd9",
+  "verifier_sha256": "dafdb6543cfdfd80f8f2496fdb397cf5ee274be2b4fb965d9f7b95820d58da5e"
+}

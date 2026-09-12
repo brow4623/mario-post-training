@@ -1,5 +1,7 @@
 # GSM8K Mario SFT research plan
 
+This is the original proposed plan, not a completion tracker. The executed SFT-only protocol and its deviations are documented in `EVALUATION.md`; completed results are in `reports/SFT_RESULTS.md`. Pending entries below describe the original plan rather than the current submission status.
+
 ## Scope and hypotheses
 
 Use Qwen/Qwen2.5-3B-Instruct, Mario, and exactly 3,000 training and 500 validation examples. This phase prepares the data and verifier; training, model generations, and hypothesis results are subsequent work, not completed deliverables.
