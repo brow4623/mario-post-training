@@ -1,86 +1,63 @@
-"""Rule-based verifier for GSM8K-style answers.
-
-The single source of truth for "is this answer correct". Used by:
-  - the data-generation filter (partner's Mario rewrites must pass this),
-  - eval.py,
-  - later, the RLVR reward.
-
-Convention: the final answer is the number after the last "####" marker (GSM8K style) or
-inside the last "\\boxed{...}" (the format the untuned Qwen2.5-Instruct model uses on its own).
-Whichever marker appears last wins. Anything with neither marker is scored as wrong (strict)
-so that the model is also being trained/evaluated on producing a parseable answer.
-"""
-
+"""Exact numeric evaluation; never accept a numeric expression's prefix."""
+from fractions import Fraction
 import re
 
-_MARKER_RE = re.compile(r"(?:####\s*|\\boxed\{\s*)\$?\s*(-?[\d,]*\.?\d+)")
-_NUMBER_RE = re.compile(r"-?\d[\d,]*\.?\d*")
+_NUMBER = re.compile(r'[+-]?(?:(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?|\.\d+)')
+_MARKER = re.compile(r'####|\\boxed\{')
 
 
-def _to_float(s: str) -> float | None:
-    s = s.replace(",", "").replace("$", "").strip().rstrip(".")
+def parse_number(text):
+    """Parse a complete number or simple fraction, including LaTeX fractions."""
+    if not isinstance(text, str):
+        return None
+    text = text.strip().removeprefix('$').strip()
+    latex = re.fullmatch(r'\\frac\{([^{}]+)\}\{([^{}]+)\}', text)
+    if latex:
+        text = latex[1] + '/' + latex[2]
+    parts = text.split('/')
+    if len(parts) > 2 or any(not _NUMBER.fullmatch(p.strip()) for p in parts):
+        return None
     try:
-        return float(s)
-    except ValueError:
+        values = [Fraction(p.strip().replace(',', '')) for p in parts]
+        return values[0] if len(values) == 1 else values[0] / values[1]
+    except (ValueError, ZeroDivisionError):
         return None
 
 
-def extract_answer(text: str, lenient: bool = False) -> float | None:
-    """Return the numeric final answer from a completion, or None if not found.
+def extract_answer(text, lenient=False):
+    """Last explicit marker wins; malformed explicit answers never use fallback.
 
-    strict (default): number after the last "####" or inside the last "\\boxed{}".
-    lenient: fall back to the last number anywhere in the text. Use only for diagnostics,
-             never for the headline metric.
+    #### must terminate the completion; boxed answers require balanced braces.
+    Lenient last-number fallback is diagnostic only.
     """
-    matches = _MARKER_RE.findall(text)
-    if matches:
-        return _to_float(matches[-1])
+    if not isinstance(text, str):
+        return None
+    markers = list(_MARKER.finditer(text))
+    if markers:
+        marker = markers[-1]
+        tail = text[marker.end():].strip()
+        if marker[0] == '####':
+            return parse_number(tail)
+        depth = 1
+        for i, char in enumerate(tail):
+            depth += (char == '{') - (char == '}')
+            if depth == 0:
+                return parse_number(tail[:i])
+        return None
     if lenient:
-        nums = _NUMBER_RE.findall(text)
-        if nums:
-            return _to_float(nums[-1])
+        numbers = list(_NUMBER.finditer(text))
+        return parse_number(numbers[-1][0]) if numbers else None
     return None
 
 
-def gold_answer(gsm8k_answer_field: str) -> float:
-    """Parse the gold answer from a GSM8K 'answer' field (solution text ending in '#### N')."""
-    val = extract_answer(gsm8k_answer_field)
-    if val is None:
-        raise ValueError(f"No '####' answer in gold field: {gsm8k_answer_field[:80]!r}")
-    return val
+def gold_answer(text):
+    value = extract_answer(text) if _MARKER.search(text) else parse_number(text)
+    if value is None:
+        raise ValueError('Unparseable gold answer')
+    return value
 
 
-def is_correct(completion: str, gold: float | str, lenient: bool = False) -> bool:
-    """True if the completion's final answer equals the gold answer."""
-    if isinstance(gold, str):
-        gold = gold_answer(gold) if "####" in gold else _to_float(gold)
-        if gold is None:
-            raise ValueError("Unparseable gold answer")
+def is_correct(completion, gold, lenient=False):
+    gold = gold_answer(gold) if isinstance(gold, str) else Fraction(str(gold))
     pred = extract_answer(completion, lenient=lenient)
-    if pred is None:
-        return False
-    return abs(pred - gold) < 1e-6
-
-
-if __name__ == "__main__":
-    # Quick self-test.
-    cases = [
-        ("She has 3 + 4 = 7 apples.\n#### 7", "7", True),
-        ("#### $1,250", "1250", True),
-        ("#### 1250.", "1250", True),
-        ("Wahoo! The answer is 18.\n#### 18", "#### 18", True),
-        ("#### 17.5", "17.5", True),
-        ("#### -3", "-3", True),
-        ("#### 7", "8", False),
-        ("The answer is 7.", "7", False),          # no marker -> wrong in strict mode
-        ("#### 7\nActually #### 8", "8", True),     # last marker wins
-        ("Therefore \\[ \\boxed{50} \\]", "50", True),  # untuned Qwen format
-        ("\\boxed{1,250}", "1250", True),
-        ("\\boxed{ 18 }", "18", True),
-        ("\\boxed{7} ... #### 8", "8", True),
-    ]
-    for text, gold, want in cases:
-        got = is_correct(text, gold)
-        assert got == want, (text, gold, got, want)
-    assert is_correct("The answer is 7.", "7", lenient=True)
-    print("verifier self-test passed")
+    return pred is not None and pred == gold

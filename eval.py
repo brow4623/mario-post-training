@@ -1,133 +1,134 @@
-"""Evaluate base model (+ optional LoRA adapter, + optional system prompt) on a jsonl split.
-
-Greedy decoding, batched. Reports strict accuracy (number after "####"), lenient accuracy
-(last number anywhere, diagnostic only), parse-failure rate, and mean generated length.
-
-Examples:
-  python eval.py --data data/val.jsonl --name base
-  python eval.py --data data/val.jsonl --name base_prompted --system-prompt-file mario_prompt.txt
-  python eval.py --data data/val.jsonl --name control --adapter checkpoints/control
-  python eval.py --data data/val.jsonl --name mario --adapter checkpoints/mario
-
-Each run writes results/<name>.jsonl (per-example) and appends a row to results/metrics.csv.
-"""
-
+"""Resumable greedy Qwen evaluation with identical formatting across conditions."""
 import argparse
-import csv
+import hashlib
+import importlib.metadata
 import json
-import time
-from datetime import date
 from pathlib import Path
+import time
 
-import torch
-from peft import PeftModel
-from tqdm import tqdm
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from mario_data import read_jsonl
+from verifier import extract_answer, gold_answer, is_correct
 
-from verifier import extract_answer, is_correct
-
-
-def load_jsonl(path: str, max_examples: int | None) -> list[dict]:
-    rows = [json.loads(l) for l in open(path) if l.strip()]
-    return rows[:max_examples] if max_examples else rows
+FORMAT_PROMPT = 'Solve the math problem step by step. End with a line containing #### followed by only the numerical answer.'
 
 
-def pick_device() -> str:
-    if torch.cuda.is_available():
-        return "cuda"
-    if torch.backends.mps.is_available():
-        return "mps"
-    return "cpu"
+def sha256(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
-def main() -> None:
-    p = argparse.ArgumentParser()
-    p.add_argument("--data", required=True)
-    p.add_argument("--name", required=True, help="run label, used for output filenames")
-    p.add_argument("--model", default="Qwen/Qwen2.5-3B-Instruct")
-    p.add_argument("--adapter", default=None)
-    p.add_argument("--system-prompt", default=None)
-    p.add_argument("--system-prompt-file", default=None)
-    p.add_argument("--max-examples", type=int, default=None)
-    p.add_argument("--batch-size", type=int, default=16)
-    p.add_argument("--max-new-tokens", type=int, default=512)
-    p.add_argument("--results-dir", default="results")
+def validate_rows(rows):
+    if not rows or len({r['id'] for r in rows}) != len(rows):
+        raise ValueError('Empty dataset or duplicate IDs')
+    for row in rows:
+        gold_answer(row['answer'])
+    return rows
+
+
+def resume_rows(path, rows):
+    saved = read_jsonl(path) if path.exists() else []
+    if len(saved) > len(rows):
+        raise ValueError('Too many saved predictions')
+    for old, source in zip(saved, rows):
+        if any(old[k] != source[k] for k in ('id', 'question')) or old['gold'] != source['answer']:
+            raise ValueError('Saved predictions do not match dataset order/content')
+    return saved
+
+
+def main():
+    p = argparse.ArgumentParser(description=__doc__)
+    p.add_argument('--data', required=True)
+    p.add_argument('--name', required=True)
+    p.add_argument('--model', default='Qwen/Qwen2.5-3B-Instruct')
+    p.add_argument('--revision', default='main')
+    p.add_argument('--adapter')
+    p.add_argument('--system-prompt-file')
+    p.add_argument('--max-examples', type=int)
+    p.add_argument('--batch-size', type=int, default=8)
+    p.add_argument('--max-new-tokens', type=int, default=1024)
+    p.add_argument('--results-dir', default='results')
     args = p.parse_args()
-
-    system_prompt = args.system_prompt
+    if args.batch_size < 1 or args.max_new_tokens < 1 or (args.max_examples is not None and args.max_examples < 1):
+        p.error('Counts must be positive')
+    if Path(args.name).name != args.name or '/' in args.name or '\\' in args.name:
+        p.error('name must be a filename')
+    rows = validate_rows(read_jsonl(args.data)[:args.max_examples])
+    system = FORMAT_PROMPT
     if args.system_prompt_file:
-        system_prompt = Path(args.system_prompt_file).read_text().strip()
+        system = Path(args.system_prompt_file).read_text(encoding='utf-8').strip() + '\n\n' + FORMAT_PROMPT
+    import torch
+    from transformers import AutoModelForCausalLM, AutoTokenizer
+    from peft import PeftModel
+    from huggingface_hub import model_info
 
-    device = pick_device()
-    dtype = torch.bfloat16 if device == "cuda" else torch.float32
-    tok = AutoTokenizer.from_pretrained(args.model)
-    tok.padding_side = "left"
-    if tok.pad_token is None:
-        tok.pad_token = tok.eos_token
-    model = AutoModelForCausalLM.from_pretrained(args.model, dtype=dtype).to(device)
-    if args.adapter:
-        model = PeftModel.from_pretrained(model, args.adapter)
-        model = model.merge_and_unload()  # faster generation, identical outputs
-    model.eval()
-
-    rows = load_jsonl(args.data, args.max_examples)
-    prompts = []
-    for r in rows:
-        msgs = []
-        if system_prompt:
-            msgs.append({"role": "system", "content": system_prompt})
-        msgs.append({"role": "user", "content": r["question"]})
-        prompts.append(tok.apply_chat_template(msgs, tokenize=False, add_generation_prompt=True))
-
-    outputs: list[str] = []
-    gen_lens: list[int] = []
-    t0 = time.time()
-    for i in tqdm(range(0, len(prompts), args.batch_size), desc=args.name):
-        batch = prompts[i : i + args.batch_size]
-        enc = tok(batch, return_tensors="pt", padding=True).to(device)
-        with torch.no_grad():
-            gen = model.generate(
-                **enc,
-                max_new_tokens=args.max_new_tokens,
-                do_sample=False,
-                pad_token_id=tok.pad_token_id,
-            )
-        new_tokens = gen[:, enc["input_ids"].shape[1] :]
-        outputs.extend(tok.batch_decode(new_tokens, skip_special_tokens=True))
-        gen_lens.extend((new_tokens != tok.pad_token_id).sum(dim=1).tolist())
-    elapsed = time.time() - t0
-
-    n = len(rows)
-    strict = sum(is_correct(o, r["answer"]) for o, r in zip(outputs, rows))
-    lenient = sum(is_correct(o, r["answer"], lenient=True) for o, r in zip(outputs, rows))
-    no_marker = sum(extract_answer(o) is None for o in outputs)
-    hit_cap = sum(l >= args.max_new_tokens for l in gen_lens)
-
-    out_dir = Path(args.results_dir)
-    out_dir.mkdir(parents=True, exist_ok=True)
-    with (out_dir / f"{args.name}.jsonl").open("w") as f:
-        for r, o in zip(rows, outputs):
-            f.write(json.dumps({
-                "id": r["id"], "question": r["question"], "gold": r["answer"],
-                "output": o, "pred": extract_answer(o), "correct": is_correct(o, r["answer"]),
-            }, ensure_ascii=False) + "\n")
-
-    summary = {
-        "name": args.name, "date": date.today().isoformat(), "data": args.data, "n": n,
-        "model": args.model, "adapter": args.adapter or "", "system_prompt": bool(system_prompt),
-        "strict_acc": round(strict / n, 4), "lenient_acc": round(lenient / n, 4),
-        "no_marker_rate": round(no_marker / n, 4), "hit_token_cap": hit_cap,
-        "mean_gen_tokens": round(sum(gen_lens) / n, 1), "seconds": round(elapsed, 1),
-    }
-    csv_path = out_dir / "metrics.csv"
-    write_header = not csv_path.exists()
-    with csv_path.open("a", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=list(summary))
-        if write_header:
-            w.writeheader()
-        w.writerow(summary)
+    revision = model_info(args.model, revision=args.revision).sha
+    root = Path(args.results_dir)
+    root.mkdir(parents=True, exist_ok=True)
+    path = root / f'{args.name}.jsonl'
+    metadata_path = root / f'{args.name}.config.json'
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    dtype = torch.bfloat16 if device == 'cuda' and torch.cuda.is_bf16_supported() else torch.float32
+    config = {'model': args.model, 'revision': revision, 'data_sha256': sha256(args.data),
+              'n': len(rows), 'system_prompt': system, 'max_new_tokens': args.max_new_tokens,
+              'batch_size': args.batch_size, 'do_sample': False, 'dtype': str(dtype),
+              'adapter_hashes': {n: sha256(Path(args.adapter) / n) for n in
+                                 ('adapter_config.json', 'adapter_model.safetensors')} if args.adapter else {},
+              'packages': {n: importlib.metadata.version(n) for n in ('torch', 'transformers', 'peft', 'accelerate')},
+              'gpu': torch.cuda.get_device_name() if device == 'cuda' else None,
+              'eval_sha256': sha256(__file__), 'verifier_sha256': sha256('verifier.py')}
+    if metadata_path.exists():
+        if json.loads(metadata_path.read_text(encoding='utf-8')) != config:
+            raise ValueError('Run configuration changed; choose a new name')
+    elif path.exists():
+        raise ValueError('Predictions exist without run metadata')
+    else:
+        metadata_path.write_text(json.dumps(config, indent=2) + '\n', encoding='utf-8')
+    saved = resume_rows(path, rows)
+    if len(saved) < len(rows):
+        tok = AutoTokenizer.from_pretrained(args.model, revision=revision)
+        tok.padding_side = 'left'
+        if tok.pad_token_id is None:
+            tok.pad_token = tok.eos_token
+        model = AutoModelForCausalLM.from_pretrained(args.model, revision=revision, dtype=dtype).to(device)
+        if args.adapter:
+            model = PeftModel.from_pretrained(model, args.adapter).merge_and_unload()
+        model.eval()
+        with path.open('a', encoding='utf-8', newline='\n') as stream:
+            for start in range(len(saved), len(rows), args.batch_size):
+                batch = rows[start:start + args.batch_size]
+                prompts = [tok.apply_chat_template([{'role': 'system', 'content': system},
+                           {'role': 'user', 'content': r['question']}], tokenize=False,
+                           add_generation_prompt=True) for r in batch]
+                enc = tok(prompts, return_tensors='pt', padding=True).to(device)
+                t0 = time.monotonic()
+                with torch.inference_mode():
+                    gen = model.generate(**enc, max_new_tokens=args.max_new_tokens, do_sample=False,
+                                         pad_token_id=tok.pad_token_id)
+                elapsed = time.monotonic() - t0
+                tokens = gen[:, enc['input_ids'].shape[1]:]
+                eos = model.generation_config.eos_token_id
+                eos = set(eos if isinstance(eos, list) else [eos])
+                for source, sequence in zip(batch, tokens.tolist()):
+                    stop = next((i for i, token in enumerate(sequence) if token in eos), None)
+                    length = stop + 1 if stop is not None else len(sequence)
+                    output = tok.decode(sequence[:length], skip_special_tokens=True)
+                    pred = extract_answer(output)
+                    result = {'id': source['id'], 'question': source['question'], 'gold': source['answer'],
+                              'output': output, 'pred': str(pred) if pred is not None else None,
+                              'correct': is_correct(output, source['answer']), 'format_valid': pred is not None,
+                              'generated_tokens': length, 'hit_token_cap': stop is None and length >= args.max_new_tokens,
+                              'batch_seconds_per_example': elapsed / len(batch)}
+                    stream.write(json.dumps(result, ensure_ascii=False) + '\n')
+                    saved.append(result)
+                stream.flush()
+                print(f'{args.name}: {len(saved)}/{len(rows)}', flush=True)
+    summary = {'name': args.name, 'n': len(saved),
+               'accuracy': sum(r['correct'] for r in saved) / len(saved),
+               'format_success': sum(r['format_valid'] for r in saved) / len(saved),
+               'hit_token_cap': sum(r['hit_token_cap'] for r in saved),
+               'generation_seconds': sum(r['batch_seconds_per_example'] for r in saved)}
+    (root / f'{args.name}.metrics.json').write_text(json.dumps(summary, indent=2) + '\n', encoding='utf-8')
     print(json.dumps(summary, indent=2))
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

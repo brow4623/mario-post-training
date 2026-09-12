@@ -5,3 +5,4 @@ accelerate
 peft
 trl>=1.0
 tqdm
+scikit-learn
