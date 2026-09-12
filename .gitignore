@@ -8,7 +8,10 @@ data/mario_v2/
 .env
 .env.*
 *.lock
-data/generation/records/
+provenance/generation/records/
+/derived/
+/data/original/
+/data/mario/
 *.pyc
 *.safetensors
 .DS_Store

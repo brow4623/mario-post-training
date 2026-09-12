@@ -11,13 +11,19 @@ from mario_data import record, read_jsonl
 
 
 class SonnetRunnerTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        if not Path('derived/rewrites/train_all.jsonl').exists():
+            from prepare_data import main
+            main()
+
     def test_compacted_run_reconstructs_all_outputs(self):
-        config = json.loads(Path('data/generation/config.json').read_text(encoding='utf-8'))
+        config = json.loads(Path('provenance/generation/config.json').read_text(encoding='utf-8'))
         pending, combined, counts = inventory(digest(config))
         self.assertEqual(pending, [])
         self.assertEqual(counts, {'gpt-6-astra': 475, 'claude-sonnet-5': 3025})
         for split in ('train', 'validation'):
-            self.assertEqual(combined[split], read_jsonl(f'data/generation/{split}_all.jsonl'))
+            self.assertEqual(combined[split], read_jsonl(f'derived/rewrites/{split}_all.jsonl'))
 
     def test_stable_cached_prefix_and_effort(self):
         a = request_body("fixed examples", {"question": "a", "answer": "#### 1"})

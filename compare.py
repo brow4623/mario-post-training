@@ -39,11 +39,13 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--split', choices=('val', 'test'), required=True)
     p.add_argument('--results-dir', default='results')
+    p.add_argument('--provenance-dir', default='provenance/evaluation')
+    p.add_argument('--output-dir', default='derived/comparisons')
     args = p.parse_args()
     root = Path(args.results_dir)
     refs = read_jsonl(f'data/{args.split}.jsonl')
     runs = {name: paired_outputs(refs, read_jsonl(root / f'{name}_{args.split}.jsonl')) for name in CONDITIONS}
-    configs = {name: json.loads((root / f'{name}_{args.split}.config.json').read_text(encoding='utf-8')) for name in CONDITIONS}
+    configs = {name: json.loads((Path(args.provenance_dir) / f'{name}_{args.split}.config.json').read_text(encoding='utf-8')) for name in CONDITIONS}
     for key in ('model', 'revision', 'data_sha256', 'n', 'max_new_tokens', 'batch_size', 'do_sample', 'dtype', 'packages', 'eval_sha256', 'verifier_sha256'):
         if any(configs[n][key] != configs['base'][key] for n in CONDITIONS):
             raise ValueError(f'Unmatched evaluation settings: {key}')
@@ -82,7 +84,8 @@ def main():
     report = {'split': args.split, 'conditions': metrics, 'contrasts': contrasts,
               'method': 'Paired question bootstrap: 10000 resamples, seed 42. Character 3-5 gram TF-IDF fitted only on Mario training responses; cosine against same-question held-out Mario references. Math-masked sensitivity removes annotations and numeric/operator characters.',
               'limitations': 'Cosine is textual resemblance, not an independent persona judgment. Single training seed. No persona-reference similarity on test because no test persona references were generated.'}
-    path = root / f'comparison_{args.split}.json'
+    path = Path(args.output_dir) / f'comparison_{args.split}.json'
+    path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
     print(json.dumps(report, indent=2))
 

@@ -43,7 +43,7 @@ def assemble(references, rewrites, allow_partial=False):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--split", choices=("train", "validation", "all"), default="all")
-    parser.add_argument("--shards", default="data/generation")
+    parser.add_argument("--shards", default="derived/rewrites")
     parser.add_argument("--allow-partial", action="store_true")
     parser.add_argument("--publish", action="store_true",
                         help="Publish both complete, validated splits to data/mario and update the manifest")
@@ -74,18 +74,20 @@ def main():
         output = root / f"{split}{suffix}.jsonl"
         write_jsonl(output, rows)
         report["output_sha256"] = hashlib.sha256(output.read_bytes()).hexdigest()
-        output.with_suffix(".report.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8", newline="\n")
+        audit_root = Path("derived/audits")
+        audit_root.mkdir(parents=True, exist_ok=True)
+        (audit_root / f"{split}.report.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8", newline="\n")
         if args.publish:
             for name, result in ((f"{split}_integrity", audit(references, rows, mode="rewrite")),
                                  (f"mario_{split}_answers", score(references, rows, field="answer"))):
                 summary, details = result
-                path = Path("reports") / f"{name}.json"
+                path = audit_root / f"{name}.json"
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8", newline="\n")
                 write_jsonl(path.with_suffix(".details.jsonl"), details)
         print(json.dumps({key: value for key, value in report.items() if key != "shards"}, indent=2))
     if args.publish:
-        path = Path("data/manifest.json")
+        path = Path("provenance/data_manifest.json")
         manifest = json.loads(path.read_text(encoding="utf-8"))
         manifest["transformation"] = metadata.get("transformation", "mario-v2-context-aware-astra-medium")
         manifest["generation"] = {**prepared["train"][2]["generation"],

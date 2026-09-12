@@ -12,11 +12,16 @@ Download the adapters using `adapters/README.md`. The RunPod evaluation environm
 
 ```bash
 pip install transformers==4.57.1 peft==0.20.0 accelerate==1.10.1 scikit-learn==1.7.2
+python prepare_data.py
 python -m unittest discover -s tests -q
 bash run_evals.sh
 ```
 
-Runs append outputs after each batch and resume only when their configuration and ordered source records match. A malformed or truncated JSONL record fails closed rather than being silently dropped. Use a new run name after changing settings. The eight run files and their metadata are submission artifacts, not temporary checkpoints.
+The commands are run from the repository root. `run_evals.sh` creates a new run under `results/new-run/` and `provenance/evaluation/new-run/`, leaving the submitted outputs untouched. Its first three optional arguments override the output, provenance, and derived-data directories. It writes recalculated comparisons and metrics under `derived/new-run/`.
+
+To recalculate the submitted results without GPU inference, run `python prepare_data.py`, then `python compare.py --split val` and `python compare.py --split test`. These write to `derived/comparisons/`. Historical inference settings and code hashes are retained in `provenance/evaluation/`; see [provenance notes](../provenance/README.md).
+
+Runs append outputs after each batch and resume only when their configuration and ordered source records match. A malformed or truncated JSONL record fails closed rather than being silently dropped. Use a new run name or directory after changing settings. The eight submitted output files and their metadata are kept; inexpensive derived summaries are regenerated.
 
 ## Metrics
 
@@ -25,4 +30,4 @@ Runs append outputs after each batch and resume only when their configuration an
 - Persona-reference resemblance uses character 3-5 gram TF-IDF, fitted only on the 3,000 Mario training responses, and paired cosine similarity to held-out Mario validation references. A math-masked sensitivity analysis removes annotations, final-answer lines, numbers, and operator characters. No validation/test outputs are used to fit the vocabulary or IDF.
 - Paired question bootstrap intervals use 10,000 resamples and seed 42. Primary persona comparison is Mario-SFT minus prompted base. Math comparisons are Mario-SFT minus base and Mario-SFT minus plain SFT. These are the user's two directional hypotheses, not a conventional null/alternative pair.
 
-Cosine measures textual resemblance, not a validated persona judgment. Interpret it alongside example outputs and document contrary examples. Intervals reflect question sampling, not training-seed uncertainty. This is a single-run study with incomplete historical training arguments. The 86.7% external benchmark is not substituted for the measured baseline. Source and Astra example-exposure caveats remain in `reports/mario_v2_review.md`.
+Cosine measures textual resemblance, not a validated persona judgment. Interpret it alongside example outputs and document contrary examples. Intervals reflect question sampling, not training-seed uncertainty. This is a single-run study with incomplete historical training arguments. The 86.7% external benchmark is not substituted for the measured baseline. Source and Astra example-exposure caveats remain in `provenance/data_review.md`.

@@ -77,7 +77,7 @@ Both released adapters were used without retraining. All 3,000 converted Mario t
 
 Every model received the same instruction to solve the problem step by step and end with a machine-readable answer. Only the prompted-original condition also received the Mario style instruction. That instruction asked for contextual voice, not just catchphrases, and contained no examples. Both SFT models were evaluated without a Mario instruction.
 
-We used greedy decoding, BF16, batch size 16, and a 1,024-new-token limit on an NVIDIA L40. We did not change checkpoints or settings after seeing validation results. The [evaluation protocol](../EVALUATION.md) and run configurations record the exact prompts, versions, and hashes.
+We used greedy decoding, BF16, batch size 16, and a 1,024-new-token limit on an NVIDIA L40. We did not change checkpoints or settings after seeing validation results. The [evaluation protocol](../docs/EVALUATION.md) and [run configurations](../provenance/evaluation/) record the exact prompts, versions, and hashes.
 
 Answers were scored by exact numeric equality. The parser accepts a complete number or fraction after a terminal `####` marker or inside a balanced final boxed marker. It rejects incomplete expressions rather than taking their first number. Unparseable answers count as wrong. This checks the final answer, not every reasoning step. We used our measured baseline, not the external 86.7% benchmark. Validation and test contain different questions, so their scores should not be compared as if they were the same sample.
 
@@ -85,13 +85,13 @@ Answers were scored by exact numeric equality. The parser accepts a complete num
 
 This is a single-run study. The confidence intervals describe variation across questions, not across training seeds. Historical training arguments and logs are incomplete, so we cannot fully verify that the two training runs had identical budgets or reconstruct training-time truncation.
 
-The [data review](mario_v2_review.md) records source-answer issues and the Astra training workers' exposure to three validation style examples. Sonnet received only four training examples. Held-out test answers were not used in generation prompts or tuning.
+The [data review](../provenance/data_review.md) records source-answer issues and the Astra training workers' exposure to three validation style examples. Sonnet received only four training examples. Held-out test answers were not used in generation prompts or tuning.
 
 ### Files and checks
 
-The repository includes [training code](../sft.py), [adapter download instructions](../adapters/README.md), [evaluation code](../eval.py), [comparison code](../compare.py), and [run commands](../run_evals.sh). The [validation](../results/comparison_val.json) and [test](../results/comparison_test.json) comparisons contain the unrounded results.
+The repository includes [training code](../sft.py), [adapter download instructions](../adapters/README.md), [evaluation code](../eval.py), [comparison code](../compare.py), and [run commands](../run_evals.sh). To recover the unrounded comparisons, run `python prepare_data.py` and `python compare.py --split val` / `--split test` from the repository root. The JSON summaries are written to `derived/comparisons/` rather than stored alongside this report.
 
-All 4,000 outputs are saved in eight `results/{base,prompted,control,mario}_{val,test}.jsonl` files, each with configuration and metrics files. The execution log is `results/run.log`. We verified the 26 downloaded JSON/JSONL files by SHA-256, recomputed every correctness value locally, and passed all 34 unit/data tests locally and on the pod before the full runs.
+All 4,000 outputs are saved in eight [result files](../results/). Their configurations and execution log are kept separately in [provenance](../provenance/evaluation/). We verified the 26 original downloaded JSON/JSONL files by SHA-256, recomputed every correctness value locally, and passed all 34 unit/data tests locally and on the pod before the full runs. Redundant generated summaries were later removed from Git; the outputs and historical configurations are unchanged.
 
 The L40 ran for about 62 minutes, including setup and downloads, at $0.82/hour. Including an unsuccessful RTX 4090 startup attempt, estimated compute cost was about $0.90; billing had not settled when we checked. Both pods were deleted after the outputs were verified. No credentials are stored in the repository.
 

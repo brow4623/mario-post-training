@@ -98,4 +98,4 @@ I share those 70 daisies equally among the 10 daisy bouquets: 70 / 10 = <<70/10=
 - Preserve the actual situation, entities, quantities, units, mathematical dependencies, ordered calculator annotations, and final answer. Analogies must not become new facts about the problem.
 - Check final answers and annotations programmatically, then review semantic fidelity and voice separately. Exact recovery of the original wording is no longer the goal and would wrongly reject genuine rewrites.
 
-The user approved this context-aware direction. The first four training examples form the cached few-shot prefix for the Sonnet runner; validation examples are excluded from that prefix. See `SONNET_RUNNER.md` and `data/generation/summary.json` for generation and completion status.
+The user approved this context-aware direction. The first four training examples form the cached few-shot prefix for the Sonnet runner; validation examples are excluded from that prefix. See `docs/SONNET_RUNNER.md` for generation details. `python prepare_data.py` rebuilds the usage summary in `derived/rewrites/summary.json`.

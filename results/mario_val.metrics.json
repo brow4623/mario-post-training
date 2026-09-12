@@ -1,8 +1,0 @@
-{
-  "name": "mario_val",
-  "n": 500,
-  "accuracy": 0.732,
-  "format_success": 0.998,
-  "hit_token_cap": 0,
-  "generation_seconds": 279.60823873302434
-}

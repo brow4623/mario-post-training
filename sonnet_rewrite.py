@@ -18,7 +18,7 @@ from assemble_rewrites import assemble
 from mario_data import read_jsonl, write_jsonl
 
 MODEL = "claude-sonnet-5"
-ROOT = Path("data/generation")
+ROOT = Path("provenance/generation")
 LOG_LOCK = threading.Lock()
 
 
@@ -202,13 +202,13 @@ def inventory(config_hash):
 
 def export_results(config_hash):
     pending, combined, provenance = inventory(config_hash)
-    destination = ROOT
+    destination = Path("derived/rewrites")
     for split, rows in combined.items():
         write_jsonl(destination / f"{split}_all.jsonl", rows)
     save_json(destination / "generation.json", {"model": "mixed Astra and Sonnet", "reasoning_effort": "per-record",
         "method": "475 saved Astra subagent rewrites plus validated Sonnet API rewrites",
         "transformation": "mario-v2-context-aware-mixed", "models": provenance,
-        "sonnet_config_hash": config_hash, "source_shard_directory": str(ROOT).replace("\\", "/")})
+        "sonnet_config_hash": config_hash, "source_shard_directory": str(destination).replace("\\", "/")})
     usage = {key: 0 for key in ("input_tokens", "output_tokens", "cache_creation_input_tokens", "cache_read_input_tokens")}
     attempts = read_jsonl(ROOT / "attempts.jsonl") if (ROOT / "attempts.jsonl").exists() else []
     for attempt in attempts:
@@ -221,7 +221,7 @@ def export_results(config_hash):
         "estimated_usd": (usage["input_tokens"] * 2 + usage["output_tokens"] * 10 +
                           usage["cache_creation_input_tokens"] * 2.5 + usage["cache_read_input_tokens"] * .2) / 1e6,
         "cost_basis": "Sonnet5 standard rates checked2026-09-10; 5m cache. Reported usage only, not billing invoice."}
-    save_json(ROOT / "summary.json", report)
+    save_json(destination / "summary.json", report)
     print(json.dumps(report, indent=2), flush=True)
 
 

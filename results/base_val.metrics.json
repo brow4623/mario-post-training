@@ -1,8 +1,0 @@
-{
-  "name": "base_val",
-  "n": 500,
-  "accuracy": 0.852,
-  "format_success": 0.914,
-  "hit_token_cap": 0,
-  "generation_seconds": 489.9519678669749
-}

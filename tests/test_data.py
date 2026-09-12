@@ -70,17 +70,28 @@ class TransformationTests(unittest.TestCase):
             audit([record(self.row, 1, "train", False, 42)], [record(self.row, 2, "train", True, 42)])
 
 
-@unittest.skipUnless(Path("data/manifest.json").exists(), "Run mario_data.py for downloaded-data tests")
+@unittest.skipUnless(Path("provenance/data_manifest.json").exists(), "Dataset provenance is unavailable")
 class DownloadedDataTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        if not Path('data/mario/train.jsonl').exists() or not Path('derived/rewrites/train_all.jsonl').exists():
+            from prepare_data import main
+            main()
+
+    def test_training_exports(self):
+        manifest = json.loads(Path('provenance/data_manifest.json').read_text(encoding='utf-8'))
+        for name, expected in manifest['prepared_files'].items():
+            self.assertEqual(hashlib.sha256((Path('data') / name).read_bytes()).hexdigest(), expected)
+
     def test_hashes(self):
-        manifest = json.loads(Path("data/manifest.json").read_text(encoding="utf-8"))
+        manifest = json.loads(Path("provenance/data_manifest.json").read_text(encoding="utf-8"))
         for name, expected in manifest["files"].items():
             self.assertEqual(hashlib.sha256((Path("data") / name).read_bytes()).hexdigest(), expected)
         for name, source in manifest["sources"].items():
             self.assertEqual(hashlib.sha256((Path("data/raw") / name).read_bytes()).hexdigest(), source["sha256"])
 
     def test_all_pairs_and_sizes(self):
-        manifest = json.loads(Path("data/manifest.json").read_text(encoding="utf-8"))
+        manifest = json.loads(Path("provenance/data_manifest.json").read_text(encoding="utf-8"))
         mode = "rewrite" if manifest["transformation"].startswith("mario-v2") else "legacy"
         for split, count in (("train", 3000), ("validation", 500)):
             original = read_jsonl(f"data/original/{split}.jsonl")
@@ -100,14 +111,14 @@ class DownloadedDataTests(unittest.TestCase):
 
     def test_source_fidelity_and_reproducibility(self):
         raw = read_jsonl("data/raw/train.jsonl")
-        manifest = json.loads(Path("data/manifest.json").read_text(encoding="utf-8"))
+        manifest = json.loads(Path("provenance/data_manifest.json").read_text(encoding="utf-8"))
         for split in ("train", "validation"):
             indices = manifest["source_train_indices"][split]
             original = [record(raw[i], i, "train", False, manifest["seed"]) for i in indices]
             self.assertEqual(original, read_jsonl(f"data/original/{split}.jsonl"))
             if manifest["transformation"].startswith("mario-v2"):
                 from assemble_rewrites import assemble
-                directory = manifest["generation"].get("source_shard_directory", "data/generation")
+                directory = manifest["generation"].get("source_shard_directory", "provenance/generation")
                 shards = [row for path in sorted(Path(directory).glob(f"{split}_*.jsonl"))
                           for row in read_jsonl(path)]
                 modified, _ = assemble(original, shards)
@@ -116,7 +127,7 @@ class DownloadedDataTests(unittest.TestCase):
             self.assertEqual(modified, read_jsonl(f"data/mario/{split}.jsonl"))
 
     def test_rewrite_provenance_hashes(self):
-        manifest = json.loads(Path("data/manifest.json").read_text(encoding="utf-8"))
+        manifest = json.loads(Path("provenance/data_manifest.json").read_text(encoding="utf-8"))
         for path, expected in manifest.get("generation", {}).get("shards", {}).items():
             self.assertEqual(hashlib.sha256(Path(path).read_bytes()).hexdigest(), expected)
 

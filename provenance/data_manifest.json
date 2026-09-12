@@ -3546,11 +3546,17 @@
       "claude-sonnet-5": 3025
     },
     "sonnet_config_hash": "e5e75a495509cdf043a560153465594b043d02fcc5ea363d2b99d885c99782c0",
-    "source_shard_directory": "data/generation",
+    "source_shard_directory": "derived/rewrites",
     "prompt_sha256": "8a0728c9e1a638818e023a9099d76d0f5169f5343508e1423ec2ff3ba39e87c6",
     "shards": {
-      "data/generation/train_all.jsonl": "c4785b12e369b1c7b7caa5f0ccdd35de4fec89e2d444f2c41a54928c654af44a",
-      "data/generation/validation_all.jsonl": "47b569328470ca8b8780eb7ad884f90850175a1b6a0f602430966027cb4762a6"
+      "derived/rewrites/train_all.jsonl": "c4785b12e369b1c7b7caa5f0ccdd35de4fec89e2d444f2c41a54928c654af44a",
+      "derived/rewrites/validation_all.jsonl": "47b569328470ca8b8780eb7ad884f90850175a1b6a0f602430966027cb4762a6"
     }
+  },
+  "prepared_files": {
+    "train_mario.jsonl": "e300a17faf98e688b77fb68218072950c9a515eed9fd066b3c5997ab45920f48",
+    "test.jsonl": "5bbae609cba85d339a77e02783ab52a3b2b33f34ad6365da6ad1c6b90ed5259d",
+    "val.jsonl": "1bbfb8358b055fc91b3c35091323b3f511294ea21fe3de4e27b5873e2c867f1e",
+    "train_plain.jsonl": "7fd3e4ae04f54192e85f67cc2f0692f457b09bc137d7c5934935e6c15c60f1f6"
   }
 }

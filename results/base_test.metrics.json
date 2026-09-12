@@ -1,8 +1,0 @@
-{
-  "name": "base_test",
-  "n": 500,
-  "accuracy": 0.73,
-  "format_success": 0.858,
-  "hit_token_cap": 1,
-  "generation_seconds": 513.3672450960439
-}

@@ -1,8 +1,0 @@
-{
-  "name": "mario_test",
-  "n": 500,
-  "accuracy": 0.666,
-  "format_success": 0.994,
-  "hit_token_cap": 1,
-  "generation_seconds": 295.75453437893884
-}

@@ -46,6 +46,8 @@ def main():
     p.add_argument('--batch-size', type=int, default=8)
     p.add_argument('--max-new-tokens', type=int, default=1024)
     p.add_argument('--results-dir', default='results')
+    p.add_argument('--provenance-dir', default='provenance/evaluation')
+    p.add_argument('--metrics-dir', default='derived/metrics')
     args = p.parse_args()
     if args.batch_size < 1 or args.max_new_tokens < 1 or (args.max_examples is not None and args.max_examples < 1):
         p.error('Counts must be positive')
@@ -64,7 +66,8 @@ def main():
     root = Path(args.results_dir)
     root.mkdir(parents=True, exist_ok=True)
     path = root / f'{args.name}.jsonl'
-    metadata_path = root / f'{args.name}.config.json'
+    metadata_path = Path(args.provenance_dir) / f'{args.name}.config.json'
+    metadata_path.parent.mkdir(parents=True, exist_ok=True)
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     dtype = torch.bfloat16 if device == 'cuda' and torch.cuda.is_bf16_supported() else torch.float32
     config = {'model': args.model, 'revision': revision, 'data_sha256': sha256(args.data),
@@ -126,7 +129,9 @@ def main():
                'format_success': sum(r['format_valid'] for r in saved) / len(saved),
                'hit_token_cap': sum(r['hit_token_cap'] for r in saved),
                'generation_seconds': sum(r['batch_seconds_per_example'] for r in saved)}
-    (root / f'{args.name}.metrics.json').write_text(json.dumps(summary, indent=2) + '\n', encoding='utf-8')
+    metrics_path = Path(args.metrics_dir) / f'{args.name}.metrics.json'
+    metrics_path.parent.mkdir(parents=True, exist_ok=True)
+    metrics_path.write_text(json.dumps(summary, indent=2) + '\n', encoding='utf-8')
     print(json.dumps(summary, indent=2))
 
 
