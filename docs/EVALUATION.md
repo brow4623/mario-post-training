@@ -31,3 +31,14 @@ Runs append outputs after each batch and resume only when their configuration an
 - Paired question bootstrap intervals use 10,000 resamples and seed 42. Primary persona comparison is Mario-SFT minus prompted base. Math comparisons are Mario-SFT minus base and Mario-SFT minus plain SFT. These are the user's two directional hypotheses, not a conventional null/alternative pair.
 
 Cosine measures textual resemblance, not a validated persona judgment. Interpret it alongside example outputs and document contrary examples. Intervals reflect question sampling, not training-seed uncertainty. This is a single-run study with incomplete historical training arguments. The 86.7% external benchmark is not substituted for the measured baseline. Source and Astra example-exposure caveats remain in `provenance/data_review.md`.
+
+## Persona judge (Week 2)
+
+`judge.py` scores each answer 1-5 on voice, consistency, naturalness, restraint, and overall, with a catchphrase-only flag and a one-sentence note. The rubric is `prompts/mario_judge.md` and is frozen; its hash is part of every score record's `config_sha256`. The judge sees only the question and the answer text. Gold answers, record ids, condition labels, and file names are never sent. Scores are written to `results/judge/<condition>_<split>.jsonl`, one record per answer, and `judge.py summarize` prints per-condition means, score distributions, and paired bootstrap intervals (10,000 resamples, seed 42) against the first file given.
+
+Two backends exist. The `api` backend sends one answer per request to the Claude API at temperature 0 with a JSON schema; it is the reference protocol and needs an `ANTHROPIC_API_KEY` (pass `--env-file .env`; `.env` is gitignored). The `claude-code` backend runs the same rubric through `claude -p --model haiku` in batches of 20 answers, pooled and shuffled across all input files with seed 42 so every batch mixes conditions. It is billed to a Claude subscription rather than API credits. Its caveats: answers in a batch are visible to each other despite the instruction to rate independently, temperature cannot be set, and Claude Code adds its own context to each call, so scores may shift slightly across Claude Code releases. The Week 2 validation scores were produced with the `claude-code` backend and Haiku 4.5. Per-call usage and any rejected responses are logged to `provenance/judge/attempts.jsonl`.
+
+```bash
+python judge.py score results/base_val.jsonl results/prompted_val.jsonl results/control_val.jsonl results/mario_val.jsonl --backend claude-code --workers 3
+python judge.py summarize results/judge/mario_val.jsonl results/judge/prompted_val.jsonl results/judge/base_val.jsonl results/judge/control_val.jsonl
+```
