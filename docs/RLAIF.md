@@ -1,13 +1,13 @@
 # Week 2: RLAIF runbook
 
-Each step lists its input, what to run, and the file it hands to the next step. Steps 1 and 2 are done or ready; later steps are added as their scripts land.
+Each step lists its input, what to run, and the file it hands to the next step. Steps 1 through 4 have scripts; steps 5 through 8 depend on the pod runs.
 
 | Step | Owner | Input | Output |
 | --- | --- | --- | --- |
 | 1. Judge | A | `results/*_val.jsonl` | `results/judge/*_val.jsonl` (done) |
 | 2. Sample candidates | C | Mario adapter, `data/train_mario.jsonl` | `data/candidates/mario_train.jsonl` |
 | 3. DPO trainer | B | `sft.py`, Mario adapter | `dpo.py` (ready) |
-| 4. Preference pairs | A | candidates + judge | `data/prefs.jsonl` |
+| 4. Preference pairs | A | candidates + judge | `data/prefs.jsonl` (ready) |
 | 5. Train | B | `dpo.py`, `data/prefs.jsonl` | RLAIF adapter release |
 | 6. Evaluate | C | RLAIF adapter, `run_evals.sh`, `judge.py` | `results/rlaif_*.jsonl`, updated table |
 | 7. Gaming check | A | 100 blinded outputs | judge vs human agreement |
@@ -67,6 +67,20 @@ python -m tests.test_dpo --write /tmp/prefs.jsonl
 python dpo.py --prefs /tmp/prefs.jsonl --model Qwen/Qwen2.5-0.5B-Instruct --output /tmp/dpo_smoke --max-examples 8 --max-steps 2 --batch-size 2 --grad-accum 1 --max-len 768
 ```
 
-## Step 4 preview: what the judge needs from step 2
+## Step 4: preference pairs (ready)
 
-`judge.py` scores flat `{id, question, <text field>}` records. Step 4 flattens each candidate answer into its own record with id `<question id>#<answer index>`, scores them all through the judge, then picks chosen and rejected per question. That flattening script arrives with step 4.
+Two commands in `make_prefs.py`, plus one judge run between them. Person A runs these once step 2's candidates file is pushed.
+
+```bash
+python make_prefs.py flatten data/candidates/mario_train.jsonl
+python judge.py score derived/candidates/mario_train.flat.jsonl --backend claude-code --workers 3
+python make_prefs.py pairs data/candidates/mario_train.jsonl results/judge/mario_train.flat.jsonl
+```
+
+`flatten` writes one judge-ready record per sampled answer with id `<question id>#<answer index>` into `derived/`, which is not tracked. The judge run scores about 6,000 answers; at the rate measured in step 1 that is roughly 50 points of a 5-hour Max window, so plan on two windows or run it overnight. It is resumable, so stopping and restarting later loses nothing. Its output in `results/judge/` is tracked and should be committed.
+
+`pairs` picks, per question, the highest-scoring answer as chosen and the lowest as rejected, then applies three rules. Chosen must pass the verifier. Rejected must pass the verifier too, so the only thing DPO learns from is the persona difference. Chosen must beat rejected by at least 1 point overall. Ties break on the sum of the four criteria, then against the catchphrase-only flag. Questions that fail a rule are dropped and counted by reason in `provenance/prefs/mario_train.summary.json`.
+
+Read the summary before handing off. If `pairs_out` is well under 600, first try `--min-gap 1` with `--allow-wrong-rejected`, which lets a wrong answer be the rejected one and usually recovers many questions at the cost of mixing a math signal into the persona objective. Say which rules were used in the writeup. The output `data/prefs.jsonl` is tracked; `dpo.py` validates it again on load.
+
+Verified end to end on a fake candidates file built from training data (Mario rewrite, plain answer, Mario with a wrong final answer, plain answer with catchphrases stapled on): the judge ranked the rewrite first every time, the wrong-answer Mario was never chosen despite scoring well on persona, and the stapled version was flagged catchphrase-only.
