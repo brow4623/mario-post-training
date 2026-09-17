@@ -1,0 +1,30 @@
+{
+  "model": "Qwen/Qwen2.5-3B-Instruct",
+  "revision": "aa8e72537993ba99e69dfaafa59ed015b17504d1",
+  "data": "data/train_mario.jsonl",
+  "data_sha256": "e300a17faf98e688b77fb68218072950c9a515eed9fd066b3c5997ab45920f48",
+  "num_questions": 1000,
+  "samples": 6,
+  "seed": 42,
+  "system_prompt": "Solve the math problem step by step. End with a line containing #### followed by only the numerical answer.",
+  "do_sample": true,
+  "temperature": 1.0,
+  "top_p": 0.95,
+  "max_new_tokens": 1024,
+  "batch_size": 8,
+  "dtype": "torch.bfloat16",
+  "adapter": "adapters/mario",
+  "adapter_hashes": {
+    "adapter_config.json": "8232b5646abfafa6b53b27cbebe326e9513487f7efe649966f2a0c15dd47ca03",
+    "adapter_model.safetensors": "b966ab59a20dee467510a7fc38c1dbac79dec203b0026fe032c8c6b435b6d0db"
+  },
+  "packages": {
+    "torch": "2.8.0+cu128",
+    "transformers": "5.17.0",
+    "peft": "0.21.0",
+    "accelerate": "1.15.0"
+  },
+  "gpu": "NVIDIA A100-SXM4-80GB",
+  "script_sha256": "6ce547621707fe2a9ce0f12f5c04a14f463eaab88737554d4b206975b354e3d2",
+  "verifier_sha256": "dafdb6543cfdfd80f8f2496fdb397cf5ee274be2b4fb965d9f7b95820d58da5e"
+}
