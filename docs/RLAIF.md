@@ -6,7 +6,7 @@ Each step lists its input, what to run, and the file it hands to the next step. 
 | --- | --- | --- | --- |
 | 1. Judge | A | `results/*_val.jsonl` | `results/judge/*_val.jsonl` (done) |
 | 2. Sample candidates | C | Mario adapter, `data/train_mario.jsonl` | `data/candidates/mario_train.jsonl` |
-| 3. DPO trainer | B | `sft.py`, Mario adapter | `dpo.py` |
+| 3. DPO trainer | B | `sft.py`, Mario adapter | `dpo.py` (ready) |
 | 4. Preference pairs | A | candidates + judge | `data/prefs.jsonl` |
 | 5. Train | B | `dpo.py`, `data/prefs.jsonl` | RLAIF adapter release |
 | 6. Evaluate | C | RLAIF adapter, `run_evals.sh`, `judge.py` | `results/rlaif_*.jsonl`, updated table |
@@ -42,6 +42,29 @@ Smoke test on any machine, no GPU or adapter needed:
 
 ```bash
 python sample_candidates.py --data data/train_mario.jsonl --name smoke --model Qwen/Qwen2.5-0.5B-Instruct --max-examples 3 --samples 3 --max-new-tokens 64 --output-dir /tmp/smoke --provenance-dir /tmp/smoke
+```
+
+## Step 3: DPO trainer (ready)
+
+`dpo.py` continues training the Mario SFT adapter's own weights with Direct Preference Optimization, so the output is still one LoRA adapter over the base model and `eval.py --adapter` loads it unchanged. The frozen reference for the KL penalty is the Mario SFT model itself (base plus adapter, merged in memory), not plain Qwen. Prompts use the same neutral system instruction as `eval.py` and `sample_candidates.py`.
+
+Input is `data/prefs.jsonl` from step 4, one line per question: `{"id", "prompt", "chosen", "rejected", "gold"}`. The loader refuses empty fields, identical chosen/rejected, duplicates, and any chosen answer that fails the verifier against `gold`.
+
+On the pod, after downloading `adapters/mario`:
+
+```bash
+python -u dpo.py --prefs data/prefs.jsonl --adapter adapters/mario --output checkpoints/rlaif
+```
+
+Defaults: beta 0.1, learning rate 5e-6, 1 epoch, effective batch 16, max length 1,536 tokens, seed 42. Both models fit on a 40 GB GPU in bf16. Expect well under an hour for 1,000 pairs. Watch two logged numbers: `rewards/accuracies` should climb from 0.5 toward 0.8 or higher, and `rewards/margins` should grow and stay positive. If accuracies stay near 0.5, the pairs are not separable enough (raise the judge-score gap required in step 4). If the loss collapses very fast, lower the learning rate or raise beta.
+
+Then release the adapter the same way as `adapters/README.md` describes: upload `checkpoints/rlaif/adapter_model.safetensors` as a release asset or push to the Hub with `--push-to-hub`, record its SHA-256, and copy `adapter_config.json` plus `train_args.json` into `adapters/rlaif/` in the repository.
+
+Smoke test on any machine (fresh LoRA on the 0.5B model, no adapter needed; `python -m tests.test_dpo --write /tmp/prefs.jsonl` builds a pairs file of Mario versus plain training responses):
+
+```bash
+python -m tests.test_dpo --write /tmp/prefs.jsonl
+python dpo.py --prefs /tmp/prefs.jsonl --model Qwen/Qwen2.5-0.5B-Instruct --output /tmp/dpo_smoke --max-examples 8 --max-steps 2 --batch-size 2 --grad-accum 1 --max-len 768
 ```
 
 ## Step 4 preview: what the judge needs from step 2
