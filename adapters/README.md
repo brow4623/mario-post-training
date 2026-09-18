@@ -7,7 +7,7 @@ Two LoRA adapters for `Qwen/Qwen2.5-3B-Instruct`, trained with `sft.py` (rank 16
 | control (plain GSM8K) | `brow4623/qwen3b-gsm8k-control-lora` | `qwen3b-gsm8k-control-lora.safetensors` | `9024364a3c3afd7d88644b9828070ec8f7f1ac133e856dcfc96ce1a86a1da16d` |
 | mario (Mario persona) | `brow4623/qwen3b-gsm8k-mario-lora` | `qwen3b-gsm8k-mario-lora.safetensors` | `b966ab59a20dee467510a7fc38c1dbac79dec203b0026fe032c8c6b435b6d0db` |
 
-Release: https://github.com/brow4623/hw1-tantia-brown/releases/tag/adapters-v1 (weights pushed to the Hub 2026-09-11).
+Release: https://github.com/harvard-cs2881f26/brown-ogbogu-tantia/releases/tag/adapters-v1 (original weights from 2026-09-11, copied unchanged to the course repository).
 
 ## Using a release asset
 

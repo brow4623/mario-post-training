@@ -1,5 +1,7 @@
 # Mario SFT on GSM8K
 
+The course repository now includes the [Week 2 RLAIF work and training checklist](docs/RLAIF.md). The preference data is ready; DPO training has not run yet. The results below are from SFT.
+
 **Fine-tuning helped Qwen2.5-3B-Instruct sound more like Mario, but it did not improve its math.** Mario SFT scored higher than prompting on similarity to our Mario reference answers. Its test accuracy fell from 73.0% for the original model to 66.6%.
 
 Plain-GSM8K SFT also lost accuracy, reaching 65.2%. We found no clear additional accuracy penalty from learning the persona rather than from SFT more generally.

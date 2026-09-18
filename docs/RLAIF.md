@@ -1,6 +1,23 @@
 # Week 2: RLAIF runbook
 
-Each step lists its input, what to run, and the file it hands to the next step. Steps 1 through 4 are done. Step 5 can start now.
+The training data is ready: 773 preference pairs from 6,000 Mario SFT answers. Both answers in every pair have the correct final numeric answer. The DPO trainer is written, but we still need a GPU smoke test before the full run.
+
+## Training readiness (September 18)
+
+We rebuilt all 773 pairs from the saved candidates and judge scores without changes, checked candidate correctness again, and verified that the questions belong to training rather than validation or test. All 54 offline tests pass. These tests validate data and helper functions; they do not run DPO training.
+
+Before the full run:
+
+1. Pin the base model and tokenizer to `aa8e72537993ba99e69dfaafa59ed015b17504d1`, the revision used for sampling and SFT evaluation. `dpo.py` currently loads the moving default revision.
+2. Select and record exact dependency versions. `requirements.txt` currently allows updates, including any `trl>=1.0`. Check the actual training environment rather than assuming the offline tests establish compatibility.
+3. Run two optimizer steps with the real 3B Mario adapter. Confirm finite loss, nonzero adapter updates, an unchanged SFT reference, and successful save/reload through `eval.py`. Check tokenized pair lengths before training so preprocessing preserves the answers.
+4. Save training metrics, resolved settings, code/data/adapter hashes, and package versions. The trainer currently writes CLI arguments but does not explicitly save the returned training metrics or an input manifest.
+
+The first full run can use the current defaults: one epoch, learning rate `5e-6`, beta `0.1`, batch size 2 with 8 accumulation steps, and seed 42. With 773 pairs, that is about 49 optimizer steps. Keep the original Mario adapter unchanged. Training preference accuracy is a diagnostic, not evidence that held-out persona quality improved.
+
+RunPod can supply the GPU. Plan for one 48 GB or larger GPU because the trainer loads both policy and reference models; confirm actual memory use in the smoke test. We have not measured training runtime or cost. Check the live rate and set a spending limit before provisioning. No judge API calls are needed during DPO: the scores are already saved. The current shell has no RunPod credential configured; provide `RUNPOD_API_KEY` through the environment, not chat.
+
+After training, generate validation and test answers, judge them with the frozen rubric, and compare them with Mario SFT. `eval.py` accepts the new adapter, but `compare.py` and `run_evals.sh` still list only the four SFT conditions and need an RLAIF comparison added. The blinded human check remains separate from the automated scores.
 
 | Step | Owner | Input | Output |
 | --- | --- | --- | --- |
@@ -24,7 +41,7 @@ See the persona judge section of [EVALUATION.md](EVALUATION.md). Baseline valida
 On a RunPod pod with the same image as the evaluations (`runpod/pytorch:2.8.0-py3.11-cuda12.8.1-cudnn-devel-ubuntu22.04`):
 
 ```bash
-git clone https://github.com/brow4623/hw1-tantia-brown.git && cd hw1-tantia-brown
+git clone https://github.com/harvard-cs2881f26/brown-ogbogu-tantia.git && cd brown-ogbogu-tantia
 pip install -r requirements.txt
 python prepare_data.py
 gh release download adapters-v1 -p qwen3b-gsm8k-mario-lora.safetensors -O adapters/mario/adapter_model.safetensors
