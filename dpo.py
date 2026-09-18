@@ -20,10 +20,12 @@ Smoke test (any machine, tiny model; --adapter optional, a fresh LoRA is created
 """
 
 import argparse
+import hashlib
+import importlib.metadata
 import json
 from pathlib import Path
 
-from eval import FORMAT_PROMPT
+from eval import FORMAT_PROMPT, sha256
 from mario_data import read_jsonl
 from verifier import is_correct
 
@@ -58,6 +60,7 @@ def main():
     p.add_argument("--prefs", required=True)
     p.add_argument("--output", required=True)
     p.add_argument("--model", default="Qwen/Qwen2.5-3B-Instruct")
+    p.add_argument("--revision", help="Exact model revision; defaults to the evaluated revision for Qwen 3B")
     p.add_argument("--adapter", help="SFT adapter to continue training; omit to start a fresh LoRA (smoke tests)")
     p.add_argument("--beta", type=float, default=0.1, help="KL strength; higher stays closer to the SFT model")
     p.add_argument("--epochs", type=float, default=1)
@@ -72,6 +75,11 @@ def main():
     p.add_argument("--skip-verify", action="store_true")
     p.add_argument("--push-to-hub", help="e.g. yourname/qwen3b-mario-rlaif-lora (private)")
     args = p.parse_args()
+    output = Path(args.output)
+    if output.exists() and any(output.iterdir()):
+        p.error("Output directory is not empty; use a new directory")
+    if args.revision is None:
+        args.revision = "aa8e72537993ba99e69dfaafa59ed015b17504d1" if args.model == "Qwen/Qwen2.5-3B-Instruct" else "main"
 
     pairs = load_pairs(args.prefs, args.max_examples, verify=not args.skip_verify)
     print(f"{len(pairs)} preference pairs from {args.prefs}")
@@ -81,18 +89,27 @@ def main():
     from peft import LoraConfig, PeftModel
     from transformers import AutoModelForCausalLM, AutoTokenizer
     from trl import DPOConfig, DPOTrainer
+    from huggingface_hub import model_info
+    from transformers import set_seed
 
+    set_seed(args.seed)
+    args.revision = model_info(args.model, revision=args.revision).sha
     use_cuda = torch.cuda.is_available()
     dtype = torch.bfloat16 if use_cuda else torch.float32
-    tok = AutoTokenizer.from_pretrained(args.model)
-    model = AutoModelForCausalLM.from_pretrained(args.model, dtype=dtype)
+    tok = AutoTokenizer.from_pretrained(args.model, revision=args.revision)
+    lengths = [len(tok.apply_chat_template(row['prompt'] + row[side], tokenize=True))
+               for row in pairs for side in ('chosen', 'rejected')]
+    if max(lengths) > args.max_len:
+        raise ValueError(f"Longest pair sequence is {max(lengths)} tokens; increase --max-len to avoid truncation")
+    model = AutoModelForCausalLM.from_pretrained(args.model, revision=args.revision, dtype=dtype)
     peft_config, ref_model = None, None
     if args.adapter:
         # Keep training the SFT adapter's own weights; freeze a merged copy as the reference.
         model = PeftModel.from_pretrained(model, args.adapter, is_trainable=True)
-        ref_model = PeftModel.from_pretrained(AutoModelForCausalLM.from_pretrained(args.model, dtype=dtype),
+        ref_model = PeftModel.from_pretrained(AutoModelForCausalLM.from_pretrained(args.model, revision=args.revision, dtype=dtype),
                                               args.adapter).merge_and_unload()
         ref_model.eval()
+        ref_model.requires_grad_(False)
     else:
         peft_config = LoraConfig(r=16, lora_alpha=32, lora_dropout=0.05, task_type="CAUSAL_LM",
                                  target_modules=["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"])
@@ -110,7 +127,7 @@ def main():
         max_length=args.max_len,
         bf16=use_cuda,
         gradient_checkpointing=use_cuda,
-        logging_steps=5,
+        logging_steps=1,
         save_strategy="epoch",
         save_total_limit=1,
         report_to="none",
@@ -120,8 +137,38 @@ def main():
     trainer = DPOTrainer(model=model, ref_model=ref_model, args=cfg, processing_class=tok,
                          train_dataset=Dataset.from_list(pairs), peft_config=peft_config)
     trainer.model.print_trainable_parameters()
+    initial = {n: p.detach().cpu().clone() for n, p in trainer.model.named_parameters() if p.requires_grad}
+    def reference_digest():
+        if ref_model is None:
+            return None
+        digest = hashlib.sha256()
+        for name, tensor in ref_model.state_dict().items():
+            digest.update(name.encode())
+            digest.update(tensor.detach().cpu().contiguous().view(torch.uint8).numpy().tobytes())
+        return digest.hexdigest()
+    ref_before = reference_digest()
+    manifest = {'arguments': vars(args), 'pairs': len(pairs), 'max_sequence_tokens': max(lengths),
+                'prefs_sha256': sha256(args.prefs), 'script_sha256': sha256(__file__),
+                'adapter_hashes': {n: sha256(Path(args.adapter) / n) for n in
+                                   ('adapter_config.json', 'adapter_model.safetensors')} if args.adapter else {},
+                'packages': {n: importlib.metadata.version(n) for n in
+                             ('torch', 'transformers', 'datasets', 'peft', 'accelerate', 'trl')},
+                'gpu': torch.cuda.get_device_name() if use_cuda else None,
+                'reference_sha256_before': ref_before}
+    output.mkdir(parents=True, exist_ok=True)
+    (output / 'run_manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
     result = trainer.train()
     print(result.metrics)
+    changed = sum(not torch.equal(p.detach().cpu(), initial[n]) for n, p in trainer.model.named_parameters() if n in initial)
+    ref_after = reference_digest()
+    checks = {'changed_adapter_tensors': changed, 'reference_sha256_after': ref_after,
+              'reference_unchanged': ref_before == ref_after,
+              'finite_parameters': all(bool(torch.isfinite(p).all()) for p in trainer.model.parameters() if p.requires_grad)}
+    (output / 'checks.json').write_text(json.dumps(checks, indent=2) + '\n')
+    if not changed or not checks['reference_unchanged'] or not checks['finite_parameters']:
+        raise RuntimeError(f'Training verification failed: {checks}')
+    trainer.save_metrics('train', result.metrics)
+    trainer.save_state()
 
     trainer.save_model(args.output)  # adapter weights + config only; loadable by eval.py --adapter
     Path(args.output, "train_args.json").write_text(json.dumps(vars(args), indent=2) + "\n")

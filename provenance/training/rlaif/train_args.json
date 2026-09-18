@@ -1,0 +1,19 @@
+{
+  "prefs": "data/prefs.jsonl",
+  "output": "checkpoints/rlaif",
+  "model": "Qwen/Qwen2.5-3B-Instruct",
+  "revision": "aa8e72537993ba99e69dfaafa59ed015b17504d1",
+  "adapter": "adapters/mario",
+  "beta": 0.1,
+  "epochs": 1,
+  "lr": 5e-06,
+  "batch_size": 2,
+  "grad_accum": 8,
+  "max_len": 1536,
+  "max_examples": null,
+  "max_steps": -1,
+  "seed": 42,
+  "warmup_steps": 10,
+  "skip_verify": false,
+  "push_to_hub": null
+}

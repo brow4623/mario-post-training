@@ -1,0 +1,39 @@
+{
+  "arguments": {
+    "prefs": "data/prefs.jsonl",
+    "output": "checkpoints/rlaif-smoke",
+    "model": "Qwen/Qwen2.5-3B-Instruct",
+    "revision": "aa8e72537993ba99e69dfaafa59ed015b17504d1",
+    "adapter": "adapters/mario",
+    "beta": 0.1,
+    "epochs": 1,
+    "lr": 5e-06,
+    "batch_size": 2,
+    "grad_accum": 1,
+    "max_len": 1536,
+    "max_examples": 8,
+    "max_steps": 2,
+    "seed": 42,
+    "warmup_steps": 0,
+    "skip_verify": false,
+    "push_to_hub": null
+  },
+  "pairs": 8,
+  "max_sequence_tokens": 2,
+  "prefs_sha256": "399e34ebd3f76bfdd4359952fa6972878dd47e263f5033bafd2bfad4005d0969",
+  "script_sha256": "a7469ab0e1bdc7774cb69722c7a634d257cd55e8057bad4d90c8d2818fa99ff6",
+  "adapter_hashes": {
+    "adapter_config.json": "8232b5646abfafa6b53b27cbebe326e9513487f7efe649966f2a0c15dd47ca03",
+    "adapter_model.safetensors": "b966ab59a20dee467510a7fc38c1dbac79dec203b0026fe032c8c6b435b6d0db"
+  },
+  "packages": {
+    "torch": "2.8.0",
+    "transformers": "5.17.0",
+    "datasets": "5.0.1",
+    "peft": "0.21.0",
+    "accelerate": "1.15.0",
+    "trl": "1.13.0"
+  },
+  "gpu": "NVIDIA A100-SXM4-80GB",
+  "reference_sha256_before": "83beb48291d76bdfa60378c45f778a19f00b8643ff70cbe944b57905adec2f47"
+}

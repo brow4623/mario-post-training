@@ -41,14 +41,18 @@ def main():
     p.add_argument('--results-dir', default='results')
     p.add_argument('--provenance-dir', default='provenance/evaluation')
     p.add_argument('--output-dir', default='derived/comparisons')
+    p.add_argument('--rlaif', action='store_true', help='Compare RLAIF with a freshly evaluated Mario SFT baseline')
     args = p.parse_args()
+    conditions = ('mario_rlaif_baseline', 'rlaif') if args.rlaif else CONDITIONS
     root = Path(args.results_dir)
     refs = read_jsonl(f'data/{args.split}.jsonl')
-    runs = {name: paired_outputs(refs, read_jsonl(root / f'{name}_{args.split}.jsonl')) for name in CONDITIONS}
-    configs = {name: json.loads((Path(args.provenance_dir) / f'{name}_{args.split}.config.json').read_text(encoding='utf-8')) for name in CONDITIONS}
+    runs = {name: paired_outputs(refs, read_jsonl(root / f'{name}_{args.split}.jsonl')) for name in conditions}
+    configs = {name: json.loads((Path(args.provenance_dir) / f'{name}_{args.split}.config.json').read_text(encoding='utf-8')) for name in conditions}
     for key in ('model', 'revision', 'data_sha256', 'n', 'max_new_tokens', 'batch_size', 'do_sample', 'dtype', 'packages', 'eval_sha256', 'verifier_sha256'):
-        if any(configs[n][key] != configs['base'][key] for n in CONDITIONS):
+        if any(configs[n][key] != configs[conditions[0]][key] for n in conditions):
             raise ValueError(f'Unmatched evaluation settings: {key}')
+    if args.rlaif and configs['rlaif']['system_prompt'] != configs['mario_rlaif_baseline']['system_prompt']:
+        raise ValueError('Unmatched system prompts')
     metrics, accuracy, similarities = {}, {}, {}
     for name, rows in runs.items():
         accuracy[name] = np.array([is_correct(r['output'], ref['answer']) for r, ref in zip(rows, refs)], dtype=float)
@@ -71,7 +75,8 @@ def main():
                 metrics[name][f'cosine_{variant}'] = float(scores.mean())
                 metrics[name][f'cosine_{variant}_ci95'] = interval(scores)
     contrasts = {}
-    for a, b in (('mario', 'base'), ('mario', 'control'), ('mario', 'prompted')):
+    comparisons = (('rlaif', 'mario_rlaif_baseline'),) if args.rlaif else (('mario', 'base'), ('mario', 'control'), ('mario', 'prompted'))
+    for a, b in comparisons:
         delta = accuracy[a] - accuracy[b]
         result = {'accuracy_delta': float(delta.mean()), 'accuracy_delta_ci95': interval(delta),
                   'a_only_correct': int((delta > 0).sum()), 'b_only_correct': int((delta < 0).sum())}

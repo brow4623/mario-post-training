@@ -1,0 +1,6 @@
+{
+  "changed_adapter_tensors": 504,
+  "reference_sha256_after": "83beb48291d76bdfa60378c45f778a19f00b8643ff70cbe944b57905adec2f47",
+  "reference_unchanged": true,
+  "finite_parameters": true
+}
