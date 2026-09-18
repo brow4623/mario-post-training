@@ -1,0 +1,24 @@
+{
+  "candidates": "data/candidates/mario_train.jsonl",
+  "scores": "results/judge/mario_train.flat.jsonl",
+  "questions_in": 1000,
+  "pairs_out": 773,
+  "dropped": {
+    "judge gap below 1": 47,
+    "no correct answer to choose": 84,
+    "no eligible rejected answer": 96
+  },
+  "rules": {
+    "require_chosen_correct": true,
+    "require_rejected_correct": true,
+    "min_gap": 1
+  },
+  "chosen_overall_mean": 4.385510996119017,
+  "rejected_overall_mean": 1.9172056921086675,
+  "gap_distribution": {
+    "1": 156,
+    "2": 222,
+    "3": 272,
+    "4": 123
+  }
+}

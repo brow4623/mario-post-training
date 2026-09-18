@@ -189,7 +189,7 @@ def call_api(key, config, row, text_field):
     raise RuntimeError(f"Retries exhausted for {row['id']}")
 
 
-def call_claude_code(config, batch, text_field, batch_number):
+def call_claude_code(config, batch, text_field, batch_number, timeout=600):
     """One `claude -p` call rating a whole batch; returns one record per row."""
     command = ["claude", "-p", batch_prompt(batch, text_field), "--model", CLI_ALIASES.get(config["model"], config["model"]),
                "--output-format", "json", "--tools", "", "--no-session-persistence",
@@ -197,7 +197,13 @@ def call_claude_code(config, batch, text_field, batch_number):
     ids = [row["id"] for row in batch]
     for attempt in range(3):
         started = time.monotonic()
-        proc = subprocess.run(command, capture_output=True, text=True)
+        try:
+            # Normal batches finish in 1-3 minutes; a hung CLI process must not block a worker forever.
+            proc = subprocess.run(command, capture_output=True, text=True, stdin=subprocess.DEVNULL, timeout=timeout)
+        except subprocess.TimeoutExpired:
+            log_attempt({"batch": batch_number, "ids": ids, "attempt": attempt, "accepted": False,
+                         "error": f"claude -p timed out after {timeout}s"})
+            continue
         event = {"batch": batch_number, "ids": ids, "attempt": attempt, "seconds": round(time.monotonic() - started, 1)}
         try:
             result = json.loads(proc.stdout)
@@ -274,7 +280,7 @@ def score(args):
             order = list(pending)
             random.Random(42).shuffle(order)
             batches = [order[i:i + args.batch_size] for i in range(0, len(order), args.batch_size)]
-            jobs = [(b, lambda b=b, n=n: call_claude_code(config, [row for _, row in b], args.text_field, n))
+            jobs = [(b, lambda b=b, n=n: call_claude_code(config, [row for _, row in b], args.text_field, n, args.call_timeout))
                     for n, b in enumerate(batches)]
         scored = 0
 
@@ -290,10 +296,20 @@ def score(args):
             # First call alone warms the prompt cache; the rest run concurrently.
             first, jobs = jobs[0], jobs[1:]
             finish(first[0], first[1]())
+        failures = []
         with ThreadPoolExecutor(max_workers=args.workers) as pool:
             futures = {pool.submit(job): items for items, job in jobs}
             for future in as_completed(futures):
-                finish(futures[future], future.result())
+                try:
+                    finish(futures[future], future.result())
+                except Exception as error:  # noqa: BLE001 - keep every finished batch, then report
+                    failures.append(str(error)[:200])
+                    if len(failures) == 1:
+                        # Stop starting new batches (usually a usage limit); let running ones finish and be saved.
+                        cancelled = sum(f.cancel() for f in futures)
+                        print(f"  batch failed, cancelled {cancelled} unstarted batches: {failures[0]}", flush=True)
+        if failures:
+            raise RuntimeError(f"{len(failures)} batch(es) failed; {scored}/{len(pending)} saved. First: {failures[0]}")
     save()
     for path, rows in inputs.items():
         print(f"wrote {outputs[path]} ({sum(row['id'] in done[path] for row in rows)}/{len(rows)} records)")
@@ -346,6 +362,7 @@ def main():
     s.add_argument("--max-tokens", type=int, default=4096, help="api backend only")
     s.add_argument("--batch-size", type=int, default=20, help="claude-code backend only")
     s.add_argument("--workers", type=int, default=4)
+    s.add_argument("--call-timeout", type=int, default=600, help="claude-code backend: seconds before a hung call is retried")
     s.add_argument("--limit", type=int, help="first N records of each input")
     s.add_argument("--env-file", help="api backend: dotenv file holding ANTHROPIC_API_KEY")
     s.add_argument("--dry-run", action="store_true")

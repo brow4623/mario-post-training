@@ -1,13 +1,13 @@
 # Week 2: RLAIF runbook
 
-Each step lists its input, what to run, and the file it hands to the next step. Steps 1 through 4 have scripts; steps 5 through 8 depend on the pod runs.
+Each step lists its input, what to run, and the file it hands to the next step. Steps 1 through 4 are done. Step 5 can start now.
 
 | Step | Owner | Input | Output |
 | --- | --- | --- | --- |
 | 1. Judge | A | `results/*_val.jsonl` | `results/judge/*_val.jsonl` (done) |
-| 2. Sample candidates | C | Mario adapter, `data/train_mario.jsonl` | `data/candidates/mario_train.jsonl` |
+| 2. Sample candidates | C | Mario adapter, `data/train_mario.jsonl` | `data/candidates/mario_train.jsonl` (done) |
 | 3. DPO trainer | B | `sft.py`, Mario adapter | `dpo.py` (ready) |
-| 4. Preference pairs | A | candidates + judge | `data/prefs.jsonl` (ready) |
+| 4. Preference pairs | A | candidates + judge | `data/prefs.jsonl` (done, 773 pairs) |
 | 5. Train | B | `dpo.py`, `data/prefs.jsonl` | RLAIF adapter release |
 | 6. Evaluate | C | RLAIF adapter, `run_evals.sh`, `judge.py` | `results/rlaif_*.jsonl`, updated table |
 | 7. Gaming check | A | 100 blinded outputs | judge vs human agreement |
@@ -67,7 +67,7 @@ python -m tests.test_dpo --write /tmp/prefs.jsonl
 python dpo.py --prefs /tmp/prefs.jsonl --model Qwen/Qwen2.5-0.5B-Instruct --output /tmp/dpo_smoke --max-examples 8 --max-steps 2 --batch-size 2 --grad-accum 1 --max-len 768
 ```
 
-## Step 4: preference pairs (ready)
+## Step 4: preference pairs (done)
 
 Two commands in `make_prefs.py`, plus one judge run between them. Person A runs these once step 2's candidates file is pushed.
 
@@ -82,5 +82,7 @@ python make_prefs.py pairs data/candidates/mario_train.jsonl results/judge/mario
 `pairs` picks, per question, the highest-scoring answer as chosen and the lowest as rejected, then applies three rules. Chosen must pass the verifier. Rejected must pass the verifier too, so the only thing DPO learns from is the persona difference. Chosen must beat rejected by at least 1 point overall. Ties break on the sum of the four criteria, then against the catchphrase-only flag. Questions that fail a rule are dropped and counted by reason in `provenance/prefs/mario_train.summary.json`.
 
 Read the summary before handing off. If `pairs_out` is well under 600, first try `--min-gap 1` with `--allow-wrong-rejected`, which lets a wrong answer be the rejected one and usually recovers many questions at the cost of mixing a math signal into the persona objective. Say which rules were used in the writeup. The output `data/prefs.jsonl` is tracked; `dpo.py` validates it again on load.
+
+**Result (2026-09-17):** 1,000 questions in, 773 pairs out under the strict rules. Dropped: 96 with no eligible rejected answer (only one correct answer, or all correct answers scored the same), 84 with no correct answer at all, 47 where the best and worst correct answers were within 1 judge point. Chosen answers average 4.39 overall, rejected 1.92; the gap is 3 or more points for 395 of the 773 pairs. No rules were relaxed. The 6,000 candidate scores took about 2.5 hours of scoring on a Max subscription with `--workers 6 --call-timeout 480`; the timeout matters, because a few Claude Code calls hang indefinitely without it.
 
 Verified end to end on a fake candidates file built from training data (Mario rewrite, plain answer, Mario with a wrong final answer, plain answer with catchphrases stapled on): the judge ranked the rewrite first every time, the wrong-answer Mario was never chosen despite scoring well on persona, and the stapled version was flagged catchphrase-only.
