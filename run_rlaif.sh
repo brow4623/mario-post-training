@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # Run from the repository root on the pinned PyTorch 2.8 / CUDA 12.8 image.
 set -euo pipefail
+results_dir=${1:-results/rlaif-new-run}
+provenance_dir=${2:-provenance/evaluation/rlaif-new-run}
 export HF_HOME=${HF_HOME:-/workspace/hf-cache}
 export TOKENIZERS_PARALLELISM=false
 export OMP_NUM_THREADS=8
@@ -25,6 +27,8 @@ for condition in rlaif mario_rlaif_baseline; do
   for split in val test; do
     python -u eval.py --data "data/${split}.jsonl" --name "${condition}_${split}" \
       --adapter "$adapter" --batch-size 16 \
-      --revision aa8e72537993ba99e69dfaafa59ed015b17504d1
+      --revision aa8e72537993ba99e69dfaafa59ed015b17504d1 \
+      --results-dir "$results_dir" --provenance-dir "$provenance_dir" \
+      --metrics-dir derived/rlaif-new-run/metrics
   done
 done

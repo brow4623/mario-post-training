@@ -1,14 +1,16 @@
-# Mario SFT on GSM8K
+# Mario post-training on GSM8K
 
-The course repository now includes the [Week 2 RLAIF work and training checklist](docs/RLAIF.md). The preference data is ready; DPO training has not run yet. The results below are from SFT.
+**RLAIF training is complete, but the automatic comparison shows no clear improvement over Mario SFT.** Test accuracy was 66.2% versus 67.0% for the matched SFT baseline, and text similarity was nearly unchanged. Persona-rubric judging is still pending. See the [RLAIF report](reports/RLAIF_RESULTS.md), [adapter release](https://github.com/harvard-cs2881f26/brown-ogbogu-tantia/releases/tag/rlaif-v1), and [runbook](docs/RLAIF.md).
+
+## Original SFT experiment
 
 **Fine-tuning helped Qwen2.5-3B-Instruct sound more like Mario, but it did not improve its math.** Mario SFT scored higher than prompting on similarity to our Mario reference answers. Its test accuracy fell from 73.0% for the original model to 66.6%.
 
 Plain-GSM8K SFT also lost accuracy, reaching 65.2%. We found no clear additional accuracy penalty from learning the persona rather than from SFT more generally.
 
-This is the SFT stage of Homework 1. We used 3,000 training examples, 500 validation questions, and 500 test questions. No RLAIF or RLVR was run.
+For the SFT stage of Homework 1, we used 3,000 training examples, 500 validation questions, and 500 test questions. The later DPO run used 773 preference pairs. No RLVR has run.
 
-## Results
+## SFT results
 
 | Model | Validation accuracy | Test accuracy | Mario-reference similarity |
 | --- | ---: | ---: | ---: |
@@ -21,9 +23,9 @@ Similarity is measured on validation answers using character n-gram TF-IDF cosin
 
 ## What to read
 
-- [Results report](reports/SFT_RESULTS.md): findings and conclusions for both hypotheses.
-- [Trained adapters](adapters/README.md): download links and checksums for Mario and plain-GSM8K LoRA weights. Course staff need access to this private repository and its releases.
-- [Model outputs](results/): all 4,000 answers from the four conditions, on validation and test.
+- [SFT report](reports/SFT_RESULTS.md) and [RLAIF report](reports/RLAIF_RESULTS.md): findings, comparisons, and remaining checks.
+- [Trained adapters](adapters/README.md): download links and checksums for Mario SFT, plain-GSM8K SFT, and RLAIF weights. Course staff need access to this private repository and its releases.
+- [Model outputs](results/): the original 4,000 SFT evaluation answers and 2,000 answers from the matched RLAIF comparison.
 - [Datasets](data/): the paired training files, validation/test files, and original GSM8K source. `train_mario.jsonl` and `train_plain.jsonl` are the files used by the training script.
 - [Evaluation protocol](docs/EVALUATION.md): scoring, prompts, settings, and reproduction steps. The [original research plan](docs/RESEARCH_PLAN.md) is kept separately from the completed results.
 - [Provenance](provenance/README.md): run configurations, hashes, generation records, logs, and data-review caveats.
@@ -50,6 +52,6 @@ python compare.py --split test
 
 ## Bottom line
 
-We achieved a stronger Mario voice, though it was inconsistent. We did not achieve better math accuracy. The plain-SFT control prevents us from blaming that decline specifically on persona training.
+SFT produced a stronger but inconsistent Mario voice and lower math accuracy. DPO has not shown a clear additional benefit in the completed automatic checks; persona-rubric judging remains to be done.
 
 GSM8K: Cobbe et al. (2021), [Training Verifiers to Solve Math Word Problems](https://arxiv.org/abs/2110.14168). The source revision and hashes are recorded in provenance; the upstream license is in [data/raw/LICENSE](data/raw/LICENSE). This is an unofficial educational Mario experiment, not endorsed by Nintendo.

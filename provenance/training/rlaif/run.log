@@ -1,0 +1,764 @@
+Collecting torch==2.8.0 (from -r requirements-rlaif.txt (line 2))
+  Downloading torch-2.8.0-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (30 kB)
+Collecting transformers==5.17.0 (from -r requirements-rlaif.txt (line 3))
+  Downloading transformers-5.17.0-py3-none-any.whl.metadata (32 kB)
+Collecting datasets==5.0.1 (from -r requirements-rlaif.txt (line 4))
+  Downloading datasets-5.0.1-py3-none-any.whl.metadata (23 kB)
+Collecting accelerate==1.15.0 (from -r requirements-rlaif.txt (line 5))
+  Downloading accelerate-1.15.0-py3-none-any.whl.metadata (19 kB)
+Collecting peft==0.21.0 (from -r requirements-rlaif.txt (line 6))
+  Downloading peft-0.21.0-py3-none-any.whl.metadata (15 kB)
+Collecting trl==1.13.0 (from -r requirements-rlaif.txt (line 7))
+  Downloading trl-1.13.0-py3-none-any.whl.metadata (12 kB)
+Collecting scikit-learn==1.7.2 (from -r requirements-rlaif.txt (line 8))
+  Downloading scikit_learn-1.7.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (11 kB)
+Requirement already satisfied: filelock in /usr/local/lib/python3.11/dist-packages (from torch==2.8.0->-r requirements-rlaif.txt (line 2)) (3.16.1)
+Requirement already satisfied: typing-extensions>=4.10.0 in /usr/local/lib/python3.11/dist-packages (from torch==2.8.0->-r requirements-rlaif.txt (line 2)) (4.12.2)
+Requirement already satisfied: sympy>=1.13.3 in /usr/local/lib/python3.11/dist-packages (from torch==2.8.0->-r requirements-rlaif.txt (line 2)) (1.13.3)
+Requirement already satisfied: networkx in /usr/local/lib/python3.11/dist-packages (from torch==2.8.0->-r requirements-rlaif.txt (line 2)) (3.4.2)
+Requirement already satisfied: jinja2 in /usr/local/lib/python3.11/dist-packages (from torch==2.8.0->-r requirements-rlaif.txt (line 2)) (3.1.4)
+Requirement already satisfied: fsspec in /usr/local/lib/python3.11/dist-packages (from torch==2.8.0->-r requirements-rlaif.txt (line 2)) (2024.10.0)
+Collecting nvidia-cuda-nvrtc-cu12==12.8.93 (from torch==2.8.0->-r requirements-rlaif.txt (line 2))
+  Downloading nvidia_cuda_nvrtc_cu12-12.8.93-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl.metadata (1.7 kB)
+Collecting nvidia-cuda-runtime-cu12==12.8.90 (from torch==2.8.0->-r requirements-rlaif.txt (line 2))
+  Downloading nvidia_cuda_runtime_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.7 kB)
+Collecting nvidia-cuda-cupti-cu12==12.8.90 (from torch==2.8.0->-r requirements-rlaif.txt (line 2))
+  Downloading nvidia_cuda_cupti_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.7 kB)
+Collecting nvidia-cudnn-cu12==9.10.2.21 (from torch==2.8.0->-r requirements-rlaif.txt (line 2))
+  Downloading nvidia_cudnn_cu12-9.10.2.21-py3-none-manylinux_2_27_x86_64.whl.metadata (1.8 kB)
+Collecting nvidia-cublas-cu12==12.8.4.1 (from torch==2.8.0->-r requirements-rlaif.txt (line 2))
+  Downloading nvidia_cublas_cu12-12.8.4.1-py3-none-manylinux_2_27_x86_64.whl.metadata (1.7 kB)
+Collecting nvidia-cufft-cu12==11.3.3.83 (from torch==2.8.0->-r requirements-rlaif.txt (line 2))
+  Downloading nvidia_cufft_cu12-11.3.3.83-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.7 kB)
+Collecting nvidia-curand-cu12==10.3.9.90 (from torch==2.8.0->-r requirements-rlaif.txt (line 2))
+  Downloading nvidia_curand_cu12-10.3.9.90-py3-none-manylinux_2_27_x86_64.whl.metadata (1.7 kB)
+Collecting nvidia-cusolver-cu12==11.7.3.90 (from torch==2.8.0->-r requirements-rlaif.txt (line 2))
+  Downloading nvidia_cusolver_cu12-11.7.3.90-py3-none-manylinux_2_27_x86_64.whl.metadata (1.8 kB)
+Collecting nvidia-cusparse-cu12==12.5.8.93 (from torch==2.8.0->-r requirements-rlaif.txt (line 2))
+  Downloading nvidia_cusparse_cu12-12.5.8.93-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.8 kB)
+Collecting nvidia-cusparselt-cu12==0.7.1 (from torch==2.8.0->-r requirements-rlaif.txt (line 2))
+  Downloading nvidia_cusparselt_cu12-0.7.1-py3-none-manylinux2014_x86_64.whl.metadata (7.0 kB)
+Collecting nvidia-nccl-cu12==2.27.3 (from torch==2.8.0->-r requirements-rlaif.txt (line 2))
+  Downloading nvidia_nccl_cu12-2.27.3-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.0 kB)
+Collecting nvidia-nvtx-cu12==12.8.90 (from torch==2.8.0->-r requirements-rlaif.txt (line 2))
+  Downloading nvidia_nvtx_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.8 kB)
+Collecting nvidia-nvjitlink-cu12==12.8.93 (from torch==2.8.0->-r requirements-rlaif.txt (line 2))
+  Downloading nvidia_nvjitlink_cu12-12.8.93-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl.metadata (1.7 kB)
+Collecting nvidia-cufile-cu12==1.13.1.3 (from torch==2.8.0->-r requirements-rlaif.txt (line 2))
+  Downloading nvidia_cufile_cu12-1.13.1.3-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.7 kB)
+Collecting triton==3.4.0 (from torch==2.8.0->-r requirements-rlaif.txt (line 2))
+  Downloading triton-3.4.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (1.7 kB)
+Collecting huggingface-hub<2.0,>=1.5.0 (from transformers==5.17.0->-r requirements-rlaif.txt (line 3))
+  Downloading huggingface_hub-1.32.0-py3-none-any.whl.metadata (16 kB)
+Requirement already satisfied: numpy>=1.17 in /usr/local/lib/python3.11/dist-packages (from transformers==5.17.0->-r requirements-rlaif.txt (line 3)) (2.1.2)
+Requirement already satisfied: packaging>=20.0 in /usr/local/lib/python3.11/dist-packages (from transformers==5.17.0->-r requirements-rlaif.txt (line 3)) (24.2)
+Requirement already satisfied: pyyaml>=5.1 in /usr/local/lib/python3.11/dist-packages (from transformers==5.17.0->-r requirements-rlaif.txt (line 3)) (6.0.2)
+Collecting regex>=2025.10.22 (from transformers==5.17.0->-r requirements-rlaif.txt (line 3))
+  Downloading regex-2026.9.10-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (40 kB)
+Collecting tokenizers<0.24.0,>=0.23.1 (from transformers==5.17.0->-r requirements-rlaif.txt (line 3))
+  Downloading tokenizers-0.23.2-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (9.8 kB)
+Collecting typer (from transformers==5.17.0->-r requirements-rlaif.txt (line 3))
+  Downloading typer-0.27.2-py3-none-any.whl.metadata (16 kB)
+Collecting safetensors>=0.8.0 (from transformers==5.17.0->-r requirements-rlaif.txt (line 3))
+  Downloading safetensors-0.8.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.2 kB)
+Collecting tqdm>=4.60 (from transformers==5.17.0->-r requirements-rlaif.txt (line 3))
+  Downloading tqdm-4.70.1-py3-none-any.whl.metadata (57 kB)
+Collecting pyarrow>=21.0.0 (from datasets==5.0.1->-r requirements-rlaif.txt (line 4))
+  Downloading pyarrow-25.0.1-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (3.0 kB)
+Collecting dill<0.4.2,>=0.3.0 (from datasets==5.0.1->-r requirements-rlaif.txt (line 4))
+  Downloading dill-0.4.1-py3-none-any.whl.metadata (10 kB)
+Collecting pandas (from datasets==5.0.1->-r requirements-rlaif.txt (line 4))
+  Downloading pandas-3.0.6-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (79 kB)
+Requirement already satisfied: requests>=2.32.2 in /usr/local/lib/python3.11/dist-packages (from datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (2.32.3)
+Requirement already satisfied: httpx<1.0.0 in /usr/local/lib/python3.11/dist-packages (from datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (0.28.1)
+Collecting xxhash (from datasets==5.0.1->-r requirements-rlaif.txt (line 4))
+  Downloading xxhash-4.0.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (17 kB)
+Collecting multiprocess<0.70.20 (from datasets==5.0.1->-r requirements-rlaif.txt (line 4))
+  Downloading multiprocess-0.70.19-py311-none-any.whl.metadata (7.5 kB)
+Requirement already satisfied: psutil in /usr/local/lib/python3.11/dist-packages (from accelerate==1.15.0->-r requirements-rlaif.txt (line 5)) (7.0.0)
+Collecting scipy>=1.8.0 (from scikit-learn==1.7.2->-r requirements-rlaif.txt (line 8))
+  Downloading scipy-1.17.1-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (62 kB)
+Collecting joblib>=1.2.0 (from scikit-learn==1.7.2->-r requirements-rlaif.txt (line 8))
+  Downloading joblib-1.6.0-py3-none-any.whl.metadata (6.5 kB)
+Collecting threadpoolctl>=3.1.0 (from scikit-learn==1.7.2->-r requirements-rlaif.txt (line 8))
+  Downloading threadpoolctl-3.7.0-py3-none-any.whl.metadata (24 kB)
+Requirement already satisfied: setuptools>=40.8.0 in /usr/local/lib/python3.11/dist-packages (from triton==3.4.0->torch==2.8.0->-r requirements-rlaif.txt (line 2)) (77.0.1)
+Collecting aiohttp!=4.0.0a0,!=4.0.0a1 (from fsspec[http]<=2026.6.0,>=2023.1.0->datasets==5.0.1->-r requirements-rlaif.txt (line 4))
+  Downloading aiohttp-3.14.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (8.3 kB)
+Requirement already satisfied: anyio in /usr/local/lib/python3.11/dist-packages (from httpx<1.0.0->datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (4.9.0)
+Requirement already satisfied: certifi in /usr/local/lib/python3.11/dist-packages (from httpx<1.0.0->datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (2025.1.31)
+Requirement already satisfied: httpcore==1.* in /usr/local/lib/python3.11/dist-packages (from httpx<1.0.0->datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (1.0.7)
+Requirement already satisfied: idna in /usr/local/lib/python3.11/dist-packages (from httpx<1.0.0->datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (3.10)
+Requirement already satisfied: h11<0.15,>=0.13 in /usr/local/lib/python3.11/dist-packages (from httpcore==1.*->httpx<1.0.0->datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (0.14.0)
+Collecting click<9.0.0,>=8.4.2 (from huggingface-hub<2.0,>=1.5.0->transformers==5.17.0->-r requirements-rlaif.txt (line 3))
+  Downloading click-8.5.0-py3-none-any.whl.metadata (2.6 kB)
+Collecting hf-xet<2.0.0,>=1.5.2 (from huggingface-hub<2.0,>=1.5.0->transformers==5.17.0->-r requirements-rlaif.txt (line 3))
+  Downloading hf_xet-1.6.0-cp38-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (4.9 kB)
+Collecting cloudpickle>=3.0 (from joblib>=1.2.0->scikit-learn==1.7.2->-r requirements-rlaif.txt (line 8))
+  Downloading cloudpickle-3.1.2-py3-none-any.whl.metadata (7.1 kB)
+Requirement already satisfied: charset-normalizer<4,>=2 in /usr/local/lib/python3.11/dist-packages (from requests>=2.32.2->datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (3.4.1)
+Requirement already satisfied: urllib3<3,>=1.21.1 in /usr/local/lib/python3.11/dist-packages (from requests>=2.32.2->datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (2.3.0)
+Requirement already satisfied: mpmath<1.4,>=1.1.0 in /usr/local/lib/python3.11/dist-packages (from sympy>=1.13.3->torch==2.8.0->-r requirements-rlaif.txt (line 2)) (1.3.0)
+Requirement already satisfied: MarkupSafe>=2.0 in /usr/local/lib/python3.11/dist-packages (from jinja2->torch==2.8.0->-r requirements-rlaif.txt (line 2)) (2.1.5)
+Requirement already satisfied: python-dateutil>=2.8.2 in /usr/local/lib/python3.11/dist-packages (from pandas->datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (2.9.0.post0)
+Collecting shellingham>=1.3.0 (from typer->transformers==5.17.0->-r requirements-rlaif.txt (line 3))
+  Downloading shellingham-1.5.4-py2.py3-none-any.whl.metadata (3.5 kB)
+Collecting rich>=13.8.0 (from typer->transformers==5.17.0->-r requirements-rlaif.txt (line 3))
+  Downloading rich-15.0.0-py3-none-any.whl.metadata (18 kB)
+Collecting annotated-doc>=0.0.2 (from typer->transformers==5.17.0->-r requirements-rlaif.txt (line 3))
+  Downloading annotated_doc-0.0.5-py3-none-any.whl.metadata (6.5 kB)
+Collecting aiohappyeyeballs>=2.5.0 (from aiohttp!=4.0.0a0,!=4.0.0a1->fsspec[http]<=2026.6.0,>=2023.1.0->datasets==5.0.1->-r requirements-rlaif.txt (line 4))
+  Downloading aiohappyeyeballs-2.7.1-py3-none-any.whl.metadata (5.9 kB)
+Collecting aiosignal>=1.4.0 (from aiohttp!=4.0.0a0,!=4.0.0a1->fsspec[http]<=2026.6.0,>=2023.1.0->datasets==5.0.1->-r requirements-rlaif.txt (line 4))
+  Downloading aiosignal-1.4.0-py3-none-any.whl.metadata (3.7 kB)
+Requirement already satisfied: attrs>=17.3.0 in /usr/local/lib/python3.11/dist-packages (from aiohttp!=4.0.0a0,!=4.0.0a1->fsspec[http]<=2026.6.0,>=2023.1.0->datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (25.3.0)
+Collecting frozenlist>=1.1.1 (from aiohttp!=4.0.0a0,!=4.0.0a1->fsspec[http]<=2026.6.0,>=2023.1.0->datasets==5.0.1->-r requirements-rlaif.txt (line 4))
+  Downloading frozenlist-1.8.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (20 kB)
+Collecting multidict<7.0,>=4.5 (from aiohttp!=4.0.0a0,!=4.0.0a1->fsspec[http]<=2026.6.0,>=2023.1.0->datasets==5.0.1->-r requirements-rlaif.txt (line 4))
+  Downloading multidict-6.9.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (5.3 kB)
+Collecting propcache>=0.2.0 (from aiohttp!=4.0.0a0,!=4.0.0a1->fsspec[http]<=2026.6.0,>=2023.1.0->datasets==5.0.1->-r requirements-rlaif.txt (line 4))
+  Downloading propcache-0.5.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (25 kB)
+Collecting yarl<2.0,>=1.17.0 (from aiohttp!=4.0.0a0,!=4.0.0a1->fsspec[http]<=2026.6.0,>=2023.1.0->datasets==5.0.1->-r requirements-rlaif.txt (line 4))
+  Downloading yarl-1.25.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (111 kB)
+Requirement already satisfied: six>=1.5 in /usr/lib/python3/dist-packages (from python-dateutil>=2.8.2->pandas->datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (1.16.0)
+Collecting markdown-it-py>=2.2.0 (from rich>=13.8.0->typer->transformers==5.17.0->-r requirements-rlaif.txt (line 3))
+  Downloading markdown_it_py-4.2.0-py3-none-any.whl.metadata (7.4 kB)
+Requirement already satisfied: pygments<3.0.0,>=2.13.0 in /usr/local/lib/python3.11/dist-packages (from rich>=13.8.0->typer->transformers==5.17.0->-r requirements-rlaif.txt (line 3)) (2.19.1)
+Requirement already satisfied: sniffio>=1.1 in /usr/local/lib/python3.11/dist-packages (from anyio->httpx<1.0.0->datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (1.3.1)
+Collecting mdurl~=0.1 (from markdown-it-py>=2.2.0->rich>=13.8.0->typer->transformers==5.17.0->-r requirements-rlaif.txt (line 3))
+  Downloading mdurl-0.1.2-py3-none-any.whl.metadata (1.6 kB)
+Downloading torch-2.8.0-cp311-cp311-manylinux_2_28_x86_64.whl (888.1 MB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/888.1 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [91m━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m38.3/888.1 MB[0m [31m192.9 MB/s[0m eta [36m0:00:05[0m[2K   [91m━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m66.1/888.1 MB[0m [31m177.7 MB/s[0m eta [36m0:00:05[0m[2K   [91m━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m77.1/888.1 MB[0m [31m130.3 MB/s[0m eta [36m0:00:07[0m[2K   [91m━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m104.1/888.1 MB[0m [31m128.9 MB/s[0m eta [36m0:00:07[0m[2K   [91m━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m145.8/888.1 MB[0m [31m144.3 MB/s[0m eta [36m0:00:06[0m[2K   [91m━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m163.6/888.1 MB[0m [31m134.8 MB/s[0m eta [36m0:00:06[0m[2K   [91m━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m202.1/888.1 MB[0m [31m142.8 MB/s[0m eta [36m0:00:05[0m[2K   [91m━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m238.0/888.1 MB[0m [31m147.0 MB/s[0m eta [36m0:00:05[0m[2K   [91m━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m243.8/888.1 MB[0m [31m135.0 MB/s[0m eta [36m0:00:05[0m[2K   [91m━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m246.7/888.1 MB[0m [31m124.5 MB/s[0m eta [36m0:00:06[0m[2K   [91m━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m250.1/888.1 MB[0m [31m112.2 MB/s[0m eta [36m0:00:06[0m[2K   [91m━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m266.3/888.1 MB[0m [31m108.9 MB/s[0m eta [36m0:00:06[0m[2K   [91m━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m312.0/888.1 MB[0m [31m109.7 MB/s[0m eta [36m0:00:06[0m[2K   [91m━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m335.3/888.1 MB[0m [31m111.8 MB/s[0m eta [36m0:00:05[0m[2K   [91m━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━━[0m [32m363.6/888.1 MB[0m [31m115.5 MB/s[0m eta [36m0:00:05[0m[2K   [91m━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━[0m [32m392.7/888.1 MB[0m [31m113.7 MB/s[0m eta [36m0:00:05[0m[2K   [91m━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━[0m [32m428.9/888.1 MB[0m [31m119.4 MB/s[0m eta [36m0:00:04[0m[2K   [91m━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━[0m [32m429.1/888.1 MB[0m [31m111.8 MB/s[0m eta [36m0:00:05[0m[2K   [91m━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━[0m [32m453.5/888.1 MB[0m [31m104.4 MB/s[0m eta [36m0:00:05[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━[0m [32m500.2/888.1 MB[0m [31m107.7 MB/s[0m eta [36m0:00:04[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━[0m [32m531.4/888.1 MB[0m [31m144.5 MB/s[0m eta [36m0:00:03[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━[0m [32m553.6/888.1 MB[0m [31m145.8 MB/s[0m eta [36m0:00:03[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━[0m [32m554.4/888.1 MB[0m [31m124.7 MB/s[0m eta [36m0:00:03[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━[0m [32m604.2/888.1 MB[0m [31m133.7 MB/s[0m eta [36m0:00:03[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━[0m [32m651.7/888.1 MB[0m [31m140.3 MB/s[0m eta [36m0:00:02[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━[0m [32m702.5/888.1 MB[0m [31m179.4 MB/s[0m eta [36m0:00:02[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━[0m [32m735.8/888.1 MB[0m [31m169.0 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━[0m [32m775.9/888.1 MB[0m [31m181.0 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━[0m [32m792.7/888.1 MB[0m [31m161.2 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━[0m [32m824.4/888.1 MB[0m [31m191.0 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m [32m870.3/888.1 MB[0m [31m186.2 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m887.9/888.1 MB[0m [31m190.5 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m887.9/888.1 MB[0m [31m190.5 MB/s[0m eta [36m0:00:01[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m888.1/888.1 MB[0m [31m140.7 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading transformers-5.17.0-py3-none-any.whl (12.3 MB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/12.3 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m12.3/12.3 MB[0m [31m274.1 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading datasets-5.0.1-py3-none-any.whl (559 kB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/559.1 kB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m559.1/559.1 kB[0m [31m72.7 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading accelerate-1.15.0-py3-none-any.whl (394 kB)
+Downloading peft-0.21.0-py3-none-any.whl (832 kB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/832.9 kB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m832.9/832.9 kB[0m [31m126.5 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading trl-1.13.0-py3-none-any.whl (1.0 MB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/1.0 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m1.0/1.0 MB[0m [31m119.1 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading scikit_learn-1.7.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (9.7 MB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/9.7 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m9.7/9.7 MB[0m [31m142.0 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading nvidia_cublas_cu12-12.8.4.1-py3-none-manylinux_2_27_x86_64.whl (594.3 MB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/594.3 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [91m━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m72.4/594.3 MB[0m [31m364.1 MB/s[0m eta [36m0:00:02[0m[2K   [91m━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m122.7/594.3 MB[0m [31m304.9 MB/s[0m eta [36m0:00:02[0m[2K   [91m━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m166.7/594.3 MB[0m [31m274.9 MB/s[0m eta [36m0:00:02[0m[2K   [91m━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m167.0/594.3 MB[0m [31m230.4 MB/s[0m eta [36m0:00:02[0m[2K   [91m━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m200.0/594.3 MB[0m [31m197.6 MB/s[0m eta [36m0:00:02[0m[2K   [91m━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━[0m [32m265.8/594.3 MB[0m [31m218.9 MB/s[0m eta [36m0:00:02[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━[0m [32m335.5/594.3 MB[0m [31m216.2 MB/s[0m eta [36m0:00:02[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━[0m [32m377.0/594.3 MB[0m [31m209.0 MB/s[0m eta [36m0:00:02[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━[0m [32m428.3/594.3 MB[0m [31m214.9 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━[0m [32m479.7/594.3 MB[0m [31m271.2 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━[0m [32m511.7/594.3 MB[0m [31m271.4 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━[0m [32m512.5/594.3 MB[0m [31m207.0 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━[0m [32m518.0/594.3 MB[0m [31m200.8 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━[0m [32m525.3/594.3 MB[0m [31m159.5 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━[0m [32m556.8/594.3 MB[0m [31m159.3 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━[0m [32m558.6/594.3 MB[0m [31m135.6 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m594.3/594.3 MB[0m [31m133.6 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m594.3/594.3 MB[0m [31m133.6 MB/s[0m eta [36m0:00:01[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m594.3/594.3 MB[0m [31m113.6 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading nvidia_cuda_cupti_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (10.2 MB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/10.2 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m10.2/10.2 MB[0m [31m307.2 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading nvidia_cuda_nvrtc_cu12-12.8.93-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl (88.0 MB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/88.0 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━[0m [32m67.6/88.0 MB[0m [31m340.8 MB/s[0m eta [36m0:00:01[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m88.0/88.0 MB[0m [31m278.5 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading nvidia_cuda_runtime_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (954 kB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/954.8 kB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m954.8/954.8 kB[0m [31m139.8 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading nvidia_cudnn_cu12-9.10.2.21-py3-none-manylinux_2_27_x86_64.whl (706.8 MB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/706.8 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [91m━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m55.3/706.8 MB[0m [31m278.4 MB/s[0m eta [36m0:00:03[0m[2K   [91m━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m105.6/706.8 MB[0m [31m263.1 MB/s[0m eta [36m0:00:03[0m[2K   [91m━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m131.3/706.8 MB[0m [31m217.1 MB/s[0m eta [36m0:00:03[0m[2K   [91m━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m200.3/706.8 MB[0m [31m248.1 MB/s[0m eta [36m0:00:03[0m[2K   [91m━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m235.4/706.8 MB[0m [31m232.9 MB/s[0m eta [36m0:00:03[0m[2K   [91m━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━[0m [32m306.2/706.8 MB[0m [31m245.0 MB/s[0m eta [36m0:00:02[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━[0m [32m372.2/706.8 MB[0m [31m293.2 MB/s[0m eta [36m0:00:02[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━[0m [32m372.5/706.8 MB[0m [31m254.7 MB/s[0m eta [36m0:00:02[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━[0m [32m399.2/706.8 MB[0m [31m218.2 MB/s[0m eta [36m0:00:02[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━[0m [32m468.7/706.8 MB[0m [31m219.6 MB/s[0m eta [36m0:00:02[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━[0m [32m510.4/706.8 MB[0m [31m222.3 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━[0m [32m560.5/706.8 MB[0m [31m211.0 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━[0m [32m615.0/706.8 MB[0m [31m202.9 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━[0m [32m675.3/706.8 MB[0m [31m265.6 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m706.7/706.8 MB[0m [31m265.4 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m706.7/706.8 MB[0m [31m265.4 MB/s[0m eta [36m0:00:01[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m706.8/706.8 MB[0m [31m187.9 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading nvidia_cufft_cu12-11.3.3.83-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (193.1 MB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/193.1 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [91m━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m75.5/193.1 MB[0m [31m377.6 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━[0m [32m147.1/193.1 MB[0m [31m365.5 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━[0m [32m178.5/193.1 MB[0m [31m315.7 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m192.9/193.1 MB[0m [31m275.1 MB/s[0m eta [36m0:00:01[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m193.1/193.1 MB[0m [31m234.5 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading nvidia_cufile_cu12-1.13.1.3-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (1.2 MB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/1.2 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m1.2/1.2 MB[0m [31m229.1 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading nvidia_curand_cu12-10.3.9.90-py3-none-manylinux_2_27_x86_64.whl (63.6 MB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/63.6 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━[0m [32m53.0/63.6 MB[0m [31m266.0 MB/s[0m eta [36m0:00:01[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m63.6/63.6 MB[0m [31m237.5 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading nvidia_cusolver_cu12-11.7.3.90-py3-none-manylinux_2_27_x86_64.whl (267.5 MB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/267.5 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [91m━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m63.2/267.5 MB[0m [31m316.0 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━[0m [32m143.1/267.5 MB[0m [31m355.7 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━[0m [32m225.4/267.5 MB[0m [31m372.3 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m267.4/267.5 MB[0m [31m373.7 MB/s[0m eta [36m0:00:01[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m267.5/267.5 MB[0m [31m302.9 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading nvidia_cusparse_cu12-12.5.8.93-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (288.2 MB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/288.2 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [91m━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m63.7/288.2 MB[0m [31m319.1 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━[0m [32m149.9/288.2 MB[0m [31m372.7 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━[0m [32m218.6/288.2 MB[0m [31m361.3 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m288.1/288.2 MB[0m [31m409.1 MB/s[0m eta [36m0:00:01[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m288.2/288.2 MB[0m [31m320.3 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading nvidia_cusparselt_cu12-0.7.1-py3-none-manylinux2014_x86_64.whl (287.2 MB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/287.2 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [91m━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m79.4/287.2 MB[0m [31m398.4 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━[0m [32m164.1/287.2 MB[0m [31m405.4 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━[0m [32m232.0/287.2 MB[0m [31m383.4 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m287.0/287.2 MB[0m [31m375.9 MB/s[0m eta [36m0:00:01[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m287.2/287.2 MB[0m [31m299.7 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading nvidia_nccl_cu12-2.27.3-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (322.4 MB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/322.4 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [91m━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m75.8/322.4 MB[0m [31m379.4 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━[0m [32m152.3/322.4 MB[0m [31m378.3 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━[0m [32m227.5/322.4 MB[0m [31m376.1 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━[0m [32m290.5/322.4 MB[0m [31m361.5 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m322.2/322.4 MB[0m [31m337.0 MB/s[0m eta [36m0:00:01[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m322.4/322.4 MB[0m [31m268.4 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading nvidia_nvjitlink_cu12-12.8.93-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl (39.3 MB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/39.3 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m39.3/39.3 MB[0m [31m320.9 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading nvidia_nvtx_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (89 kB)
+Downloading triton-3.4.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (155.5 MB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/155.5 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [91m━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m58.7/155.5 MB[0m [31m296.4 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━[0m [32m110.1/155.5 MB[0m [31m273.2 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━[0m [32m149.2/155.5 MB[0m [31m246.3 MB/s[0m eta [36m0:00:01[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m155.5/155.5 MB[0m [31m217.7 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading dill-0.4.1-py3-none-any.whl (120 kB)
+Downloading huggingface_hub-1.32.0-py3-none-any.whl (842 kB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/842.9 kB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m842.9/842.9 kB[0m [31m136.9 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading joblib-1.6.0-py3-none-any.whl (306 kB)
+Downloading multiprocess-0.70.19-py311-none-any.whl (144 kB)
+Downloading pyarrow-25.0.1-cp311-cp311-manylinux_2_28_x86_64.whl (50.1 MB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/50.1 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m50.1/50.1 MB[0m [31m363.0 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading regex-2026.9.10-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (802 kB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/803.0 kB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m803.0/803.0 kB[0m [31m163.7 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading safetensors-0.8.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (516 kB)
+Downloading scipy-1.17.1-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (35.3 MB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/35.3 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m35.3/35.3 MB[0m [31m259.5 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading threadpoolctl-3.7.0-py3-none-any.whl (26 kB)
+Downloading tokenizers-0.23.2-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.4 MB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/3.4 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m3.4/3.4 MB[0m [31m224.8 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading tqdm-4.70.1-py3-none-any.whl (80 kB)
+Downloading pandas-3.0.6-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (11.1 MB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/11.1 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m11.1/11.1 MB[0m [31m340.5 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading typer-0.27.2-py3-none-any.whl (123 kB)
+Downloading xxhash-4.0.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (261 kB)
+Downloading aiohttp-3.14.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (1.8 MB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/1.8 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m1.8/1.8 MB[0m [31m218.2 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading annotated_doc-0.0.5-py3-none-any.whl (5.3 kB)
+Downloading click-8.5.0-py3-none-any.whl (125 kB)
+Downloading cloudpickle-3.1.2-py3-none-any.whl (22 kB)
+Downloading hf_xet-1.6.0-cp38-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (4.5 MB)
+[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/4.5 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m4.5/4.5 MB[0m [31m238.0 MB/s[0m eta [36m0:00:00[0m
+[?25hDownloading rich-15.0.0-py3-none-any.whl (310 kB)
+Downloading shellingham-1.5.4-py2.py3-none-any.whl (9.8 kB)
+Downloading aiohappyeyeballs-2.7.1-py3-none-any.whl (15 kB)
+Downloading aiosignal-1.4.0-py3-none-any.whl (7.5 kB)
+Downloading frozenlist-1.8.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (231 kB)
+Downloading markdown_it_py-4.2.0-py3-none-any.whl (91 kB)
+Downloading multidict-6.9.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (304 kB)
+Downloading propcache-0.5.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (235 kB)
+Downloading yarl-1.25.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (117 kB)
+Downloading mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+Installing collected packages: nvidia-cusparselt-cu12, xxhash, triton, tqdm, threadpoolctl, shellingham, scipy, safetensors, regex, pyarrow, propcache, nvidia-nvtx-cu12, nvidia-nvjitlink-cu12, nvidia-nccl-cu12, nvidia-curand-cu12, nvidia-cufile-cu12, nvidia-cuda-runtime-cu12, nvidia-cuda-nvrtc-cu12, nvidia-cuda-cupti-cu12, nvidia-cublas-cu12, multidict, mdurl, hf-xet, frozenlist, dill, cloudpickle, click, annotated-doc, aiohappyeyeballs, yarl, pandas, nvidia-cusparse-cu12, nvidia-cufft-cu12, nvidia-cudnn-cu12, multiprocess, markdown-it-py, joblib, aiosignal, scikit-learn, rich, nvidia-cusolver-cu12, huggingface-hub, aiohttp, typer, torch, tokenizers, transformers, datasets, accelerate, trl, peft
+  Attempting uninstall: nvidia-cusparselt-cu12
+    Found existing installation: nvidia-cusparselt-cu12 0.6.3
+    Uninstalling nvidia-cusparselt-cu12-0.6.3:
+      Successfully uninstalled nvidia-cusparselt-cu12-0.6.3
+  Attempting uninstall: nvidia-nvtx-cu12
+    Found existing installation: nvidia-nvtx-cu12 12.8.55
+    Uninstalling nvidia-nvtx-cu12-12.8.55:
+      Successfully uninstalled nvidia-nvtx-cu12-12.8.55
+  Attempting uninstall: nvidia-nvjitlink-cu12
+    Found existing installation: nvidia-nvjitlink-cu12 12.8.61
+    Uninstalling nvidia-nvjitlink-cu12-12.8.61:
+      Successfully uninstalled nvidia-nvjitlink-cu12-12.8.61
+  Attempting uninstall: nvidia-nccl-cu12
+    Found existing installation: nvidia-nccl-cu12 2.25.1
+    Uninstalling nvidia-nccl-cu12-2.25.1:
+      Successfully uninstalled nvidia-nccl-cu12-2.25.1
+  Attempting uninstall: nvidia-curand-cu12
+    Found existing installation: nvidia-curand-cu12 10.3.9.55
+    Uninstalling nvidia-curand-cu12-10.3.9.55:
+      Successfully uninstalled nvidia-curand-cu12-10.3.9.55
+  Attempting uninstall: nvidia-cufile-cu12
+    Found existing installation: nvidia-cufile-cu12 1.13.0.11
+    Uninstalling nvidia-cufile-cu12-1.13.0.11:
+      Successfully uninstalled nvidia-cufile-cu12-1.13.0.11
+  Attempting uninstall: nvidia-cuda-runtime-cu12
+    Found existing installation: nvidia-cuda-runtime-cu12 12.8.57
+    Uninstalling nvidia-cuda-runtime-cu12-12.8.57:
+      Successfully uninstalled nvidia-cuda-runtime-cu12-12.8.57
+  Attempting uninstall: nvidia-cuda-nvrtc-cu12
+    Found existing installation: nvidia-cuda-nvrtc-cu12 12.8.61
+    Uninstalling nvidia-cuda-nvrtc-cu12-12.8.61:
+      Successfully uninstalled nvidia-cuda-nvrtc-cu12-12.8.61
+  Attempting uninstall: nvidia-cuda-cupti-cu12
+    Found existing installation: nvidia-cuda-cupti-cu12 12.8.57
+    Uninstalling nvidia-cuda-cupti-cu12-12.8.57:
+      Successfully uninstalled nvidia-cuda-cupti-cu12-12.8.57
+  Attempting uninstall: nvidia-cublas-cu12
+    Found existing installation: nvidia-cublas-cu12 12.8.3.14
+    Uninstalling nvidia-cublas-cu12-12.8.3.14:
+      Successfully uninstalled nvidia-cublas-cu12-12.8.3.14
+  Attempting uninstall: nvidia-cusparse-cu12
+    Found existing installation: nvidia-cusparse-cu12 12.5.7.53
+    Uninstalling nvidia-cusparse-cu12-12.5.7.53:
+      Successfully uninstalled nvidia-cusparse-cu12-12.5.7.53
+  Attempting uninstall: nvidia-cufft-cu12
+    Found existing installation: nvidia-cufft-cu12 11.3.3.41
+    Uninstalling nvidia-cufft-cu12-11.3.3.41:
+      Successfully uninstalled nvidia-cufft-cu12-11.3.3.41
+  Attempting uninstall: nvidia-cudnn-cu12
+    Found existing installation: nvidia-cudnn-cu12 9.8.0.87
+    Uninstalling nvidia-cudnn-cu12-9.8.0.87:
+      Successfully uninstalled nvidia-cudnn-cu12-9.8.0.87
+  Attempting uninstall: nvidia-cusolver-cu12
+    Found existing installation: nvidia-cusolver-cu12 11.7.2.55
+    Uninstalling nvidia-cusolver-cu12-11.7.2.55:
+      Successfully uninstalled nvidia-cusolver-cu12-11.7.2.55
+  Attempting uninstall: torch
+    Found existing installation: torch 2.8.0.dev20250319+cu128
+    Uninstalling torch-2.8.0.dev20250319+cu128:
+      Successfully uninstalled torch-2.8.0.dev20250319+cu128
+[31mERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+torchaudio 2.6.0.dev20250319+cu128 requires torch==2.8.0.dev20250319, but you have torch 2.8.0 which is incompatible.
+torchvision 0.22.0.dev20250319+cu128 requires torch==2.8.0.dev20250319, but you have torch 2.8.0 which is incompatible.[0m[31m
+[0mSuccessfully installed accelerate-1.15.0 aiohappyeyeballs-2.7.1 aiohttp-3.14.3 aiosignal-1.4.0 annotated-doc-0.0.5 click-8.5.0 cloudpickle-3.1.2 datasets-5.0.1 dill-0.4.1 frozenlist-1.8.0 hf-xet-1.6.0 huggingface-hub-1.32.0 joblib-1.6.0 markdown-it-py-4.2.0 mdurl-0.1.2 multidict-6.9.0 multiprocess-0.70.19 nvidia-cublas-cu12-12.8.4.1 nvidia-cuda-cupti-cu12-12.8.90 nvidia-cuda-nvrtc-cu12-12.8.93 nvidia-cuda-runtime-cu12-12.8.90 nvidia-cudnn-cu12-9.10.2.21 nvidia-cufft-cu12-11.3.3.83 nvidia-cufile-cu12-1.13.1.3 nvidia-curand-cu12-10.3.9.90 nvidia-cusolver-cu12-11.7.3.90 nvidia-cusparse-cu12-12.5.8.93 nvidia-cusparselt-cu12-0.7.1 nvidia-nccl-cu12-2.27.3 nvidia-nvjitlink-cu12-12.8.93 nvidia-nvtx-cu12-12.8.90 pandas-3.0.6 peft-0.21.0 propcache-0.5.4 pyarrow-25.0.1 regex-2026.9.10 rich-15.0.0 safetensors-0.8.0 scikit-learn-1.7.2 scipy-1.17.1 shellingham-1.5.4 threadpoolctl-3.7.0 tokenizers-0.23.2 torch-2.8.0 tqdm-4.70.1 transformers-5.17.0 triton-3.4.0 trl-1.13.0 typer-0.27.2 xxhash-4.0.1 yarl-1.25.1
+[33mWARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.[0m[33m
+[0m
+[1m[[0m[34;49mnotice[0m[1;39;49m][0m[39;49m A new release of pip is available: [0m[31;49m25.0.1[0m[39;49m -> [0m[32;49m26.2.1[0m
+[1m[[0m[34;49mnotice[0m[1;39;49m][0m[39;49m To update, run: [0m[32;49mpython -m pip install --upgrade pip[0m
+{
+  "remaining": 0,
+  "models": {
+    "gpt-6-astra": 475,
+    "claude-sonnet-5": 3025
+  },
+  "api_responses": 3064,
+  "rejected_responses": 39,
+  "usage": {
+    "input_tokens": 782636,
+    "output_tokens": 806483,
+    "cache_creation_input_tokens": 2901,
+    "cache_read_input_tokens": 8885763
+  },
+  "cached_input_fraction": 0.9187764829960812,
+  "estimated_usd": 11.4145071,
+  "cost_basis": "Sonnet5 standard rates checked2026-09-10; 5m cache. Reported usage only, not billing invoice."
+}
+{
+  "kind": "dataset_integrity_not_model_accuracy",
+  "mode": "rewrite",
+  "semantic_fidelity": "not_evaluated",
+  "persona_quality": "not_evaluated",
+  "total": 3000,
+  "passed": 3000,
+  "failed": 0,
+  "answer_preservation_rate": 1.0,
+  "expected_total": 3000,
+  "missing": 0,
+  "complete": true,
+  "generation": {
+    "model": "mixed Astra and Sonnet",
+    "reasoning_effort": "per-record",
+    "method": "475 saved Astra subagent rewrites plus validated Sonnet API rewrites",
+    "transformation": "mario-v2-context-aware-mixed",
+    "models": {
+      "gpt-6-astra": 475,
+      "claude-sonnet-5": 3025
+    },
+    "sonnet_config_hash": "e5e75a495509cdf043a560153465594b043d02fcc5ea363d2b99d885c99782c0",
+    "source_shard_directory": "derived/rewrites"
+  },
+  "output_sha256": "5286a42c6d2f013e27d3e8bacf88033c4592cc0f10b499f1c519369454bb1556"
+}
+{
+  "kind": "dataset_integrity_not_model_accuracy",
+  "mode": "rewrite",
+  "semantic_fidelity": "not_evaluated",
+  "persona_quality": "not_evaluated",
+  "total": 500,
+  "passed": 500,
+  "failed": 0,
+  "answer_preservation_rate": 1.0,
+  "expected_total": 500,
+  "missing": 0,
+  "complete": true,
+  "generation": {
+    "model": "mixed Astra and Sonnet",
+    "reasoning_effort": "per-record",
+    "method": "475 saved Astra subagent rewrites plus validated Sonnet API rewrites",
+    "transformation": "mario-v2-context-aware-mixed",
+    "models": {
+      "gpt-6-astra": 475,
+      "claude-sonnet-5": 3025
+    },
+    "sonnet_config_hash": "e5e75a495509cdf043a560153465594b043d02fcc5ea363d2b99d885c99782c0",
+    "source_shard_directory": "derived/rewrites"
+  },
+  "output_sha256": "b85386f174d84dd88f71e95e5d2eee1ecde52c8c10714f47ea3b14a69899dd0b"
+}
+----------------------------------------------------------------------
+Ran 54 tests in 6.106s
+
+OK
+Rebuilt and hash-verified all four experiment datasets. No API calls were made.
+8 preference pairs from data/prefs.jsonl
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/dist-packages/transformers/utils/import_utils.py", line 2560, in __getattr__
+    module = self._get_module(self._class_to_module[name])
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/transformers/utils/import_utils.py", line 2794, in _get_module
+    raise e
+  File "/usr/local/lib/python3.11/dist-packages/transformers/utils/import_utils.py", line 2792, in _get_module
+    return importlib.import_module("." + module_name, self.__name__)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/usr/local/lib/python3.11/dist-packages/transformers/models/bloom/modeling_bloom.py", line 26, in <module>
+    from ...modeling_layers import GradientCheckpointingLayer
+  File "/usr/local/lib/python3.11/dist-packages/transformers/modeling_layers.py", line 36, in <module>
+    from .modeling_utils import LoadStateDictConfig, PreTrainedModel, _get_resolved_checkpoint_files
+  File "/usr/local/lib/python3.11/dist-packages/transformers/modeling_utils.py", line 89, in <module>
+    from .loss.loss_utils import LOSS_MAPPING
+  File "/usr/local/lib/python3.11/dist-packages/transformers/loss/loss_utils.py", line 20, in <module>
+    from .loss_d_fine import DFineForObjectDetectionLoss
+  File "/usr/local/lib/python3.11/dist-packages/transformers/loss/loss_d_fine.py", line 21, in <module>
+    from .loss_for_object_detection import box_iou
+  File "/usr/local/lib/python3.11/dist-packages/transformers/loss/loss_for_object_detection.py", line 31, in <module>
+    from transformers.image_transforms import center_to_corners_format
+  File "/usr/local/lib/python3.11/dist-packages/transformers/image_transforms.py", line 22, in <module>
+    from .image_utils import (
+  File "/usr/local/lib/python3.11/dist-packages/transformers/image_utils.py", line 54, in <module>
+    from torchvision.io import ImageReadMode, decode_image
+  File "/usr/local/lib/python3.11/dist-packages/torchvision/__init__.py", line 10, in <module>
+    from torchvision import _meta_registrations, datasets, io, models, ops, transforms, utils  # usort:skip
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/torchvision/_meta_registrations.py", line 163, in <module>
+    @torch.library.register_fake("torchvision::nms")
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/torch/library.py", line 1069, in register
+    use_lib._register_fake(
+  File "/usr/local/lib/python3.11/dist-packages/torch/library.py", line 219, in _register_fake
+    handle = entry.fake_impl.register(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/torch/_library/fake_impl.py", line 50, in register
+    if torch._C._dispatch_has_kernel_for_dispatch_key(self.qualname, "Meta"):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: operator torchvision::nms does not exist
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/workspace/hw1/dpo.py", line 134, in <module>
+    main()
+  File "/workspace/hw1/dpo.py", line 81, in main
+    from peft import LoraConfig, PeftModel
+  File "/usr/local/lib/python3.11/dist-packages/peft/__init__.py", line 17, in <module>
+    from .auto import (
+  File "/usr/local/lib/python3.11/dist-packages/peft/auto.py", line 31, in <module>
+    from .config import PeftConfig
+  File "/usr/local/lib/python3.11/dist-packages/peft/config.py", line 30, in <module>
+    from .utils import CONFIG_NAME, PeftType, TaskType
+  File "/usr/local/lib/python3.11/dist-packages/peft/utils/__init__.py", line 15, in <module>
+    from .constants import ALLOWED_COMPUTE_DTYPES, UPCAST_DTYPES
+  File "/usr/local/lib/python3.11/dist-packages/peft/utils/constants.py", line 16, in <module>
+    from transformers import BloomPreTrainedModel
+  File "/usr/local/lib/python3.11/dist-packages/transformers/utils/import_utils.py", line 2648, in __getattr__
+    raise ModuleNotFoundError(
+ModuleNotFoundError: Could not import module 'BloomPreTrainedModel'. Are this object's requirements defined correctly?
+Found existing installation: torchvision 0.22.0.dev20250319+cu128
+Uninstalling torchvision-0.22.0.dev20250319+cu128:
+  Successfully uninstalled torchvision-0.22.0.dev20250319+cu128
+Found existing installation: torchaudio 2.6.0.dev20250319+cu128
+Uninstalling torchaudio-2.6.0.dev20250319+cu128:
+  Successfully uninstalled torchaudio-2.6.0.dev20250319+cu128
+[33mWARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.[0m[33m
+[0mRequirement already satisfied: torch==2.8.0 in /usr/local/lib/python3.11/dist-packages (from -r requirements-rlaif.txt (line 2)) (2.8.0)
+Requirement already satisfied: transformers==5.17.0 in /usr/local/lib/python3.11/dist-packages (from -r requirements-rlaif.txt (line 3)) (5.17.0)
+Requirement already satisfied: datasets==5.0.1 in /usr/local/lib/python3.11/dist-packages (from -r requirements-rlaif.txt (line 4)) (5.0.1)
+Requirement already satisfied: accelerate==1.15.0 in /usr/local/lib/python3.11/dist-packages (from -r requirements-rlaif.txt (line 5)) (1.15.0)
+Requirement already satisfied: peft==0.21.0 in /usr/local/lib/python3.11/dist-packages (from -r requirements-rlaif.txt (line 6)) (0.21.0)
+Requirement already satisfied: trl==1.13.0 in /usr/local/lib/python3.11/dist-packages (from -r requirements-rlaif.txt (line 7)) (1.13.0)
+Requirement already satisfied: scikit-learn==1.7.2 in /usr/local/lib/python3.11/dist-packages (from -r requirements-rlaif.txt (line 8)) (1.7.2)
+Requirement already satisfied: filelock in /usr/local/lib/python3.11/dist-packages (from torch==2.8.0->-r requirements-rlaif.txt (line 2)) (3.16.1)
+Requirement already satisfied: typing-extensions>=4.10.0 in /usr/local/lib/python3.11/dist-packages (from torch==2.8.0->-r requirements-rlaif.txt (line 2)) (4.12.2)
+Requirement already satisfied: sympy>=1.13.3 in /usr/local/lib/python3.11/dist-packages (from torch==2.8.0->-r requirements-rlaif.txt (line 2)) (1.13.3)
+Requirement already satisfied: networkx in /usr/local/lib/python3.11/dist-packages (from torch==2.8.0->-r requirements-rlaif.txt (line 2)) (3.4.2)
+Requirement already satisfied: jinja2 in /usr/local/lib/python3.11/dist-packages (from torch==2.8.0->-r requirements-rlaif.txt (line 2)) (3.1.4)
+Requirement already satisfied: fsspec in /usr/local/lib/python3.11/dist-packages (from torch==2.8.0->-r requirements-rlaif.txt (line 2)) (2024.10.0)
+Requirement already satisfied: nvidia-cuda-nvrtc-cu12==12.8.93 in /usr/local/lib/python3.11/dist-packages (from torch==2.8.0->-r requirements-rlaif.txt (line 2)) (12.8.93)
+Requirement already satisfied: nvidia-cuda-runtime-cu12==12.8.90 in /usr/local/lib/python3.11/dist-packages (from torch==2.8.0->-r requirements-rlaif.txt (line 2)) (12.8.90)
+Requirement already satisfied: nvidia-cuda-cupti-cu12==12.8.90 in /usr/local/lib/python3.11/dist-packages (from torch==2.8.0->-r requirements-rlaif.txt (line 2)) (12.8.90)
+Requirement already satisfied: nvidia-cudnn-cu12==9.10.2.21 in /usr/local/lib/python3.11/dist-packages (from torch==2.8.0->-r requirements-rlaif.txt (line 2)) (9.10.2.21)
+Requirement already satisfied: nvidia-cublas-cu12==12.8.4.1 in /usr/local/lib/python3.11/dist-packages (from torch==2.8.0->-r requirements-rlaif.txt (line 2)) (12.8.4.1)
+Requirement already satisfied: nvidia-cufft-cu12==11.3.3.83 in /usr/local/lib/python3.11/dist-packages (from torch==2.8.0->-r requirements-rlaif.txt (line 2)) (11.3.3.83)
+Requirement already satisfied: nvidia-curand-cu12==10.3.9.90 in /usr/local/lib/python3.11/dist-packages (from torch==2.8.0->-r requirements-rlaif.txt (line 2)) (10.3.9.90)
+Requirement already satisfied: nvidia-cusolver-cu12==11.7.3.90 in /usr/local/lib/python3.11/dist-packages (from torch==2.8.0->-r requirements-rlaif.txt (line 2)) (11.7.3.90)
+Requirement already satisfied: nvidia-cusparse-cu12==12.5.8.93 in /usr/local/lib/python3.11/dist-packages (from torch==2.8.0->-r requirements-rlaif.txt (line 2)) (12.5.8.93)
+Requirement already satisfied: nvidia-cusparselt-cu12==0.7.1 in /usr/local/lib/python3.11/dist-packages (from torch==2.8.0->-r requirements-rlaif.txt (line 2)) (0.7.1)
+Requirement already satisfied: nvidia-nccl-cu12==2.27.3 in /usr/local/lib/python3.11/dist-packages (from torch==2.8.0->-r requirements-rlaif.txt (line 2)) (2.27.3)
+Requirement already satisfied: nvidia-nvtx-cu12==12.8.90 in /usr/local/lib/python3.11/dist-packages (from torch==2.8.0->-r requirements-rlaif.txt (line 2)) (12.8.90)
+Requirement already satisfied: nvidia-nvjitlink-cu12==12.8.93 in /usr/local/lib/python3.11/dist-packages (from torch==2.8.0->-r requirements-rlaif.txt (line 2)) (12.8.93)
+Requirement already satisfied: nvidia-cufile-cu12==1.13.1.3 in /usr/local/lib/python3.11/dist-packages (from torch==2.8.0->-r requirements-rlaif.txt (line 2)) (1.13.1.3)
+Requirement already satisfied: triton==3.4.0 in /usr/local/lib/python3.11/dist-packages (from torch==2.8.0->-r requirements-rlaif.txt (line 2)) (3.4.0)
+Requirement already satisfied: huggingface-hub<2.0,>=1.5.0 in /usr/local/lib/python3.11/dist-packages (from transformers==5.17.0->-r requirements-rlaif.txt (line 3)) (1.32.0)
+Requirement already satisfied: numpy>=1.17 in /usr/local/lib/python3.11/dist-packages (from transformers==5.17.0->-r requirements-rlaif.txt (line 3)) (2.1.2)
+Requirement already satisfied: packaging>=20.0 in /usr/local/lib/python3.11/dist-packages (from transformers==5.17.0->-r requirements-rlaif.txt (line 3)) (24.2)
+Requirement already satisfied: pyyaml>=5.1 in /usr/local/lib/python3.11/dist-packages (from transformers==5.17.0->-r requirements-rlaif.txt (line 3)) (6.0.2)
+Requirement already satisfied: regex>=2025.10.22 in /usr/local/lib/python3.11/dist-packages (from transformers==5.17.0->-r requirements-rlaif.txt (line 3)) (2026.9.10)
+Requirement already satisfied: tokenizers<0.24.0,>=0.23.1 in /usr/local/lib/python3.11/dist-packages (from transformers==5.17.0->-r requirements-rlaif.txt (line 3)) (0.23.2)
+Requirement already satisfied: typer in /usr/local/lib/python3.11/dist-packages (from transformers==5.17.0->-r requirements-rlaif.txt (line 3)) (0.27.2)
+Requirement already satisfied: safetensors>=0.8.0 in /usr/local/lib/python3.11/dist-packages (from transformers==5.17.0->-r requirements-rlaif.txt (line 3)) (0.8.0)
+Requirement already satisfied: tqdm>=4.60 in /usr/local/lib/python3.11/dist-packages (from transformers==5.17.0->-r requirements-rlaif.txt (line 3)) (4.70.1)
+Requirement already satisfied: pyarrow>=21.0.0 in /usr/local/lib/python3.11/dist-packages (from datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (25.0.1)
+Requirement already satisfied: dill<0.4.2,>=0.3.0 in /usr/local/lib/python3.11/dist-packages (from datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (0.4.1)
+Requirement already satisfied: pandas in /usr/local/lib/python3.11/dist-packages (from datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (3.0.6)
+Requirement already satisfied: requests>=2.32.2 in /usr/local/lib/python3.11/dist-packages (from datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (2.32.3)
+Requirement already satisfied: httpx<1.0.0 in /usr/local/lib/python3.11/dist-packages (from datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (0.28.1)
+Requirement already satisfied: xxhash in /usr/local/lib/python3.11/dist-packages (from datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (4.0.1)
+Requirement already satisfied: multiprocess<0.70.20 in /usr/local/lib/python3.11/dist-packages (from datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (0.70.19)
+Requirement already satisfied: psutil in /usr/local/lib/python3.11/dist-packages (from accelerate==1.15.0->-r requirements-rlaif.txt (line 5)) (7.0.0)
+Requirement already satisfied: scipy>=1.8.0 in /usr/local/lib/python3.11/dist-packages (from scikit-learn==1.7.2->-r requirements-rlaif.txt (line 8)) (1.17.1)
+Requirement already satisfied: joblib>=1.2.0 in /usr/local/lib/python3.11/dist-packages (from scikit-learn==1.7.2->-r requirements-rlaif.txt (line 8)) (1.6.0)
+Requirement already satisfied: threadpoolctl>=3.1.0 in /usr/local/lib/python3.11/dist-packages (from scikit-learn==1.7.2->-r requirements-rlaif.txt (line 8)) (3.7.0)
+Requirement already satisfied: setuptools>=40.8.0 in /usr/local/lib/python3.11/dist-packages (from triton==3.4.0->torch==2.8.0->-r requirements-rlaif.txt (line 2)) (77.0.1)
+Requirement already satisfied: aiohttp!=4.0.0a0,!=4.0.0a1 in /usr/local/lib/python3.11/dist-packages (from fsspec[http]<=2026.6.0,>=2023.1.0->datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (3.14.3)
+Requirement already satisfied: anyio in /usr/local/lib/python3.11/dist-packages (from httpx<1.0.0->datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (4.9.0)
+Requirement already satisfied: certifi in /usr/local/lib/python3.11/dist-packages (from httpx<1.0.0->datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (2025.1.31)
+Requirement already satisfied: httpcore==1.* in /usr/local/lib/python3.11/dist-packages (from httpx<1.0.0->datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (1.0.7)
+Requirement already satisfied: idna in /usr/local/lib/python3.11/dist-packages (from httpx<1.0.0->datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (3.10)
+Requirement already satisfied: h11<0.15,>=0.13 in /usr/local/lib/python3.11/dist-packages (from httpcore==1.*->httpx<1.0.0->datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (0.14.0)
+Requirement already satisfied: click<9.0.0,>=8.4.2 in /usr/local/lib/python3.11/dist-packages (from huggingface-hub<2.0,>=1.5.0->transformers==5.17.0->-r requirements-rlaif.txt (line 3)) (8.5.0)
+Requirement already satisfied: hf-xet<2.0.0,>=1.5.2 in /usr/local/lib/python3.11/dist-packages (from huggingface-hub<2.0,>=1.5.0->transformers==5.17.0->-r requirements-rlaif.txt (line 3)) (1.6.0)
+Requirement already satisfied: cloudpickle>=3.0 in /usr/local/lib/python3.11/dist-packages (from joblib>=1.2.0->scikit-learn==1.7.2->-r requirements-rlaif.txt (line 8)) (3.1.2)
+Requirement already satisfied: charset-normalizer<4,>=2 in /usr/local/lib/python3.11/dist-packages (from requests>=2.32.2->datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (3.4.1)
+Requirement already satisfied: urllib3<3,>=1.21.1 in /usr/local/lib/python3.11/dist-packages (from requests>=2.32.2->datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (2.3.0)
+Requirement already satisfied: mpmath<1.4,>=1.1.0 in /usr/local/lib/python3.11/dist-packages (from sympy>=1.13.3->torch==2.8.0->-r requirements-rlaif.txt (line 2)) (1.3.0)
+Requirement already satisfied: MarkupSafe>=2.0 in /usr/local/lib/python3.11/dist-packages (from jinja2->torch==2.8.0->-r requirements-rlaif.txt (line 2)) (2.1.5)
+Requirement already satisfied: python-dateutil>=2.8.2 in /usr/local/lib/python3.11/dist-packages (from pandas->datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (2.9.0.post0)
+Requirement already satisfied: shellingham>=1.3.0 in /usr/local/lib/python3.11/dist-packages (from typer->transformers==5.17.0->-r requirements-rlaif.txt (line 3)) (1.5.4)
+Requirement already satisfied: rich>=13.8.0 in /usr/local/lib/python3.11/dist-packages (from typer->transformers==5.17.0->-r requirements-rlaif.txt (line 3)) (15.0.0)
+Requirement already satisfied: annotated-doc>=0.0.2 in /usr/local/lib/python3.11/dist-packages (from typer->transformers==5.17.0->-r requirements-rlaif.txt (line 3)) (0.0.5)
+Requirement already satisfied: aiohappyeyeballs>=2.5.0 in /usr/local/lib/python3.11/dist-packages (from aiohttp!=4.0.0a0,!=4.0.0a1->fsspec[http]<=2026.6.0,>=2023.1.0->datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (2.7.1)
+Requirement already satisfied: aiosignal>=1.4.0 in /usr/local/lib/python3.11/dist-packages (from aiohttp!=4.0.0a0,!=4.0.0a1->fsspec[http]<=2026.6.0,>=2023.1.0->datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (1.4.0)
+Requirement already satisfied: attrs>=17.3.0 in /usr/local/lib/python3.11/dist-packages (from aiohttp!=4.0.0a0,!=4.0.0a1->fsspec[http]<=2026.6.0,>=2023.1.0->datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (25.3.0)
+Requirement already satisfied: frozenlist>=1.1.1 in /usr/local/lib/python3.11/dist-packages (from aiohttp!=4.0.0a0,!=4.0.0a1->fsspec[http]<=2026.6.0,>=2023.1.0->datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (1.8.0)
+Requirement already satisfied: multidict<7.0,>=4.5 in /usr/local/lib/python3.11/dist-packages (from aiohttp!=4.0.0a0,!=4.0.0a1->fsspec[http]<=2026.6.0,>=2023.1.0->datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (6.9.0)
+Requirement already satisfied: propcache>=0.2.0 in /usr/local/lib/python3.11/dist-packages (from aiohttp!=4.0.0a0,!=4.0.0a1->fsspec[http]<=2026.6.0,>=2023.1.0->datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (0.5.4)
+Requirement already satisfied: yarl<2.0,>=1.17.0 in /usr/local/lib/python3.11/dist-packages (from aiohttp!=4.0.0a0,!=4.0.0a1->fsspec[http]<=2026.6.0,>=2023.1.0->datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (1.25.1)
+Requirement already satisfied: six>=1.5 in /usr/lib/python3/dist-packages (from python-dateutil>=2.8.2->pandas->datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (1.16.0)
+Requirement already satisfied: markdown-it-py>=2.2.0 in /usr/local/lib/python3.11/dist-packages (from rich>=13.8.0->typer->transformers==5.17.0->-r requirements-rlaif.txt (line 3)) (4.2.0)
+Requirement already satisfied: pygments<3.0.0,>=2.13.0 in /usr/local/lib/python3.11/dist-packages (from rich>=13.8.0->typer->transformers==5.17.0->-r requirements-rlaif.txt (line 3)) (2.19.1)
+Requirement already satisfied: sniffio>=1.1 in /usr/local/lib/python3.11/dist-packages (from anyio->httpx<1.0.0->datasets==5.0.1->-r requirements-rlaif.txt (line 4)) (1.3.1)
+Requirement already satisfied: mdurl~=0.1 in /usr/local/lib/python3.11/dist-packages (from markdown-it-py>=2.2.0->rich>=13.8.0->typer->transformers==5.17.0->-r requirements-rlaif.txt (line 3)) (0.1.2)
+[33mWARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.[0m[33m
+[0m
+[1m[[0m[34;49mnotice[0m[1;39;49m][0m[39;49m A new release of pip is available: [0m[31;49m25.0.1[0m[39;49m -> [0m[32;49m26.2.1[0m
+[1m[[0m[34;49mnotice[0m[1;39;49m][0m[39;49m To update, run: [0m[32;49mpython -m pip install --upgrade pip[0m
+----------------------------------------------------------------------
+Ran 54 tests in 2.002s
+
+OK
+8 preference pairs from data/prefs.jsonl
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]Fetching 2 files:  50%|█████     | 1/2 [00:47<00:47, 47.87s/it]Fetching 2 files: 100%|██████████| 2/2 [00:55<00:00, 23.91s/it]Fetching 2 files: 100%|██████████| 2/2 [00:55<00:00, 27.50s/it]
+Loading weights:   0%|          | 0/434 [00:00<?, ?it/s]Loading weights:  94%|█████████▍| 408/434 [00:00<00:00, 4071.63it/s]Loading weights: 100%|██████████| 434/434 [00:00<00:00, 4045.39it/s]
+Loading weights:   0%|          | 0/434 [00:00<?, ?it/s]Loading weights: 100%|██████████| 434/434 [00:00<00:00, 4598.45it/s]
+Tokenizing train dataset (num_proc=1):   0%|          | 0/8 [00:00<?, ? examples/s]Tokenizing train dataset (num_proc=1): 100%|██████████| 8/8 [00:02<00:00,  3.22 examples/s]Tokenizing train dataset (num_proc=1): 100%|██████████| 8/8 [00:03<00:00,  2.54 examples/s]
+Dropping fully truncated examples from train dataset (num_proc=1):   0%|          | 0/8 [00:00<?, ? examples/s]Dropping fully truncated examples from train dataset (num_proc=1): 100%|██████████| 8/8 [00:00<00:00, 13.72 examples/s]Dropping fully truncated examples from train dataset (num_proc=1): 100%|██████████| 8/8 [00:01<00:00,  6.39 examples/s]
+trainable params: 29,933,568 || all params: 3,115,872,256 || trainable%: 0.9607
+[transformers] The tokenizer has new PAD/BOS/EOS tokens that differ from the model config and generation config. The model config and generation config were aligned accordingly, being updated with the tokenizer's values. Updated tokens: {'bos_token_id': None}.
+  0%|          | 0/2 [00:00<?, ?it/s] 50%|█████     | 1/2 [00:01<00:01,  1.33s/it]                                             {'loss': '0.697', 'grad_norm': '19.83', 'learning_rate': '5e-06', 'entropy': '0.7883', 'num_tokens': '804', 'logits/chosen': '-0.5281', 'logits/rejected': '-0.2314', 'mean_token_accuracy': '0.7531', 'rewards/chosen': '0.01949', 'rewards/rejected': '0.02712', 'rewards/accuracies': '0.5', 'rewards/margins': '-0.007631', 'logps/chosen': '-116.6', 'logps/rejected': '-76.8', 'epoch': '0.25'}
+ 50%|█████     | 1/2 [00:01<00:01,  1.33s/it]100%|██████████| 2/2 [00:01<00:00,  1.18it/s]                                             {'loss': '0.7118', 'grad_norm': '20.11', 'learning_rate': '2.5e-06', 'entropy': '0.9228', 'num_tokens': '1597', 'logits/chosen': '-0.3913', 'logits/rejected': '-0.2344', 'mean_token_accuracy': '0.6854', 'rewards/chosen': '-0.04866', 'rewards/rejected': '-0.01198', 'rewards/accuracies': '0.5', 'rewards/margins': '-0.03668', 'logps/chosen': '-158.5', 'logps/rejected': '-48.32', 'epoch': '0.5'}
+100%|██████████| 2/2 [00:01<00:00,  1.18it/s]                                             {'train_runtime': '6.131', 'train_samples_per_second': '0.652', 'train_steps_per_second': '0.326', 'train_loss': '0.7044', 'epoch': '0.5'}
+100%|██████████| 2/2 [00:06<00:00,  1.18it/s]100%|██████████| 2/2 [00:06<00:00,  3.07s/it]
+{'train_runtime': 6.1313, 'train_samples_per_second': 0.652, 'train_steps_per_second': 0.326, 'total_flos': 38031831367680.0, 'train_loss': 0.7044193744659424, 'epoch': 0.5}
+Loading weights:   0%|          | 0/434 [00:00<?, ?it/s]Loading weights:  97%|█████████▋| 421/434 [00:00<00:00, 4207.70it/s]Loading weights: 100%|██████████| 434/434 [00:00<00:00, 4215.91it/s]
+rlaif_smoke: 8/8
+{
+  "name": "rlaif_smoke",
+  "n": 8,
+  "accuracy": 0.625,
+  "format_success": 1.0,
+  "hit_token_cap": 0,
+  "generation_seconds": 6.757175171747804
+}
+773 preference pairs from data/prefs.jsonl
+Loading weights:   0%|          | 0/434 [00:00<?, ?it/s]Loading weights:  91%|█████████▏| 397/434 [00:00<00:00, 3959.42it/s]Loading weights: 100%|██████████| 434/434 [00:00<00:00, 3905.45it/s]
+Loading weights:   0%|          | 0/434 [00:00<?, ?it/s]Loading weights:  92%|█████████▏| 399/434 [00:00<00:00, 3954.25it/s]Loading weights: 100%|██████████| 434/434 [00:00<00:00, 3936.07it/s]
+Tokenizing train dataset (num_proc=1):   0%|          | 0/773 [00:00<?, ? examples/s]Tokenizing train dataset (num_proc=1):   5%|▍         | 38/773 [00:02<00:45, 16.18 examples/s]Tokenizing train dataset (num_proc=1):  20%|█▉        | 153/773 [00:02<00:07, 78.89 examples/s]Tokenizing train dataset (num_proc=1):  30%|██▉       | 229/773 [00:02<00:04, 128.92 examples/s]Tokenizing train dataset (num_proc=1):  39%|███▉      | 304/773 [00:02<00:02, 187.84 examples/s]Tokenizing train dataset (num_proc=1):  48%|████▊     | 373/773 [00:02<00:01, 247.41 examples/s]Tokenizing train dataset (num_proc=1):  57%|█████▋    | 444/773 [00:02<00:01, 314.29 examples/s]Tokenizing train dataset (num_proc=1):  66%|██████▋   | 514/773 [00:03<00:00, 379.43 examples/s]Tokenizing train dataset (num_proc=1):  76%|███████▌  | 588/773 [00:03<00:00, 449.18 examples/s]Tokenizing train dataset (num_proc=1):  90%|████████▉ | 693/773 [00:03<00:00, 521.68 examples/s]Tokenizing train dataset (num_proc=1):  99%|█████████▉| 766/773 [00:03<00:00, 564.00 examples/s]Tokenizing train dataset (num_proc=1): 100%|██████████| 773/773 [00:04<00:00, 188.83 examples/s]
+Dropping fully truncated examples from train dataset (num_proc=1):   0%|          | 0/773 [00:00<?, ? examples/s]Dropping fully truncated examples from train dataset (num_proc=1): 100%|██████████| 773/773 [00:00<00:00, 1409.40 examples/s]Dropping fully truncated examples from train dataset (num_proc=1): 100%|██████████| 773/773 [00:01<00:00, 632.76 examples/s] 
+trainable params: 29,933,568 || all params: 3,115,872,256 || trainable%: 0.9607
+[transformers] The tokenizer has new PAD/BOS/EOS tokens that differ from the model config and generation config. The model config and generation config were aligned accordingly, being updated with the tokenizer's values. Updated tokens: {'bos_token_id': None}.
+  0%|          | 0/49 [00:00<?, ?it/s]  2%|▏         | 1/49 [00:04<03:41,  4.61s/it]                                              {'loss': '0.682', 'grad_norm': '6.69', 'learning_rate': '0', 'entropy': '0.8624', 'num_tokens': '6720', 'logits/chosen': '-0.4258', 'logits/rejected': '-0.1981', 'mean_token_accuracy': '0.7482', 'rewards/chosen': '0.0155', 'rewards/rejected': '-0.007823', 'rewards/accuracies': '0.5625', 'rewards/margins': '0.02332', 'logps/chosen': '-98.93', 'logps/rejected': '-87.32', 'epoch': '0.02067'}
+  2%|▏         | 1/49 [00:04<03:41,  4.61s/it]  4%|▍         | 2/49 [00:08<03:19,  4.26s/it]                                              {'loss': '0.6978', 'grad_norm': '7.427', 'learning_rate': '5e-07', 'entropy': '0.8392', 'num_tokens': '1.468e+04', 'logits/chosen': '-0.416', 'logits/rejected': '-0.2513', 'mean_token_accuracy': '0.7514', 'rewards/chosen': '0.0007223', 'rewards/rejected': '0.009126', 'rewards/accuracies': '0.5625', 'rewards/margins': '-0.008403', 'logps/chosen': '-118.4', 'logps/rejected': '-102.6', 'epoch': '0.04134'}
+  4%|▍         | 2/49 [00:08<03:19,  4.26s/it]  6%|▌         | 3/49 [00:12<03:05,  4.04s/it]                                              {'loss': '0.6931', 'grad_norm': '6.994', 'learning_rate': '1e-06', 'entropy': '0.7338', 'num_tokens': '2.16e+04', 'logits/chosen': '-0.6221', 'logits/rejected': '-0.296', 'mean_token_accuracy': '0.7929', 'rewards/chosen': '0.007933', 'rewards/rejected': '0.006575', 'rewards/accuracies': '0.4375', 'rewards/margins': '0.001358', 'logps/chosen': '-87.77', 'logps/rejected': '-81.08', 'epoch': '0.06202'}
+  6%|▌         | 3/49 [00:12<03:05,  4.04s/it]  8%|▊         | 4/49 [00:16<02:59,  3.99s/it]                                              {'loss': '0.6881', 'grad_norm': '7.215', 'learning_rate': '1.5e-06', 'entropy': '0.8852', 'num_tokens': '2.869e+04', 'logits/chosen': '-0.3832', 'logits/rejected': '-0.302', 'mean_token_accuracy': '0.7186', 'rewards/chosen': '0.005347', 'rewards/rejected': '-0.00667', 'rewards/accuracies': '0.4375', 'rewards/margins': '0.01202', 'logps/chosen': '-118.3', 'logps/rejected': '-87.17', 'epoch': '0.08269'}
+  8%|▊         | 4/49 [00:16<02:59,  3.99s/it] 10%|█         | 5/49 [00:20<02:54,  3.96s/it]                                              {'loss': '0.6794', 'grad_norm': '6.498', 'learning_rate': '2e-06', 'entropy': '0.7761', 'num_tokens': '3.5e+04', 'logits/chosen': '-0.5745', 'logits/rejected': '-0.3813', 'mean_token_accuracy': '0.7729', 'rewards/chosen': '0.02693', 'rewards/rejected': '-0.001313', 'rewards/accuracies': '0.625', 'rewards/margins': '0.02825', 'logps/chosen': '-92.1', 'logps/rejected': '-66.94', 'epoch': '0.1034'}
+ 10%|█         | 5/49 [00:20<02:54,  3.96s/it] 12%|█▏        | 6/49 [00:23<02:47,  3.89s/it]                                              {'loss': '0.7073', 'grad_norm': '6.847', 'learning_rate': '2.5e-06', 'entropy': '0.8156', 'num_tokens': '4.22e+04', 'logits/chosen': '-0.4475', 'logits/rejected': '-0.2512', 'mean_token_accuracy': '0.7738', 'rewards/chosen': '-0.02059', 'rewards/rejected': '0.006496', 'rewards/accuracies': '0.25', 'rewards/margins': '-0.02709', 'logps/chosen': '-99.35', 'logps/rejected': '-84.25', 'epoch': '0.124'}
+ 12%|█▏        | 6/49 [00:23<02:47,  3.89s/it] 14%|█▍        | 7/49 [00:27<02:44,  3.92s/it]                                              {'loss': '0.6806', 'grad_norm': '7.395', 'learning_rate': '3e-06', 'entropy': '0.7835', 'num_tokens': '5.031e+04', 'logits/chosen': '-0.4968', 'logits/rejected': '-0.36', 'mean_token_accuracy': '0.7793', 'rewards/chosen': '0.02319', 'rewards/rejected': '-0.003602', 'rewards/accuracies': '0.5', 'rewards/margins': '0.02679', 'logps/chosen': '-110.1', 'logps/rejected': '-98.56', 'epoch': '0.1447'}
+ 14%|█▍        | 7/49 [00:27<02:44,  3.92s/it] 16%|█▋        | 8/49 [00:31<02:38,  3.88s/it]                                              {'loss': '0.6843', 'grad_norm': '6.631', 'learning_rate': '3.5e-06', 'entropy': '0.832', 'num_tokens': '5.719e+04', 'logits/chosen': '-0.4179', 'logits/rejected': '-0.2305', 'mean_token_accuracy': '0.7436', 'rewards/chosen': '0.01152', 'rewards/rejected': '-0.007014', 'rewards/accuracies': '0.6875', 'rewards/margins': '0.01853', 'logps/chosen': '-106.3', 'logps/rejected': '-69.84', 'epoch': '0.1654'}
+ 16%|█▋        | 8/49 [00:31<02:38,  3.88s/it] 18%|█▊        | 9/49 [00:35<02:36,  3.90s/it]                                              {'loss': '0.68', 'grad_norm': '6.97', 'learning_rate': '4e-06', 'entropy': '0.7973', 'num_tokens': '6.455e+04', 'logits/chosen': '-0.5036', 'logits/rejected': '-0.2831', 'mean_token_accuracy': '0.7865', 'rewards/chosen': '0.01857', 'rewards/rejected': '-0.008433', 'rewards/accuracies': '0.8125', 'rewards/margins': '0.027', 'logps/chosen': '-99.43', 'logps/rejected': '-91.18', 'epoch': '0.186'}
+ 18%|█▊        | 9/49 [00:35<02:36,  3.90s/it] 20%|██        | 10/49 [00:39<02:30,  3.85s/it]                                               {'loss': '0.6995', 'grad_norm': '6.656', 'learning_rate': '4.5e-06', 'entropy': '0.7556', 'num_tokens': '7.15e+04', 'logits/chosen': '-0.5396', 'logits/rejected': '-0.3953', 'mean_token_accuracy': '0.7812', 'rewards/chosen': '0.004334', 'rewards/rejected': '0.01596', 'rewards/accuracies': '0.375', 'rewards/margins': '-0.01162', 'logps/chosen': '-92.75', 'logps/rejected': '-82.45', 'epoch': '0.2067'}
+ 20%|██        | 10/49 [00:39<02:30,  3.85s/it] 22%|██▏       | 11/49 [00:43<02:27,  3.87s/it]                                               {'loss': '0.6721', 'grad_norm': '6.909', 'learning_rate': '5e-06', 'entropy': '0.8085', 'num_tokens': '7.826e+04', 'logits/chosen': '-0.4889', 'logits/rejected': '-0.2766', 'mean_token_accuracy': '0.7723', 'rewards/chosen': '0.04076', 'rewards/rejected': '-0.003772', 'rewards/accuracies': '0.75', 'rewards/margins': '0.04453', 'logps/chosen': '-93.34', 'logps/rejected': '-76.64', 'epoch': '0.2274'}
+ 22%|██▏       | 11/49 [00:43<02:27,  3.87s/it] 24%|██▍       | 12/49 [00:47<02:22,  3.84s/it]                                               {'loss': '0.6579', 'grad_norm': '7.527', 'learning_rate': '4.992e-06', 'entropy': '0.8205', 'num_tokens': '8.524e+04', 'logits/chosen': '-0.5767', 'logits/rejected': '-0.3049', 'mean_token_accuracy': '0.7717', 'rewards/chosen': '0.07962', 'rewards/rejected': '0.006708', 'rewards/accuracies': '0.75', 'rewards/margins': '0.07291', 'logps/chosen': '-103.1', 'logps/rejected': '-85.42', 'epoch': '0.2481'}
+ 24%|██▍       | 12/49 [00:47<02:22,  3.84s/it] 27%|██▋       | 13/49 [00:50<02:17,  3.81s/it]                                               {'loss': '0.6857', 'grad_norm': '7.092', 'learning_rate': '4.968e-06', 'entropy': '0.7619', 'num_tokens': '9.222e+04', 'logits/chosen': '-0.5285', 'logits/rejected': '-0.3945', 'mean_token_accuracy': '0.7721', 'rewards/chosen': '0.02151', 'rewards/rejected': '0.003574', 'rewards/accuracies': '0.5', 'rewards/margins': '0.01794', 'logps/chosen': '-95.41', 'logps/rejected': '-81.97', 'epoch': '0.2687'}
+ 27%|██▋       | 13/49 [00:50<02:17,  3.81s/it] 29%|██▊       | 14/49 [00:54<02:14,  3.84s/it]                                               {'loss': '0.6531', 'grad_norm': '6.628', 'learning_rate': '4.927e-06', 'entropy': '0.7817', 'num_tokens': '9.915e+04', 'logits/chosen': '-0.5255', 'logits/rejected': '-0.3312', 'mean_token_accuracy': '0.7655', 'rewards/chosen': '0.05064', 'rewards/rejected': '-0.03429', 'rewards/accuracies': '0.875', 'rewards/margins': '0.08493', 'logps/chosen': '-102.2', 'logps/rejected': '-68.15', 'epoch': '0.2894'}
+ 29%|██▊       | 14/49 [00:54<02:14,  3.84s/it] 31%|███       | 15/49 [00:58<02:09,  3.81s/it]                                               {'loss': '0.6778', 'grad_norm': '6.491', 'learning_rate': '4.871e-06', 'entropy': '0.794', 'num_tokens': '1.057e+05', 'logits/chosen': '-0.6079', 'logits/rejected': '-0.3743', 'mean_token_accuracy': '0.7644', 'rewards/chosen': '0.04593', 'rewards/rejected': '0.01114', 'rewards/accuracies': '0.625', 'rewards/margins': '0.03478', 'logps/chosen': '-96.05', 'logps/rejected': '-69.91', 'epoch': '0.3101'}
+ 31%|███       | 15/49 [00:58<02:09,  3.81s/it] 33%|███▎      | 16/49 [01:02<02:07,  3.85s/it]                                               {'loss': '0.6529', 'grad_norm': '6.737', 'learning_rate': '4.8e-06', 'entropy': '0.8684', 'num_tokens': '1.129e+05', 'logits/chosen': '-0.5041', 'logits/rejected': '-0.3176', 'mean_token_accuracy': '0.7375', 'rewards/chosen': '0.0834', 'rewards/rejected': '-0.002312', 'rewards/accuracies': '0.75', 'rewards/margins': '0.08571', 'logps/chosen': '-116.7', 'logps/rejected': '-84.85', 'epoch': '0.3307'}
+ 33%|███▎      | 16/49 [01:02<02:07,  3.85s/it] 35%|███▍      | 17/49 [01:06<02:02,  3.83s/it]                                               {'loss': '0.6419', 'grad_norm': '6.443', 'learning_rate': '4.714e-06', 'entropy': '0.7769', 'num_tokens': '1.196e+05', 'logits/chosen': '-0.6151', 'logits/rejected': '-0.3355', 'mean_token_accuracy': '0.7798', 'rewards/chosen': '0.08883', 'rewards/rejected': '-0.01822', 'rewards/accuracies': '0.875', 'rewards/margins': '0.107', 'logps/chosen': '-92.22', 'logps/rejected': '-75.79', 'epoch': '0.3514'}
+ 35%|███▍      | 17/49 [01:06<02:02,  3.83s/it] 37%|███▋      | 18/49 [01:10<01:59,  3.86s/it]                                               {'loss': '0.6645', 'grad_norm': '6.459', 'learning_rate': '4.613e-06', 'entropy': '0.8219', 'num_tokens': '1.262e+05', 'logits/chosen': '-0.4908', 'logits/rejected': '-0.2229', 'mean_token_accuracy': '0.7514', 'rewards/chosen': '0.04801', 'rewards/rejected': '-0.01287', 'rewards/accuracies': '0.6875', 'rewards/margins': '0.06088', 'logps/chosen': '-95.24', 'logps/rejected': '-74.18', 'epoch': '0.3721'}
+ 37%|███▋      | 18/49 [01:10<01:59,  3.86s/it] 39%|███▉      | 19/49 [01:13<01:54,  3.82s/it]                                               {'loss': '0.6414', 'grad_norm': '6.056', 'learning_rate': '4.499e-06', 'entropy': '0.8205', 'num_tokens': '1.324e+05', 'logits/chosen': '-0.5806', 'logits/rejected': '-0.2848', 'mean_token_accuracy': '0.7631', 'rewards/chosen': '0.08293', 'rewards/rejected': '-0.02641', 'rewards/accuracies': '0.75', 'rewards/margins': '0.1093', 'logps/chosen': '-89.82', 'logps/rejected': '-69.43', 'epoch': '0.3928'}
+ 39%|███▉      | 19/49 [01:13<01:54,  3.82s/it] 41%|████      | 20/49 [01:17<01:50,  3.82s/it]                                               {'loss': '0.6027', 'grad_norm': '6.907', 'learning_rate': '4.371e-06', 'entropy': '0.8059', 'num_tokens': '1.399e+05', 'logits/chosen': '-0.5648', 'logits/rejected': '-0.3545', 'mean_token_accuracy': '0.7667', 'rewards/chosen': '0.1237', 'rewards/rejected': '-0.06921', 'rewards/accuracies': '0.9375', 'rewards/margins': '0.1929', 'logps/chosen': '-111.3', 'logps/rejected': '-89.31', 'epoch': '0.4134'}
+ 41%|████      | 20/49 [01:17<01:50,  3.82s/it] 43%|████▎     | 21/49 [01:21<01:47,  3.85s/it]                                               {'loss': '0.6311', 'grad_norm': '7.228', 'learning_rate': '4.232e-06', 'entropy': '0.7776', 'num_tokens': '1.469e+05', 'logits/chosen': '-0.5837', 'logits/rejected': '-0.3183', 'mean_token_accuracy': '0.7645', 'rewards/chosen': '0.07911', 'rewards/rejected': '-0.05514', 'rewards/accuracies': '0.9375', 'rewards/margins': '0.1343', 'logps/chosen': '-101.4', 'logps/rejected': '-82.95', 'epoch': '0.4341'}
+ 43%|████▎     | 21/49 [01:21<01:47,  3.85s/it] 45%|████▍     | 22/49 [01:25<01:43,  3.83s/it]                                               {'loss': '0.6452', 'grad_norm': '6.958', 'learning_rate': '4.081e-06', 'entropy': '0.8303', 'num_tokens': '1.541e+05', 'logits/chosen': '-0.4001', 'logits/rejected': '-0.2507', 'mean_token_accuracy': '0.7572', 'rewards/chosen': '0.1054', 'rewards/rejected': '0.003298', 'rewards/accuracies': '0.8125', 'rewards/margins': '0.1021', 'logps/chosen': '-109.5', 'logps/rejected': '-91.07', 'epoch': '0.4548'}
+ 45%|████▍     | 22/49 [01:25<01:43,  3.83s/it] 47%|████▋     | 23/49 [01:29<01:40,  3.86s/it]                                               {'loss': '0.645', 'grad_norm': '6.776', 'learning_rate': '3.92e-06', 'entropy': '0.7966', 'num_tokens': '1.612e+05', 'logits/chosen': '-0.6188', 'logits/rejected': '-0.3549', 'mean_token_accuracy': '0.7721', 'rewards/chosen': '0.09762', 'rewards/rejected': '-0.007809', 'rewards/accuracies': '0.8125', 'rewards/margins': '0.1054', 'logps/chosen': '-99.88', 'logps/rejected': '-84.68', 'epoch': '0.4755'}
+ 47%|████▋     | 23/49 [01:29<01:40,  3.86s/it] 49%|████▉     | 24/49 [01:33<01:36,  3.85s/it]                                               {'loss': '0.6457', 'grad_norm': '7.192', 'learning_rate': '3.75e-06', 'entropy': '0.7871', 'num_tokens': '1.692e+05', 'logits/chosen': '-0.4428', 'logits/rejected': '-0.2688', 'mean_token_accuracy': '0.7708', 'rewards/chosen': '0.0476', 'rewards/rejected': '-0.06058', 'rewards/accuracies': '0.6875', 'rewards/margins': '0.1082', 'logps/chosen': '-114.3', 'logps/rejected': '-92.01', 'epoch': '0.4961'}
+ 49%|████▉     | 24/49 [01:33<01:36,  3.85s/it] 51%|█████     | 25/49 [01:37<01:33,  3.88s/it]                                               {'loss': '0.6154', 'grad_norm': '7.713', 'learning_rate': '3.572e-06', 'entropy': '0.8375', 'num_tokens': '1.773e+05', 'logits/chosen': '-0.4821', 'logits/rejected': '-0.3681', 'mean_token_accuracy': '0.7432', 'rewards/chosen': '0.1702', 'rewards/rejected': '-0.004552', 'rewards/accuracies': '0.8125', 'rewards/margins': '0.1747', 'logps/chosen': '-126.1', 'logps/rejected': '-118.1', 'epoch': '0.5168'}
+ 51%|█████     | 25/49 [01:37<01:33,  3.88s/it] 53%|█████▎    | 26/49 [01:41<01:29,  3.90s/it]                                               {'loss': '0.619', 'grad_norm': '6.753', 'learning_rate': '3.387e-06', 'entropy': '0.7747', 'num_tokens': '1.846e+05', 'logits/chosen': '-0.57', 'logits/rejected': '-0.3926', 'mean_token_accuracy': '0.7781', 'rewards/chosen': '0.1002', 'rewards/rejected': '-0.06194', 'rewards/accuracies': '0.8125', 'rewards/margins': '0.1621', 'logps/chosen': '-97.43', 'logps/rejected': '-88.69', 'epoch': '0.5375'}
+ 53%|█████▎    | 26/49 [01:41<01:29,  3.90s/it] 55%|█████▌    | 27/49 [01:45<01:27,  3.97s/it]                                               {'loss': '0.6161', 'grad_norm': '6.257', 'learning_rate': '3.196e-06', 'entropy': '0.7705', 'num_tokens': '1.914e+05', 'logits/chosen': '-0.6221', 'logits/rejected': '-0.4093', 'mean_token_accuracy': '0.774', 'rewards/chosen': '0.06412', 'rewards/rejected': '-0.1036', 'rewards/accuracies': '0.8125', 'rewards/margins': '0.1678', 'logps/chosen': '-94.96', 'logps/rejected': '-71.01', 'epoch': '0.5581'}
+ 55%|█████▌    | 27/49 [01:45<01:27,  3.97s/it] 57%|█████▋    | 28/49 [01:49<01:22,  3.94s/it]                                               {'loss': '0.5849', 'grad_norm': '5.946', 'learning_rate': '3e-06', 'entropy': '0.734', 'num_tokens': '1.977e+05', 'logits/chosen': '-0.7107', 'logits/rejected': '-0.3556', 'mean_token_accuracy': '0.7887', 'rewards/chosen': '0.1238', 'rewards/rejected': '-0.1145', 'rewards/accuracies': '0.875', 'rewards/margins': '0.2383', 'logps/chosen': '-87.71', 'logps/rejected': '-62.05', 'epoch': '0.5788'}
+ 57%|█████▋    | 28/49 [01:49<01:22,  3.94s/it] 59%|█████▉    | 29/49 [01:53<01:18,  3.94s/it]                                               {'loss': '0.6237', 'grad_norm': '6.451', 'learning_rate': '2.801e-06', 'entropy': '0.7175', 'num_tokens': '2.053e+05', 'logits/chosen': '-0.6766', 'logits/rejected': '-0.4311', 'mean_token_accuracy': '0.7794', 'rewards/chosen': '0.1251', 'rewards/rejected': '-0.02479', 'rewards/accuracies': '0.75', 'rewards/margins': '0.1499', 'logps/chosen': '-95.55', 'logps/rejected': '-84.09', 'epoch': '0.5995'}
+ 59%|█████▉    | 29/49 [01:53<01:18,  3.94s/it] 61%|██████    | 30/49 [01:57<01:15,  3.99s/it]                                               {'loss': '0.6109', 'grad_norm': '6.661', 'learning_rate': '2.601e-06', 'entropy': '0.7697', 'num_tokens': '2.126e+05', 'logits/chosen': '-0.6131', 'logits/rejected': '-0.3858', 'mean_token_accuracy': '0.7816', 'rewards/chosen': '0.1221', 'rewards/rejected': '-0.05986', 'rewards/accuracies': '0.875', 'rewards/margins': '0.182', 'logps/chosen': '-107.1', 'logps/rejected': '-85.78', 'epoch': '0.6202'}
+ 61%|██████    | 30/49 [01:57<01:15,  3.99s/it] 63%|██████▎   | 31/49 [02:01<01:11,  3.96s/it]                                               {'loss': '0.6274', 'grad_norm': '7.112', 'learning_rate': '2.399e-06', 'entropy': '0.8263', 'num_tokens': '2.206e+05', 'logits/chosen': '-0.4724', 'logits/rejected': '-0.2666', 'mean_token_accuracy': '0.7614', 'rewards/chosen': '0.118', 'rewards/rejected': '-0.03008', 'rewards/accuracies': '0.8125', 'rewards/margins': '0.1481', 'logps/chosen': '-124.6', 'logps/rejected': '-108.5', 'epoch': '0.6408'}
+ 63%|██████▎   | 31/49 [02:01<01:11,  3.96s/it] 65%|██████▌   | 32/49 [02:05<01:07,  4.00s/it]                                               {'loss': '0.636', 'grad_norm': '6.698', 'learning_rate': '2.199e-06', 'entropy': '0.7806', 'num_tokens': '2.277e+05', 'logits/chosen': '-0.5601', 'logits/rejected': '-0.2945', 'mean_token_accuracy': '0.7601', 'rewards/chosen': '0.06703', 'rewards/rejected': '-0.06762', 'rewards/accuracies': '0.6875', 'rewards/margins': '0.1347', 'logps/chosen': '-102.5', 'logps/rejected': '-80.57', 'epoch': '0.6615'}
+ 65%|██████▌   | 32/49 [02:05<01:07,  4.00s/it] 67%|██████▋   | 33/49 [02:08<01:02,  3.94s/it]                                               {'loss': '0.6251', 'grad_norm': '6.609', 'learning_rate': '2e-06', 'entropy': '0.7808', 'num_tokens': '2.35e+05', 'logits/chosen': '-0.5448', 'logits/rejected': '-0.3925', 'mean_token_accuracy': '0.7721', 'rewards/chosen': '0.1359', 'rewards/rejected': '-0.03245', 'rewards/accuracies': '0.75', 'rewards/margins': '0.1683', 'logps/chosen': '-102.7', 'logps/rejected': '-84.88', 'epoch': '0.6822'}
+ 67%|██████▋   | 33/49 [02:08<01:02,  3.94s/it] 69%|██████▉   | 34/49 [02:12<00:59,  3.96s/it]                                               {'loss': '0.5746', 'grad_norm': '6.726', 'learning_rate': '1.804e-06', 'entropy': '0.7885', 'num_tokens': '2.423e+05', 'logits/chosen': '-0.6258', 'logits/rejected': '-0.4012', 'mean_token_accuracy': '0.7728', 'rewards/chosen': '0.1687', 'rewards/rejected': '-0.1005', 'rewards/accuracies': '0.8125', 'rewards/margins': '0.2692', 'logps/chosen': '-102.2', 'logps/rejected': '-87.14', 'epoch': '0.7028'}
+ 69%|██████▉   | 34/49 [02:12<00:59,  3.96s/it] 71%|███████▏  | 35/49 [02:16<00:54,  3.91s/it]                                               {'loss': '0.6096', 'grad_norm': '6.198', 'learning_rate': '1.613e-06', 'entropy': '0.7317', 'num_tokens': '2.494e+05', 'logits/chosen': '-0.6004', 'logits/rejected': '-0.2932', 'mean_token_accuracy': '0.8013', 'rewards/chosen': '0.08409', 'rewards/rejected': '-0.1014', 'rewards/accuracies': '0.875', 'rewards/margins': '0.1855', 'logps/chosen': '-89.62', 'logps/rejected': '-79.9', 'epoch': '0.7235'}
+ 71%|███████▏  | 35/49 [02:16<00:54,  3.91s/it] 73%|███████▎  | 36/49 [02:20<00:50,  3.87s/it]                                               {'loss': '0.5558', 'grad_norm': '6.411', 'learning_rate': '1.428e-06', 'entropy': '0.7593', 'num_tokens': '2.566e+05', 'logits/chosen': '-0.7253', 'logits/rejected': '-0.3511', 'mean_token_accuracy': '0.7785', 'rewards/chosen': '0.1859', 'rewards/rejected': '-0.1212', 'rewards/accuracies': '0.9375', 'rewards/margins': '0.3071', 'logps/chosen': '-97.52', 'logps/rejected': '-86.08', 'epoch': '0.7442'}
+ 73%|███████▎  | 36/49 [02:20<00:50,  3.87s/it] 76%|███████▌  | 37/49 [02:24<00:46,  3.91s/it]                                               {'loss': '0.5642', 'grad_norm': '6.103', 'learning_rate': '1.25e-06', 'entropy': '0.8255', 'num_tokens': '2.642e+05', 'logits/chosen': '-0.5198', 'logits/rejected': '-0.2255', 'mean_token_accuracy': '0.7653', 'rewards/chosen': '0.1204', 'rewards/rejected': '-0.163', 'rewards/accuracies': '1', 'rewards/margins': '0.2835', 'logps/chosen': '-108.8', 'logps/rejected': '-86.66', 'epoch': '0.7649'}
+ 76%|███████▌  | 37/49 [02:24<00:46,  3.91s/it] 78%|███████▊  | 38/49 [02:28<00:42,  3.88s/it]                                               {'loss': '0.6257', 'grad_norm': '6.759', 'learning_rate': '1.08e-06', 'entropy': '0.7771', 'num_tokens': '2.715e+05', 'logits/chosen': '-0.6067', 'logits/rejected': '-0.3689', 'mean_token_accuracy': '0.7682', 'rewards/chosen': '0.06809', 'rewards/rejected': '-0.0826', 'rewards/accuracies': '0.75', 'rewards/margins': '0.1507', 'logps/chosen': '-102.1', 'logps/rejected': '-82.9', 'epoch': '0.7855'}
+ 78%|███████▊  | 38/49 [02:28<00:42,  3.88s/it] 80%|███████▉  | 39/49 [02:32<00:39,  3.90s/it]                                               {'loss': '0.6413', 'grad_norm': '7.192', 'learning_rate': '9.189e-07', 'entropy': '0.7909', 'num_tokens': '2.791e+05', 'logits/chosen': '-0.6132', 'logits/rejected': '-0.3484', 'mean_token_accuracy': '0.7735', 'rewards/chosen': '0.1055', 'rewards/rejected': '-0.01333', 'rewards/accuracies': '0.75', 'rewards/margins': '0.1189', 'logps/chosen': '-103', 'logps/rejected': '-92.87', 'epoch': '0.8062'}
+ 80%|███████▉  | 39/49 [02:32<00:39,  3.90s/it] 82%|████████▏ | 40/49 [02:36<00:34,  3.86s/it]                                               {'loss': '0.5839', 'grad_norm': '6.607', 'learning_rate': '7.682e-07', 'entropy': '0.7754', 'num_tokens': '2.861e+05', 'logits/chosen': '-0.632', 'logits/rejected': '-0.3476', 'mean_token_accuracy': '0.7616', 'rewards/chosen': '0.1721', 'rewards/rejected': '-0.0841', 'rewards/accuracies': '0.75', 'rewards/margins': '0.2562', 'logps/chosen': '-104.4', 'logps/rejected': '-86.68', 'epoch': '0.8269'}
+ 82%|████████▏ | 40/49 [02:36<00:34,  3.86s/it] 84%|████████▎ | 41/49 [02:39<00:31,  3.88s/it]                                               {'loss': '0.5585', 'grad_norm': '6.452', 'learning_rate': '6.287e-07', 'entropy': '0.7999', 'num_tokens': '2.935e+05', 'logits/chosen': '-0.5538', 'logits/rejected': '-0.2797', 'mean_token_accuracy': '0.7611', 'rewards/chosen': '0.1629', 'rewards/rejected': '-0.1477', 'rewards/accuracies': '0.9375', 'rewards/margins': '0.3107', 'logps/chosen': '-112.8', 'logps/rejected': '-90.16', 'epoch': '0.8475'}
+ 84%|████████▎ | 41/49 [02:39<00:31,  3.88s/it] 86%|████████▌ | 42/49 [02:43<00:26,  3.85s/it]                                               {'loss': '0.5734', 'grad_norm': '6.566', 'learning_rate': '5.014e-07', 'entropy': '0.7457', 'num_tokens': '3.006e+05', 'logits/chosen': '-0.6333', 'logits/rejected': '-0.3977', 'mean_token_accuracy': '0.7752', 'rewards/chosen': '0.1543', 'rewards/rejected': '-0.114', 'rewards/accuracies': '0.875', 'rewards/margins': '0.2682', 'logps/chosen': '-99.99', 'logps/rejected': '-77.22', 'epoch': '0.8682'}
+ 86%|████████▌ | 42/49 [02:43<00:26,  3.85s/it] 88%|████████▊ | 43/49 [02:47<00:23,  3.88s/it]                                               {'loss': '0.6373', 'grad_norm': '6.936', 'learning_rate': '3.87e-07', 'entropy': '0.7865', 'num_tokens': '3.082e+05', 'logits/chosen': '-0.5344', 'logits/rejected': '-0.3726', 'mean_token_accuracy': '0.7646', 'rewards/chosen': '0.1137', 'rewards/rejected': '-0.01291', 'rewards/accuracies': '0.625', 'rewards/margins': '0.1267', 'logps/chosen': '-106.5', 'logps/rejected': '-89.74', 'epoch': '0.8889'}
+ 88%|████████▊ | 43/49 [02:47<00:23,  3.88s/it] 90%|████████▉ | 44/49 [02:51<00:19,  3.85s/it]                                               {'loss': '0.6101', 'grad_norm': '5.886', 'learning_rate': '2.864e-07', 'entropy': '0.7545', 'num_tokens': '3.146e+05', 'logits/chosen': '-0.6592', 'logits/rejected': '-0.4141', 'mean_token_accuracy': '0.7711', 'rewards/chosen': '0.06183', 'rewards/rejected': '-0.124', 'rewards/accuracies': '0.875', 'rewards/margins': '0.1858', 'logps/chosen': '-85.91', 'logps/rejected': '-67.08', 'epoch': '0.9096'}
+ 90%|████████▉ | 44/49 [02:51<00:19,  3.85s/it] 92%|█████████▏| 45/49 [02:55<00:15,  3.88s/it]                                               {'loss': '0.6074', 'grad_norm': '6.599', 'learning_rate': '2.001e-07', 'entropy': '0.7358', 'num_tokens': '3.217e+05', 'logits/chosen': '-0.6635', 'logits/rejected': '-0.4939', 'mean_token_accuracy': '0.7791', 'rewards/chosen': '0.08884', 'rewards/rejected': '-0.1101', 'rewards/accuracies': '0.75', 'rewards/margins': '0.199', 'logps/chosen': '-88', 'logps/rejected': '-88.66', 'epoch': '0.9302'}
+ 92%|█████████▏| 45/49 [02:55<00:15,  3.88s/it] 94%|█████████▍| 46/49 [02:59<00:11,  3.86s/it]                                               {'loss': '0.5834', 'grad_norm': '6.767', 'learning_rate': '1.287e-07', 'entropy': '0.7581', 'num_tokens': '3.294e+05', 'logits/chosen': '-0.5449', 'logits/rejected': '-0.3052', 'mean_token_accuracy': '0.7612', 'rewards/chosen': '0.154', 'rewards/rejected': '-0.09099', 'rewards/accuracies': '0.8125', 'rewards/margins': '0.245', 'logps/chosen': '-110.8', 'logps/rejected': '-87.69', 'epoch': '0.9509'}
+ 94%|█████████▍| 46/49 [02:59<00:11,  3.86s/it] 96%|█████████▌| 47/49 [03:03<00:07,  3.85s/it]                                               {'loss': '0.6422', 'grad_norm': '6.835', 'learning_rate': '7.265e-08', 'entropy': '0.805', 'num_tokens': '3.367e+05', 'logits/chosen': '-0.465', 'logits/rejected': '-0.3461', 'mean_token_accuracy': '0.7649', 'rewards/chosen': '0.02197', 'rewards/rejected': '-0.09768', 'rewards/accuracies': '0.625', 'rewards/margins': '0.1197', 'logps/chosen': '-85.77', 'logps/rejected': '-100.2', 'epoch': '0.9716'}
+ 96%|█████████▌| 47/49 [03:03<00:07,  3.85s/it] 98%|█████████▊| 48/49 [03:06<00:03,  3.88s/it]                                               {'loss': '0.6009', 'grad_norm': '6.482', 'learning_rate': '3.237e-08', 'entropy': '0.7447', 'num_tokens': '3.433e+05', 'logits/chosen': '-0.7501', 'logits/rejected': '-0.3511', 'mean_token_accuracy': '0.7833', 'rewards/chosen': '0.07922', 'rewards/rejected': '-0.1315', 'rewards/accuracies': '0.875', 'rewards/margins': '0.2107', 'logps/chosen': '-88.59', 'logps/rejected': '-73.72', 'epoch': '0.9922'}
+ 98%|█████████▊| 48/49 [03:06<00:03,  3.88s/it]100%|██████████| 49/49 [03:08<00:00,  3.15s/it]                                               {'loss': '0.6404', 'grad_norm': '13.63', 'learning_rate': '8.107e-09', 'entropy': '0.8278', 'num_tokens': '3.456e+05', 'logits/chosen': '-0.4677', 'logits/rejected': '-0.379', 'mean_token_accuracy': '0.7608', 'rewards/chosen': '0.09507', 'rewards/rejected': '-0.02928', 'rewards/accuracies': '0.8333', 'rewards/margins': '0.1243', 'logps/chosen': '-103.6', 'logps/rejected': '-96.19', 'epoch': '1'}
+100%|██████████| 49/49 [03:08<00:00,  3.15s/it]Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+                                               {'train_runtime': '192.6', 'train_samples_per_second': '4.013', 'train_steps_per_second': '0.254', 'train_loss': '0.6363', 'epoch': '1'}
+100%|██████████| 49/49 [03:12<00:00,  3.15s/it]100%|██████████| 49/49 [03:12<00:00,  3.93s/it]
+{'train_runtime': 192.6199, 'train_samples_per_second': 4.013, 'train_steps_per_second': 0.254, 'total_flos': 7157725289349120.0, 'train_loss': 0.6362514787790726, 'epoch': 1.0}
+Loading weights:   0%|          | 0/434 [00:00<?, ?it/s]Loading weights:  96%|█████████▌| 417/434 [00:00<00:00, 4157.90it/s]Loading weights: 100%|██████████| 434/434 [00:00<00:00, 4157.30it/s]
+rlaif_val: 16/500
+rlaif_val: 32/500
+rlaif_val: 48/500
+rlaif_val: 64/500
+rlaif_val: 80/500
+rlaif_val: 96/500
+rlaif_val: 112/500
+rlaif_val: 128/500
+rlaif_val: 144/500
+rlaif_val: 160/500
+rlaif_val: 176/500
+rlaif_val: 192/500
+rlaif_val: 208/500
+rlaif_val: 224/500
+rlaif_val: 240/500
+rlaif_val: 256/500
+rlaif_val: 272/500
+rlaif_val: 288/500
+rlaif_val: 304/500
+rlaif_val: 320/500
+rlaif_val: 336/500
+rlaif_val: 352/500
+rlaif_val: 368/500
+rlaif_val: 384/500
+rlaif_val: 400/500
+rlaif_val: 416/500
+rlaif_val: 432/500
+rlaif_val: 448/500
+rlaif_val: 464/500
+rlaif_val: 480/500
+rlaif_val: 496/500
+rlaif_val: 500/500
+{
+  "name": "rlaif_val",
+  "n": 500,
+  "accuracy": 0.766,
+  "format_success": 1.0,
+  "hit_token_cap": 0,
+  "generation_seconds": 266.27689878083766
+}
+Loading weights:   0%|          | 0/434 [00:00<?, ?it/s]Loading weights:  94%|█████████▍| 410/434 [00:00<00:00, 4098.46it/s]Loading weights: 100%|██████████| 434/434 [00:00<00:00, 4084.44it/s]
+rlaif_test: 16/500
+rlaif_test: 32/500
+rlaif_test: 48/500
+rlaif_test: 64/500
+rlaif_test: 80/500
+rlaif_test: 96/500
+rlaif_test: 112/500
+rlaif_test: 128/500
+rlaif_test: 144/500
+rlaif_test: 160/500
+rlaif_test: 176/500
+rlaif_test: 192/500
+rlaif_test: 208/500
+rlaif_test: 224/500
+rlaif_test: 240/500
+rlaif_test: 256/500
+rlaif_test: 272/500
+rlaif_test: 288/500
+rlaif_test: 304/500
+rlaif_test: 320/500
+rlaif_test: 336/500
+rlaif_test: 352/500
+rlaif_test: 368/500
+rlaif_test: 384/500
+rlaif_test: 400/500
+rlaif_test: 416/500
+rlaif_test: 432/500
+rlaif_test: 448/500
+rlaif_test: 464/500
+rlaif_test: 480/500
+rlaif_test: 496/500
+rlaif_test: 500/500
+{
+  "name": "rlaif_test",
+  "n": 500,
+  "accuracy": 0.662,
+  "format_success": 0.998,
+  "hit_token_cap": 0,
+  "generation_seconds": 277.41450654901564
+}
+Loading weights:   0%|          | 0/434 [00:00<?, ?it/s]Loading weights:  92%|█████████▏| 399/434 [00:00<00:00, 3987.43it/s]Loading weights: 100%|██████████| 434/434 [00:00<00:00, 3932.96it/s]
+mario_rlaif_baseline_val: 16/500
+mario_rlaif_baseline_val: 32/500
+mario_rlaif_baseline_val: 48/500
+mario_rlaif_baseline_val: 64/500
+mario_rlaif_baseline_val: 80/500
+mario_rlaif_baseline_val: 96/500
+mario_rlaif_baseline_val: 112/500
+mario_rlaif_baseline_val: 128/500
+mario_rlaif_baseline_val: 144/500
+mario_rlaif_baseline_val: 160/500
+mario_rlaif_baseline_val: 176/500
+mario_rlaif_baseline_val: 192/500
+mario_rlaif_baseline_val: 208/500
+mario_rlaif_baseline_val: 224/500
+mario_rlaif_baseline_val: 240/500
+mario_rlaif_baseline_val: 256/500
+mario_rlaif_baseline_val: 272/500
+mario_rlaif_baseline_val: 288/500
+mario_rlaif_baseline_val: 304/500
+mario_rlaif_baseline_val: 320/500
+mario_rlaif_baseline_val: 336/500
+mario_rlaif_baseline_val: 352/500
+mario_rlaif_baseline_val: 368/500
+mario_rlaif_baseline_val: 384/500
+mario_rlaif_baseline_val: 400/500
+mario_rlaif_baseline_val: 416/500
+mario_rlaif_baseline_val: 432/500
+mario_rlaif_baseline_val: 448/500
+mario_rlaif_baseline_val: 464/500
+mario_rlaif_baseline_val: 480/500
+mario_rlaif_baseline_val: 496/500
+mario_rlaif_baseline_val: 500/500
+{
+  "name": "mario_rlaif_baseline_val",
+  "n": 500,
+  "accuracy": 0.752,
+  "format_success": 0.998,
+  "hit_token_cap": 0,
+  "generation_seconds": 252.20542562194169
+}
+Loading weights:   0%|          | 0/434 [00:00<?, ?it/s]Loading weights: 100%|██████████| 434/434 [00:00<00:00, 4475.61it/s]
+mario_rlaif_baseline_test: 16/500
+mario_rlaif_baseline_test: 32/500
+mario_rlaif_baseline_test: 48/500
+mario_rlaif_baseline_test: 64/500
+mario_rlaif_baseline_test: 80/500
+mario_rlaif_baseline_test: 96/500
+mario_rlaif_baseline_test: 112/500
+mario_rlaif_baseline_test: 128/500
+mario_rlaif_baseline_test: 144/500
+mario_rlaif_baseline_test: 160/500
+mario_rlaif_baseline_test: 176/500
+mario_rlaif_baseline_test: 192/500
+mario_rlaif_baseline_test: 208/500
+mario_rlaif_baseline_test: 224/500
+mario_rlaif_baseline_test: 240/500
+mario_rlaif_baseline_test: 256/500
+mario_rlaif_baseline_test: 272/500
+mario_rlaif_baseline_test: 288/500
+mario_rlaif_baseline_test: 304/500
+mario_rlaif_baseline_test: 320/500
+mario_rlaif_baseline_test: 336/500
+mario_rlaif_baseline_test: 352/500
+mario_rlaif_baseline_test: 368/500
+mario_rlaif_baseline_test: 384/500
+mario_rlaif_baseline_test: 400/500
+mario_rlaif_baseline_test: 416/500
+mario_rlaif_baseline_test: 432/500
+mario_rlaif_baseline_test: 448/500
+mario_rlaif_baseline_test: 464/500
+mario_rlaif_baseline_test: 480/500
+mario_rlaif_baseline_test: 496/500
+mario_rlaif_baseline_test: 500/500
+{
+  "name": "mario_rlaif_baseline_test",
+  "n": 500,
+  "accuracy": 0.67,
+  "format_success": 0.998,
+  "hit_token_cap": 0,
+  "generation_seconds": 238.66373773477972
+}

@@ -11,6 +11,19 @@ Release: https://github.com/harvard-cs2881f26/brown-ogbogu-tantia/releases/tag/a
 
 ## Using a release asset
 
+### RLAIF adapter
+
+The [RLAIF release](https://github.com/harvard-cs2881f26/brown-ogbogu-tantia/releases/tag/rlaif-v1) contains `qwen3b-gsm8k-mario-rlaif-lora.safetensors`. It continues the Mario SFT adapter with one epoch of DPO on 773 preference pairs. Use it directly over the original Qwen base, not on top of the Mario adapter.
+
+SHA-256: `278224dcc00ea44511fcce4a760e6f50e5a99813dacd73baaae1837e6f158e58`. The [training records](../provenance/training/rlaif/README.md) include settings and verification checks.
+
+```bash
+gh release download rlaif-v1 -p qwen3b-gsm8k-mario-rlaif-lora.safetensors -O adapters/rlaif/adapter_model.safetensors
+python eval.py --data data/val.jsonl --name rlaif_new --adapter adapters/rlaif --revision aa8e72537993ba99e69dfaafa59ed015b17504d1
+```
+
+### SFT adapters
+
 Download the weight file into the matching directory as `adapter_model.safetensors`, then pass the directory to `eval.py --adapter`:
 
 ```bash
