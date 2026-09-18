@@ -2,6 +2,8 @@
 
 Training and matched numeric evaluation are complete. The [results report](../reports/RLAIF_RESULTS.md) shows no clear accuracy or text-similarity improvement over Mario SFT. The new outputs still need persona-rubric judging and the blinded human check.
 
+Follow the [persona evaluation protocol](PERSONA_EVALUATION.md) for scoring, the length check, and blinded human review.
+
 ## Completed run (September 18)
 
 We rebuilt all 773 pairs from the saved candidates and judge scores without changes, checked candidate correctness again, and verified that the questions belong to training rather than validation or test. Both answers in every pair have the correct final numeric answer. The two-step GPU smoke test passed, followed by the full 49-step run. The current offline suite has 55 passing tests.

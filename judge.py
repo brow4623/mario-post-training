@@ -233,6 +233,8 @@ def call_claude_code(config, batch, text_field, batch_number, timeout=600):
 
 
 def score(args):
+    global PROVENANCE
+    PROVENANCE = Path(args.provenance_dir)
     config = judge_config(args.backend, args.model, args.effort, args.max_tokens, args.batch_size)
     config_hash = digest(config)
     inputs = {}
@@ -324,10 +326,23 @@ def bootstrap_mean(values, resamples=10000, seed=42):
 
 def summarize(args):
     files = [Path(path) for path in args.files]
-    scored = {path.stem: {r["id"]: r for r in read_jsonl(path)} for path in files}
-    ids = sorted(set.intersection(*(set(v) for v in scored.values())))
-    if not ids:
-        raise ValueError("Score files share no ids")
+    scored = {}
+    configs, models = set(), set()
+    for path in files:
+        rows = read_jsonl(path)
+        indexed = {r['id']: r for r in rows}
+        if not rows or len(indexed) != len(rows):
+            raise ValueError(f'{path}: empty scores or duplicate IDs')
+        if path.stem in scored:
+            raise ValueError('Score file names must be distinct')
+        scored[path.stem] = indexed
+        configs.update(r['config_sha256'] for r in rows)
+        models.update(r['model'] for r in rows)
+    ids = sorted(next(iter(scored.values())))
+    if any(set(records) != set(ids) for records in scored.values()):
+        raise ValueError('Score files must contain exactly the same question IDs')
+    if len(configs) != 1 or len(models) != 1:
+        raise ValueError('Score files use different judge configurations or models')
     print(f"{len(ids)} shared ids across {len(files)} files\n")
     header = f"{'file':<24}" + "".join(f"{name:>13}" for name in CRITERIA) + f"{'catchphr.':>11}"
     print(header)
@@ -365,6 +380,7 @@ def main():
     s.add_argument("--call-timeout", type=int, default=600, help="claude-code backend: seconds before a hung call is retried")
     s.add_argument("--limit", type=int, help="first N records of each input")
     s.add_argument("--env-file", help="api backend: dotenv file holding ANTHROPIC_API_KEY")
+    s.add_argument("--provenance-dir", default=str(PROVENANCE), help="Separate run records from earlier judge experiments")
     s.add_argument("--dry-run", action="store_true")
     s.set_defaults(func=score)
     m = sub.add_parser("summarize", help="per-file means and paired differences vs the first file")

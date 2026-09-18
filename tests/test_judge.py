@@ -7,6 +7,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from types import SimpleNamespace
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -71,6 +72,17 @@ class Parsing(unittest.TestCase):
 
 
 class Resumability(unittest.TestCase):
+    def test_summary_rejects_incomplete_or_mismatched_scores(self):
+        row = {'id': 'one', **GOOD, 'config_sha256': 'same', 'model': 'same'}
+        with tempfile.TemporaryDirectory() as tmp:
+            a, b = Path(tmp) / 'a.jsonl', Path(tmp) / 'b.jsonl'
+            a.write_text(json.dumps(row) + '\n', encoding='utf-8')
+            for rows in ([{**row, 'id': 'two'}], [row, row],
+                         [{**row, 'model': 'different'}], [{**row, 'config_sha256': 'different'}]):
+                b.write_text(''.join(json.dumps(r) + '\n' for r in rows), encoding='utf-8')
+                with self.assertRaises(ValueError):
+                    judge.summarize(SimpleNamespace(files=[str(a), str(b)], resamples=10))
+
     def test_dry_run_and_skip_scored(self):
         with tempfile.TemporaryDirectory() as tmp:
             inp = Path(tmp) / "x_val.jsonl"
