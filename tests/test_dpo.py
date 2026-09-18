@@ -28,6 +28,16 @@ def smoke_pairs(limit=16):
 
 
 class Loader(unittest.TestCase):
+    def test_sequence_lengths_count_tokens_not_encoding_fields(self):
+        class Tokenizer:
+            def apply_chat_template(self, messages, tokenize, return_dict):
+                self.assertions = (tokenize, return_dict)
+                return list(range(len(messages[-1]['content']))) if not return_dict else {'input_ids': [], 'attention_mask': []}
+        tok = Tokenizer()
+        rows = [{'prompt': [], 'chosen': [{'content': 'chosen'}], 'rejected': [{'content': 'reject'}]}]
+        self.assertEqual(dpo.sequence_lengths(tok, rows), [6, 6])
+        self.assertEqual(tok.assertions, (True, False))
+
     def write(self, rows):
         path = Path(self.tmp.name) / "prefs.jsonl"
         path.write_text("".join(json.dumps(r) + "\n" for r in rows), encoding="utf-8")

@@ -1,0 +1,10 @@
+{
+  "sequence_count": 1546,
+  "min_sequence_tokens": 110,
+  "max_sequence_tokens": 445,
+  "sequences_over_training_max": 0,
+  "training_max_length": 1536,
+  "prefs_sha256": "399e34ebd3f76bfdd4359952fa6972878dd47e263f5033bafd2bfad4005d0969",
+  "audit_script_sha256": "60428f55820343c6f1cd16bc41f72f6e24bf013e038f094ac562790a6032ae8a",
+  "note": "The original preflight counted BatchEncoding fields (2) rather than tokens. This corrected audit requests return_dict=False. All actual sequences fit; no training data or optimization settings changed."
+}

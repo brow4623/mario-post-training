@@ -55,6 +55,12 @@ def load_pairs(path, max_examples=None, verify=True):
              "rejected": [{"role": "assistant", "content": r["rejected"]}]} for r in rows]
 
 
+def sequence_lengths(tokenizer, pairs):
+    """Count token IDs, not fields in the tokenizer's default BatchEncoding."""
+    return [len(tokenizer.apply_chat_template(row['prompt'] + row[side], tokenize=True, return_dict=False))
+            for row in pairs for side in ('chosen', 'rejected')]
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--prefs", required=True)
@@ -97,8 +103,7 @@ def main():
     use_cuda = torch.cuda.is_available()
     dtype = torch.bfloat16 if use_cuda else torch.float32
     tok = AutoTokenizer.from_pretrained(args.model, revision=args.revision)
-    lengths = [len(tok.apply_chat_template(row['prompt'] + row[side], tokenize=True))
-               for row in pairs for side in ('chosen', 'rejected')]
+    lengths = sequence_lengths(tok, pairs)
     if max(lengths) > args.max_len:
         raise ValueError(f"Longest pair sequence is {max(lengths)} tokens; increase --max-len to avoid truncation")
     model = AutoModelForCausalLM.from_pretrained(args.model, revision=args.revision, dtype=dtype)
