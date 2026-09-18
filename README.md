@@ -1,6 +1,6 @@
 # Mario post-training on GSM8K
 
-**RLAIF training is complete, but the automatic comparison shows no clear improvement over Mario SFT.** Test accuracy was 66.2% versus 67.0% for the matched SFT baseline, and text similarity was nearly unchanged. Persona-rubric judging is still pending. See the [RLAIF report](reports/RLAIF_RESULTS.md), [adapter release](https://github.com/harvard-cs2881f26/brown-ogbogu-tantia/releases/tag/rlaif-v1), and [runbook](docs/RLAIF.md).
+**DPO improved Mario persona scores under the rubric judge, with no clear change in math accuracy.** The test persona rating rose from 2.58 to 2.93 out of 5; the gain remained positive among similar-length answers. Test accuracy was 66.2% versus 67.0% for the matched SFT baseline. Independent human review is still pending. See the [RLAIF report](reports/RLAIF_RESULTS.md), [adapter release](https://github.com/harvard-cs2881f26/brown-ogbogu-tantia/releases/tag/rlaif-v1), and [blinded review packet](reports/persona_review/review.md).
 
 ## Original SFT experiment
 
@@ -52,6 +52,6 @@ python compare.py --split test
 
 ## Bottom line
 
-SFT produced a stronger but inconsistent Mario voice and lower math accuracy. DPO has not shown a clear additional benefit in the completed automatic checks; persona-rubric judging remains to be done.
+SFT produced a stronger but inconsistent Mario voice and lower math accuracy. DPO then improved the rubric judge's persona scores without a clear math-accuracy change. Human review remains the next check.
 
 GSM8K: Cobbe et al. (2021), [Training Verifiers to Solve Math Word Problems](https://arxiv.org/abs/2110.14168). The source revision and hashes are recorded in provenance; the upstream license is in [data/raw/LICENSE](data/raw/LICENSE). This is an unofficial educational Mario experiment, not endorsed by Nintendo.

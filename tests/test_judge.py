@@ -49,6 +49,17 @@ class Blinding(unittest.TestCase):
 
 
 class Parsing(unittest.TestCase):
+    def test_budget_accounts_for_inflight_and_prior_spend(self):
+        self.assertAlmostEqual(judge.haiku_cost({'input_tokens': 1000, 'output_tokens': 100}), .0015)
+        budget = judge.Budget(.02, spent=.005)
+        body = {'max_tokens': 512, 'text': 'x' * 4000}
+        reserved = budget.reserve(body)
+        with self.assertRaises(RuntimeError):
+            budget.reserve(body)
+        budget.settle(reserved, {'input_tokens': 1000, 'output_tokens': 100})
+        self.assertAlmostEqual(budget.spent, .0065)
+        self.assertAlmostEqual(budget.reserved, 0)
+
     def test_single_rating(self):
         self.assertEqual(judge.parse_scores(json.dumps(GOOD)), GOOD)
         for bad in ({**GOOD, "voice": 6}, {**GOOD, "overall": 0}, {**GOOD, "voice": True},
@@ -72,6 +83,20 @@ class Parsing(unittest.TestCase):
 
 
 class Resumability(unittest.TestCase):
+    def test_scoring_preserves_existing_results_on_config_change_or_limit(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            inp, scored = Path(tmp) / 'input.jsonl', Path(tmp) / 'scores.jsonl'
+            inp.write_text(''.join(json.dumps({**ROW, 'id': name}) + '\n' for name in ('one', 'two')), encoding='utf-8')
+            config_hash = judge.digest(judge.judge_config('api', judge.MODEL, 'low', 4096, 20))
+            rows = [{'id': name, **GOOD, 'config_sha256': config_hash, 'text_sha256': judge.text_hash(ROW['output'])}
+                    for name in ('one', 'two')]
+            scored.write_text(''.join(json.dumps(r) + '\n' for r in rows), encoding='utf-8')
+            original = scored.read_bytes()
+            for flags in (('--limit', '1'), ('--max-tokens', '512')):
+                result = run(str(inp), '--output', str(scored), *flags)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertEqual(scored.read_bytes(), original)
+
     def test_summary_rejects_incomplete_or_mismatched_scores(self):
         row = {'id': 'one', **GOOD, 'config_sha256': 'same', 'model': 'same'}
         with tempfile.TemporaryDirectory() as tmp:

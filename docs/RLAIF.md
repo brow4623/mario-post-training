@@ -1,12 +1,12 @@
 # Week 2: RLAIF runbook
 
-Training and matched numeric evaluation are complete. The [results report](../reports/RLAIF_RESULTS.md) shows no clear accuracy or text-similarity improvement over Mario SFT. The new outputs still need persona-rubric judging and the blinded human check.
+Training and automated evaluation are complete. The [results report](../reports/RLAIF_RESULTS.md) shows improved persona-rubric scores, including among similar-length answers, with no clear math-accuracy change. The blinded human check is still pending.
 
 Follow the [persona evaluation protocol](PERSONA_EVALUATION.md) for scoring, the length check, and blinded human review.
 
 ## Completed run (September 18)
 
-We rebuilt all 773 pairs from the saved candidates and judge scores without changes, checked candidate correctness again, and verified that the questions belong to training rather than validation or test. Both answers in every pair have the correct final numeric answer. The two-step GPU smoke test passed, followed by the full 49-step run. The current offline suite has 55 passing tests.
+We rebuilt all 773 pairs from the saved candidates and judge scores without changes, checked candidate correctness again, and verified that the questions belong to training rather than validation or test. Both answers in every pair have the correct final numeric answer. The two-step GPU smoke test passed, followed by the full 49-step run. The offline tests also pass.
 
 The run used the pinned base revision `aa8e72537993ba99e69dfaafa59ed015b17504d1` and [pinned dependencies](../requirements-rlaif.txt). The [training records](../provenance/training/rlaif/README.md) include metrics, hashes, package versions, and a corrected token-length audit.
 
@@ -16,7 +16,7 @@ We used one epoch, learning rate `5e-6`, beta `0.1`, batch size 2 with 8 accumul
 
 No judge API calls are needed during DPO because the preference scores are saved. Scoring the new evaluation outputs does require the configured judge backend. Keep credentials in the ignored local `.env`, never in Git or chat.
 
-`compare.py --rlaif` compares the new adapter with `mario_rlaif_baseline`, which was evaluated under the same environment. `run_evals.sh` remains the original SFT workflow; `run_rlaif.sh` is the DPO workflow. Judge the new outputs with the frozen rubric next. The blinded human check remains separate from the automated scores.
+`compare.py --rlaif` compares the new adapter with `mario_rlaif_baseline`, which was evaluated under the same environment. `run_evals.sh` remains the original SFT workflow; `run_rlaif.sh` is the DPO workflow. `evaluate_persona.py summarize` recalculates the completed judge comparison and length check. The blinded human check remains separate from the automated scores.
 
 | Step | Owner | Input | Output |
 | --- | --- | --- | --- |
@@ -25,9 +25,9 @@ No judge API calls are needed during DPO because the preference scores are saved
 | 3. DPO trainer | B | `sft.py`, Mario adapter | `dpo.py` (ready) |
 | 4. Preference pairs | A | candidates + judge | `data/prefs.jsonl` (done, 773 pairs) |
 | 5. Train | B | `dpo.py`, `data/prefs.jsonl` | `rlaif-v1` adapter release (done) |
-| 6. Evaluate | C | RLAIF adapter, `run_rlaif.sh`, `judge.py` | Outputs and numeric comparison done; persona judging pending |
+| 6. Evaluate | C | RLAIF adapter, `run_rlaif.sh`, `judge.py` | Outputs, math comparison, and 2,000 persona ratings (done) |
 | 7. Gaming check | A | 100 blinded outputs | judge vs human agreement |
-| 8. Writeup | C | everything above | `reports/RLAIF_RESULTS.md`; update after persona judging |
+| 8. Writeup | C | everything above | `reports/RLAIF_RESULTS.md`; update after human review |
 
 ## Step 1: judge (done)
 

@@ -58,6 +58,33 @@ BATCH_INSTRUCTION = ("\n\nYou will receive several answers, each with an index. 
 LOG_LOCK = threading.Lock()
 
 
+def haiku_cost(usage):
+    """USD at Haiku 4.5 standard rates; 5-minute cache writes, no batch discount."""
+    return (usage.get('input_tokens', 0) + 1.25 * usage.get('cache_creation_input_tokens', 0)
+            + .1 * usage.get('cache_read_input_tokens', 0) + 5 * usage.get('output_tokens', 0)) / 1_000_000
+
+
+class Budget:
+    """Reserve a conservative request maximum before dispatch, including concurrent calls."""
+    def __init__(self, limit, spent=0):
+        self.limit, self.spent, self.reserved = limit, spent, 0
+        self.lock = threading.Lock()
+
+    def reserve(self, body):
+        # UTF-8 bytes upper-bound ordinary text tokens; allow extra API/schema overhead.
+        amount = ((len(json.dumps(body).encode()) + 2048) * 1.25 + body['max_tokens'] * 5) / 1_000_000
+        with self.lock:
+            if self.spent + self.reserved + amount > self.limit:
+                raise RuntimeError(f'Judge budget ceiling reached (${self.limit:.2f}); completed scores are saved')
+            self.reserved += amount
+        return amount
+
+    def settle(self, reserved, usage):
+        with self.lock:
+            self.reserved -= reserved
+            self.spent += haiku_cost(usage)
+
+
 def digest(value):
     return hashlib.sha256(json.dumps(value, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
 
@@ -147,9 +174,10 @@ def record(row, scores, config_hash, text_field, model, request_id, usage, batch
     return out
 
 
-def call_api(key, config, row, text_field):
+def call_api(key, config, row, text_field, budget=None):
     body = request_body(config, row["question"], row[text_field])
     for attempt in range(6):
+        reservation = budget.reserve(body) if budget else 0
         request = urllib.request.Request("https://api.anthropic.com/v1/messages",
             data=json.dumps(body).encode(), method="POST",
             headers={"x-api-key": key, "anthropic-version": "2023-06-01", "Content-Type": "application/json"})
@@ -158,6 +186,8 @@ def call_api(key, config, row, text_field):
             with urllib.request.urlopen(request, timeout=180) as response:
                 result = json.load(response)
         except urllib.error.HTTPError as error:
+            if budget:
+                budget.settle(reservation, {})
             detail = error.read().decode(errors="replace").replace(key, "[REDACTED]")[:600]
             log_attempt({"id": row["id"], "http_status": error.code, "error": detail})
             if error.code not in (408, 409, 429, 500, 502, 503, 504, 529):
@@ -167,9 +197,12 @@ def call_api(key, config, row, text_field):
             time.sleep(min(delay, 180) + random.random())
             continue
         except (urllib.error.URLError, TimeoutError) as error:
+            # Retain the reservation: a response lost in transit may still be billed.
             log_attempt({"id": row["id"], "transport_error": type(error).__name__})
             time.sleep(min(60, 2 ** (attempt + 1)))
             continue
+        if budget:
+            budget.settle(reservation, result.get('usage', {}))
         text = "".join(block["text"] for block in result.get("content", []) if block["type"] == "text").strip()
         event = {"id": row["id"], "request_id": result.get("id"), "model": result.get("model"),
                  "usage": result.get("usage", {}), "stop_reason": result.get("stop_reason"),
@@ -259,8 +292,11 @@ def score(args):
     for path, output in outputs.items():
         if output.exists():
             for old in read_jsonl(output):
-                if old["config_sha256"] == config_hash:
-                    done[path][old["id"]] = old
+                if old["config_sha256"] != config_hash:
+                    raise ValueError(f'{output}: judge configuration changed; choose a new output file')
+                done[path][old["id"]] = old
+            if set(done[path]) - {r['id'] for r in inputs[path]}:
+                raise ValueError(f'{output}: existing scores include rows outside the selected input; refusing to truncate')
     pending = [(path, row) for path, rows in inputs.items() for row in rows
                if row["id"] not in done[path] or done[path][row["id"]]["text_sha256"] != text_hash(row[args.text_field])]
     total = sum(len(rows) for rows in inputs.values())
@@ -276,7 +312,15 @@ def score(args):
         # Each job is (items, callable); items are (path, row) pairs and the callable returns one record per item.
         if args.backend == "api":
             key = api_key(args.env_file)
-            jobs = [([item], lambda row=item[1]: call_api(key, config, row, args.text_field)) for item in pending]
+            budget = None
+            if args.budget_usd is not None:
+                if not config['model'].startswith('claude-haiku-4-5') or args.budget_usd <= 0:
+                    raise ValueError('Budget accounting currently supports Haiku 4.5 with a positive USD limit')
+                attempts = PROVENANCE / 'attempts.jsonl'
+                spent = sum(haiku_cost(r.get('usage', {})) for r in read_jsonl(attempts)) if attempts.exists() else 0
+                budget = Budget(args.budget_usd, spent)
+                print(f'Previous recorded judge cost: ${spent:.4f}; ceiling: ${args.budget_usd:.2f}')
+            jobs = [([item], lambda row=item[1]: call_api(key, config, row, args.text_field, budget)) for item in pending]
         else:
             # Pool and shuffle across files so each batch mixes conditions; the judge sees index numbers only.
             order = list(pending)
@@ -381,6 +425,7 @@ def main():
     s.add_argument("--limit", type=int, help="first N records of each input")
     s.add_argument("--env-file", help="api backend: dotenv file holding ANTHROPIC_API_KEY")
     s.add_argument("--provenance-dir", default=str(PROVENANCE), help="Separate run records from earlier judge experiments")
+    s.add_argument("--budget-usd", type=float, help="API Haiku 4.5: cap recorded spend plus in-flight reservations")
     s.add_argument("--dry-run", action="store_true")
     s.set_defaults(func=score)
     m = sub.add_parser("summarize", help="per-file means and paired differences vs the first file")

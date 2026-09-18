@@ -1,0 +1,806 @@
+{
+  "seed": 42,
+  "rubric_sha256": "23626dde6f230f0044e2747727a8dc501af78b7b22fad747f68fc9e447ec73fd",
+  "key": [
+    {
+      "case": 1,
+      "side": "A",
+      "split": "val",
+      "id": "train-2999",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "c63040a94e4fe9dfd75ee8fa5f1a708028e8e207ca2f29df94751ada43272912"
+    },
+    {
+      "case": 1,
+      "side": "B",
+      "split": "val",
+      "id": "train-2999",
+      "condition": "rlaif",
+      "text_sha256": "8d97c894bf0380a056bf9de8cd6269d32325daaa85643ff013f0646b116afd14"
+    },
+    {
+      "case": 2,
+      "side": "A",
+      "split": "val",
+      "id": "train-2226",
+      "condition": "rlaif",
+      "text_sha256": "aadcc42f6f3715871a854b97f7bb2d501795c590f7e6f6618d9b6f71e1e9d9cd"
+    },
+    {
+      "case": 2,
+      "side": "B",
+      "split": "val",
+      "id": "train-2226",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "839e6574a5ca7f07424089740d57af48b0283f3ca6f13c250d34ffcc04269bcf"
+    },
+    {
+      "case": 3,
+      "side": "A",
+      "split": "val",
+      "id": "train-5650",
+      "condition": "rlaif",
+      "text_sha256": "19be37398c67b0995bc6fcc21a23c9a14b6bdd60ceacfcf313378f045f92e984"
+    },
+    {
+      "case": 3,
+      "side": "B",
+      "split": "val",
+      "id": "train-5650",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "ad2c93d24d1cc7dcf47de5bd927e5d5b8a3619a0e4f8c54a1ef08110c3a24a67"
+    },
+    {
+      "case": 4,
+      "side": "A",
+      "split": "test",
+      "id": "test-169",
+      "condition": "rlaif",
+      "text_sha256": "7c035e4af5e9633d8e890883d560d687ac6bc577cdda0adab414263a9f8a0a4c"
+    },
+    {
+      "case": 4,
+      "side": "B",
+      "split": "test",
+      "id": "test-169",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "db0dd9a2af904f9b2a81ecafba44a3469ad5df25ca6e4cd00fd1b49f52e49a93"
+    },
+    {
+      "case": 5,
+      "side": "A",
+      "split": "test",
+      "id": "test-1195",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "257ea562c146c0eef19b5a30cad7d9d8ef374429f1777ce2eff84ee77ae84a12"
+    },
+    {
+      "case": 5,
+      "side": "B",
+      "split": "test",
+      "id": "test-1195",
+      "condition": "rlaif",
+      "text_sha256": "cb5f372e7f1bfda8f72ba880d62ee51a3ea3edbd9e82ca2fa95c3df73f560a3f"
+    },
+    {
+      "case": 6,
+      "side": "A",
+      "split": "test",
+      "id": "test-206",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "8dc9e4fe59e2d2cb6d4905f1696be5af075404405ed5661837f792868f9fac59"
+    },
+    {
+      "case": 6,
+      "side": "B",
+      "split": "test",
+      "id": "test-206",
+      "condition": "rlaif",
+      "text_sha256": "ef95b9229cd133fd033907016110d3adee7b92f18a904bac3410fe26271efdf4"
+    },
+    {
+      "case": 7,
+      "side": "A",
+      "split": "test",
+      "id": "test-915",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "71358f38bdaa09a938c2c51265576214f550021b36640b1c61e8aa130526083c"
+    },
+    {
+      "case": 7,
+      "side": "B",
+      "split": "test",
+      "id": "test-915",
+      "condition": "rlaif",
+      "text_sha256": "ba6730f41a45a31c40a68764786b3938f533f9ec9e2ab22aa37ee06104d67496"
+    },
+    {
+      "case": 8,
+      "side": "A",
+      "split": "test",
+      "id": "test-27",
+      "condition": "rlaif",
+      "text_sha256": "ef89d2a2cf8c8cb83c5866ba6216129886dd8ab622eb781e0192d16a3065c043"
+    },
+    {
+      "case": 8,
+      "side": "B",
+      "split": "test",
+      "id": "test-27",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "ef89d2a2cf8c8cb83c5866ba6216129886dd8ab622eb781e0192d16a3065c043"
+    },
+    {
+      "case": 9,
+      "side": "A",
+      "split": "test",
+      "id": "test-74",
+      "condition": "rlaif",
+      "text_sha256": "26713a95d4f2acf155c1a9aee1fbac660d39951019dbbcae1f5746675c709c0e"
+    },
+    {
+      "case": 9,
+      "side": "B",
+      "split": "test",
+      "id": "test-74",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "05d35d0edea72db8559893cd4e78949108337a1d27a425abba0028ce2a6b2f42"
+    },
+    {
+      "case": 10,
+      "side": "A",
+      "split": "val",
+      "id": "train-6900",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "ab47a41060fcf7137002643695a2b9578502b41fc7bfb5a806ba47dfa522a9c3"
+    },
+    {
+      "case": 10,
+      "side": "B",
+      "split": "val",
+      "id": "train-6900",
+      "condition": "rlaif",
+      "text_sha256": "4f9049d7e5256f51b0c829ce2362ff8c47aa69a8f7181185192124f9ab173e78"
+    },
+    {
+      "case": 11,
+      "side": "A",
+      "split": "test",
+      "id": "test-657",
+      "condition": "rlaif",
+      "text_sha256": "c4429cc1913f084de633e1927b5c5bffa3a893a0b498c26ffbdc26d244a1d3b0"
+    },
+    {
+      "case": 11,
+      "side": "B",
+      "split": "test",
+      "id": "test-657",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "f43ab1a6ae5ab07b3e865c058629a17cb566ab522ef4949dabc812b54b176eeb"
+    },
+    {
+      "case": 12,
+      "side": "A",
+      "split": "test",
+      "id": "test-857",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "c7bc2750c0273b843c4ee53c2fe96735b375e71b8ead07bf88d595ccf7716e83"
+    },
+    {
+      "case": 12,
+      "side": "B",
+      "split": "test",
+      "id": "test-857",
+      "condition": "rlaif",
+      "text_sha256": "1c4404de10a9c6ba4f8678e91f8f7cd9f81652376867ec441786c8f7b31aaf3c"
+    },
+    {
+      "case": 13,
+      "side": "A",
+      "split": "test",
+      "id": "test-281",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "1c6991b212be8cbb8003419feecc04f2f3dbe817f87d6a7389c463d060399ecf"
+    },
+    {
+      "case": 13,
+      "side": "B",
+      "split": "test",
+      "id": "test-281",
+      "condition": "rlaif",
+      "text_sha256": "85fb65837d06bf5a599b818931ff4875da3efc55e197fb73f5b991e2d2313f47"
+    },
+    {
+      "case": 14,
+      "side": "A",
+      "split": "test",
+      "id": "test-628",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "a07c992e9040cd87e456cb7bf7a6698041bab2f36df9fc843bbd27dfa34c366e"
+    },
+    {
+      "case": 14,
+      "side": "B",
+      "split": "test",
+      "id": "test-628",
+      "condition": "rlaif",
+      "text_sha256": "137501d3700e4ed648658da8583da620b8e29f052ef86cff68e3f9cfda089844"
+    },
+    {
+      "case": 15,
+      "side": "A",
+      "split": "val",
+      "id": "train-2651",
+      "condition": "rlaif",
+      "text_sha256": "bfabe55b75f1f32ecc9a29831932f59a945f249124f52952758508298c9db872"
+    },
+    {
+      "case": 15,
+      "side": "B",
+      "split": "val",
+      "id": "train-2651",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "ff96db48a26b03afe0c1cc65f0e69c6e3e929b709ed99706a046bd91729a64fe"
+    },
+    {
+      "case": 16,
+      "side": "A",
+      "split": "test",
+      "id": "test-665",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "86287d64f05211a172fba2946a2ba95bb56e51597c8632d715eae3d643891185"
+    },
+    {
+      "case": 16,
+      "side": "B",
+      "split": "test",
+      "id": "test-665",
+      "condition": "rlaif",
+      "text_sha256": "56203969a827da8f4f1eca1f8843807270c800a833e502e56bf3aa80e94d4f82"
+    },
+    {
+      "case": 17,
+      "side": "A",
+      "split": "val",
+      "id": "train-3132",
+      "condition": "rlaif",
+      "text_sha256": "8a6c3917687b9a9eb273d7b476c74981e7868956b9145e075656d2443e79a2bd"
+    },
+    {
+      "case": 17,
+      "side": "B",
+      "split": "val",
+      "id": "train-3132",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "80bde4113cd66ca3636adf9e8a3a8b1a15479be59acb1b7a5b5e163f08792ba8"
+    },
+    {
+      "case": 18,
+      "side": "A",
+      "split": "val",
+      "id": "train-2433",
+      "condition": "rlaif",
+      "text_sha256": "ff5797b9298205f08e0144a900190656f5a3e4951363627bdf584b28c855b19f"
+    },
+    {
+      "case": 18,
+      "side": "B",
+      "split": "val",
+      "id": "train-2433",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "3d77fe364c9f8505469dba801ff643fce3a3e18321465fb0ca5d614a05412b35"
+    },
+    {
+      "case": 19,
+      "side": "A",
+      "split": "test",
+      "id": "test-117",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "4555c273345fde9c1994f707edfb654003ba2d7ec9e3f9bcc806a9d64bf5378f"
+    },
+    {
+      "case": 19,
+      "side": "B",
+      "split": "test",
+      "id": "test-117",
+      "condition": "rlaif",
+      "text_sha256": "cbc5f98c9115de1d7f8f4f0d2ab2a0f1bfb1fce6d12ad3bd7e3884fd4d60cb3d"
+    },
+    {
+      "case": 20,
+      "side": "A",
+      "split": "val",
+      "id": "train-7266",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "44efa332d44780e8b12f6754c76d4afe77b43b7a566c9ea8046611e1d7d3482c"
+    },
+    {
+      "case": 20,
+      "side": "B",
+      "split": "val",
+      "id": "train-7266",
+      "condition": "rlaif",
+      "text_sha256": "59b5adf41558f6a1333c62ca89901f2513c6d640682c36df063b398aec704391"
+    },
+    {
+      "case": 21,
+      "side": "A",
+      "split": "val",
+      "id": "train-4236",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "df43294323d8450c22fee8e695fa2ea9e2c0f14908ef0d9ec0f8876835d92727"
+    },
+    {
+      "case": 21,
+      "side": "B",
+      "split": "val",
+      "id": "train-4236",
+      "condition": "rlaif",
+      "text_sha256": "99c4dd566a6aa163fb086a4e51aae74b93b126d64208904b0dfd2ec4a7c35ed3"
+    },
+    {
+      "case": 22,
+      "side": "A",
+      "split": "val",
+      "id": "train-6869",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "8a0da9a20e26edb1b969a212a342c1de8db47f5a717bbdbab224067c7a0bb245"
+    },
+    {
+      "case": 22,
+      "side": "B",
+      "split": "val",
+      "id": "train-6869",
+      "condition": "rlaif",
+      "text_sha256": "cd69594507e7b28bbcdc5f2d5e6bbaf5672ca9bf797a7b01c7032fde9e644104"
+    },
+    {
+      "case": 23,
+      "side": "A",
+      "split": "val",
+      "id": "train-6053",
+      "condition": "rlaif",
+      "text_sha256": "b7ead13fe7d5cb12090fa6c6fae762aac5241ee5bf34e6776238d9c7337a0127"
+    },
+    {
+      "case": 23,
+      "side": "B",
+      "split": "val",
+      "id": "train-6053",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "2141f36a7c7e66e07c57152b520ec2a6abf40d2d345313242564a97137b168fa"
+    },
+    {
+      "case": 24,
+      "side": "A",
+      "split": "test",
+      "id": "test-1209",
+      "condition": "rlaif",
+      "text_sha256": "a5d95c3170b2fea958e63be96bd843b65d62ea34c65e0ad99fa2954033712e1a"
+    },
+    {
+      "case": 24,
+      "side": "B",
+      "split": "test",
+      "id": "test-1209",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "dd3b08d30a79dabcfd57b59b4ca3e7d87c2bf81a4f428e29353c063cdf1add7d"
+    },
+    {
+      "case": 25,
+      "side": "A",
+      "split": "val",
+      "id": "train-3314",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "841f8ef90b613585b09f80c6ddead85e70f4ca06affffca1e2aac87e5052ae76"
+    },
+    {
+      "case": 25,
+      "side": "B",
+      "split": "val",
+      "id": "train-3314",
+      "condition": "rlaif",
+      "text_sha256": "04f2d388ea85d52ed6f1b1ff92925de582d97276c1d060750f14d2f6f1bc6ba1"
+    },
+    {
+      "case": 26,
+      "side": "A",
+      "split": "test",
+      "id": "test-493",
+      "condition": "rlaif",
+      "text_sha256": "f2201be3be0f2c7fe4a8125d8e5a810d0878a795528c55530936a4629c6aba12"
+    },
+    {
+      "case": 26,
+      "side": "B",
+      "split": "test",
+      "id": "test-493",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "dcd0d78752a42e2d3b9692bb75061010c2eb42d12f33a04c7487f1f6277e0251"
+    },
+    {
+      "case": 27,
+      "side": "A",
+      "split": "test",
+      "id": "test-122",
+      "condition": "rlaif",
+      "text_sha256": "94a4a7dd315053604b2ad2708fb0e12ea0cfc668de7645fe217745c1bdf7be8d"
+    },
+    {
+      "case": 27,
+      "side": "B",
+      "split": "test",
+      "id": "test-122",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "f26c4153e9f74a5cee5bd30677770fd2d8a39fab84cf945523a4ce0cfaea5031"
+    },
+    {
+      "case": 28,
+      "side": "A",
+      "split": "val",
+      "id": "train-6807",
+      "condition": "rlaif",
+      "text_sha256": "5f8769683d39f5ba8c549c6203e6df66bce3a022adf6124a4db4d53e5b1cdcad"
+    },
+    {
+      "case": 28,
+      "side": "B",
+      "split": "val",
+      "id": "train-6807",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "0a33c42baf28b9e797e5a4460a43f2ea3f8ffea1fb51abd2569d6394eeaf1bef"
+    },
+    {
+      "case": 29,
+      "side": "A",
+      "split": "test",
+      "id": "test-479",
+      "condition": "rlaif",
+      "text_sha256": "e2d57445fc153331359509db6e2734245e26beb6d1857bfa578a6bc99f081823"
+    },
+    {
+      "case": 29,
+      "side": "B",
+      "split": "test",
+      "id": "test-479",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "a3f71709956316ba8a305834426fd31e2f16758eba7eda2241309c1de8f2e4b7"
+    },
+    {
+      "case": 30,
+      "side": "A",
+      "split": "test",
+      "id": "test-13",
+      "condition": "rlaif",
+      "text_sha256": "6868a24513093351a45354a8709df2918ee3c77dd506a55791225f3db956706c"
+    },
+    {
+      "case": 30,
+      "side": "B",
+      "split": "test",
+      "id": "test-13",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "5bbd811333ebdc8af11ff52ab92349edbf66af9d18ae493c2b87e9b3e09bd7cd"
+    },
+    {
+      "case": 31,
+      "side": "A",
+      "split": "val",
+      "id": "train-3669",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "6d607cd0973c951c3231398f19962f2a2c217c14d31ac12f6e57778b59d0cd31"
+    },
+    {
+      "case": 31,
+      "side": "B",
+      "split": "val",
+      "id": "train-3669",
+      "condition": "rlaif",
+      "text_sha256": "33d8b5c22cbcd8606b2c4a71a8642c21ac762dae8cd25e5cbcaaea03918af18c"
+    },
+    {
+      "case": 32,
+      "side": "A",
+      "split": "test",
+      "id": "test-121",
+      "condition": "rlaif",
+      "text_sha256": "712e80b14f278ecee03f5b4faee48349c780135611c513f1d46a1554d8fd070d"
+    },
+    {
+      "case": 32,
+      "side": "B",
+      "split": "test",
+      "id": "test-121",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "de54f146d7c6a007e8b9fcd53a73be86e5eebbadef2465a0cb3653cbb5425cb4"
+    },
+    {
+      "case": 33,
+      "side": "A",
+      "split": "val",
+      "id": "train-5906",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "d1e0b8ae13c7baf3b67351173fc02537458f8f69b1971085d7e332461d2773b3"
+    },
+    {
+      "case": 33,
+      "side": "B",
+      "split": "val",
+      "id": "train-5906",
+      "condition": "rlaif",
+      "text_sha256": "ea8e5949de22fe1f628f5dbcdf53ce9deef3a5fa2943aebfdbb963be54187c6c"
+    },
+    {
+      "case": 34,
+      "side": "A",
+      "split": "val",
+      "id": "train-711",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "51622f28d0371c8a9f2d041bb0f12f00805e0846c5b6d8977a37492a7b274f6b"
+    },
+    {
+      "case": 34,
+      "side": "B",
+      "split": "val",
+      "id": "train-711",
+      "condition": "rlaif",
+      "text_sha256": "e891228b10f771f21cf223c924fd47366a81ceff6282685dd3a9b97278a143ad"
+    },
+    {
+      "case": 35,
+      "side": "A",
+      "split": "val",
+      "id": "train-4269",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "11e1faf87659189bef755c6fce712cb1a34727c69b61ea7abd10dce4e3cc1bc8"
+    },
+    {
+      "case": 35,
+      "side": "B",
+      "split": "val",
+      "id": "train-4269",
+      "condition": "rlaif",
+      "text_sha256": "74aba260ad5fad0c1d96466aa8bff82e43947ad1434bf0dbbb08cf84793291c7"
+    },
+    {
+      "case": 36,
+      "side": "A",
+      "split": "val",
+      "id": "train-6386",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "c3538e4e6258a345a4390e67c9f600a82b7f66c982dea0810e664a51ad94a3c8"
+    },
+    {
+      "case": 36,
+      "side": "B",
+      "split": "val",
+      "id": "train-6386",
+      "condition": "rlaif",
+      "text_sha256": "1d04bb81e1805ba3100d6078c3b10629c83108582ced7d246a9144e80f00cf79"
+    },
+    {
+      "case": 37,
+      "side": "A",
+      "split": "test",
+      "id": "test-602",
+      "condition": "rlaif",
+      "text_sha256": "674e14674c418c9e395e2b9cf84a8b9dee09486fc2d78e9ef2d492b1dee4aef1"
+    },
+    {
+      "case": 37,
+      "side": "B",
+      "split": "test",
+      "id": "test-602",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "07a4b2d6471a8a66a86c63385d562c328d399255fff5ab85719dbeab5159e909"
+    },
+    {
+      "case": 38,
+      "side": "A",
+      "split": "test",
+      "id": "test-1029",
+      "condition": "rlaif",
+      "text_sha256": "5e90a3dbb9093160aca000d2097cb9c1a033ed093cca7c84a269a9dbf9d295f3"
+    },
+    {
+      "case": 38,
+      "side": "B",
+      "split": "test",
+      "id": "test-1029",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "d5d923c935bd7e1d1cdffbf5e42e4e5ea6a87df5f41baabe085a5bec1fd86ee3"
+    },
+    {
+      "case": 39,
+      "side": "A",
+      "split": "test",
+      "id": "test-504",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "2349c5d42749fe6b39e8de43f30646021f9baecd26c5b394202be62114537130"
+    },
+    {
+      "case": 39,
+      "side": "B",
+      "split": "test",
+      "id": "test-504",
+      "condition": "rlaif",
+      "text_sha256": "5f5258fb8bf96172f5fb50b244584776293d12b354502806f0df06e8cb9d940a"
+    },
+    {
+      "case": 40,
+      "side": "A",
+      "split": "val",
+      "id": "train-4182",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "291adf4de27d6ffbe27b62f25e1c2d9da44ec302c054ef5f19950eb6dd4ce2b8"
+    },
+    {
+      "case": 40,
+      "side": "B",
+      "split": "val",
+      "id": "train-4182",
+      "condition": "rlaif",
+      "text_sha256": "3fbb351f5d5d3a7557353f9555c8f8702fa089d6b75e3d27019291d0b7f2f8f2"
+    },
+    {
+      "case": 41,
+      "side": "A",
+      "split": "test",
+      "id": "test-205",
+      "condition": "rlaif",
+      "text_sha256": "f7d14fe1c98aef702deef43e2eb8067ed8d4208a404fc6d207c670ce3c79f975"
+    },
+    {
+      "case": 41,
+      "side": "B",
+      "split": "test",
+      "id": "test-205",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "48da9d43b505f595a5f80f7256ed978cba78410db9399857ae84aba9d3018c15"
+    },
+    {
+      "case": 42,
+      "side": "A",
+      "split": "test",
+      "id": "test-9",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "12d44081c1de8e8a31217c3f11caaeb37d82007e7630f74b3b1d2eaf0f3ca498"
+    },
+    {
+      "case": 42,
+      "side": "B",
+      "split": "test",
+      "id": "test-9",
+      "condition": "rlaif",
+      "text_sha256": "24e56a543ce9e6f1c176450abe01407d91dd413f435967b5e80df585cf736f3d"
+    },
+    {
+      "case": 43,
+      "side": "A",
+      "split": "val",
+      "id": "train-4452",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "ec7c593e7414549b3731447fe22c27d1b5704782661df3196df90a9551ba6c7c"
+    },
+    {
+      "case": 43,
+      "side": "B",
+      "split": "val",
+      "id": "train-4452",
+      "condition": "rlaif",
+      "text_sha256": "235df1636ce73ba68a8257a63c02457741b03be96a381241adfc6e5d38a44103"
+    },
+    {
+      "case": 44,
+      "side": "A",
+      "split": "val",
+      "id": "train-7341",
+      "condition": "rlaif",
+      "text_sha256": "a4792569c79f69ddfa15822e6a5640f6321e99027e6dd5ffcdbc9966b1f8f69c"
+    },
+    {
+      "case": 44,
+      "side": "B",
+      "split": "val",
+      "id": "train-7341",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "a4238d364539c7dc7b49f4d0e1d299f5643a49b901651f63d1e30f02b8c5534f"
+    },
+    {
+      "case": 45,
+      "side": "A",
+      "split": "test",
+      "id": "test-740",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "028a07e4ad7bac82169cf6a39fb5978647548240cb136678b67b5342b94c39fc"
+    },
+    {
+      "case": 45,
+      "side": "B",
+      "split": "test",
+      "id": "test-740",
+      "condition": "rlaif",
+      "text_sha256": "98bf07cf0ec58e47dae685c860b05a78f3a95f28755352c6793ee6f81042257a"
+    },
+    {
+      "case": 46,
+      "side": "A",
+      "split": "test",
+      "id": "test-366",
+      "condition": "rlaif",
+      "text_sha256": "2e62d79a3e03cc0d4e3cfa4c75859e8b3d1519ff24c265bf4e9774664fde08db"
+    },
+    {
+      "case": 46,
+      "side": "B",
+      "split": "test",
+      "id": "test-366",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "ea750b782bf5621badf861c67e8c3d703793975a2939c8d480b8a412063c4a47"
+    },
+    {
+      "case": 47,
+      "side": "A",
+      "split": "val",
+      "id": "train-1306",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "c641c9288f970558ef9b5a57e1c4f6ca63fed4d94a85fc9beda13b82f0574a22"
+    },
+    {
+      "case": 47,
+      "side": "B",
+      "split": "val",
+      "id": "train-1306",
+      "condition": "rlaif",
+      "text_sha256": "8ba44e1ddab532acad5842e9e1a1dacdfc74fddc9bd84f6182ae98a2e50ee0d2"
+    },
+    {
+      "case": 48,
+      "side": "A",
+      "split": "val",
+      "id": "train-4828",
+      "condition": "rlaif",
+      "text_sha256": "75b211de02e8a9ab9fa571b83e464fcc9865fd6973fab741a83a2d701e2e0f31"
+    },
+    {
+      "case": 48,
+      "side": "B",
+      "split": "val",
+      "id": "train-4828",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "827b002b471e3e64a53e2b9ec342cdb086cfa7b27e717ae678d40e68e7e4979d"
+    },
+    {
+      "case": 49,
+      "side": "A",
+      "split": "val",
+      "id": "train-3018",
+      "condition": "rlaif",
+      "text_sha256": "ed593bd052ba67297fa11b459122577dcf1a43d36cb78126c490528f41b20994"
+    },
+    {
+      "case": 49,
+      "side": "B",
+      "split": "val",
+      "id": "train-3018",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "67701ef939093f23520f3409d00fb9a9db63193b6b9e37b662b9acf0ab4f8726"
+    },
+    {
+      "case": 50,
+      "side": "A",
+      "split": "val",
+      "id": "train-82",
+      "condition": "mario_rlaif_baseline",
+      "text_sha256": "4f66398f9c24ce300f653c972af220a5caeecf0e2dd0e7dffd3acbb6a89fa00c"
+    },
+    {
+      "case": 50,
+      "side": "B",
+      "split": "val",
+      "id": "train-82",
+      "condition": "rlaif",
+      "text_sha256": "fc3ed00b9036d3910af35369d15bf313582ef33381c9e5e1cdcd02b7d4539082"
+    }
+  ]
+}

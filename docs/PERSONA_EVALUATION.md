@@ -1,6 +1,8 @@
 # Evaluate the RLAIF persona
 
-We need to test whether DPO improved Mario's voice, not whether its wording matches the reference answers. Use the frozen rubric and compare the RLAIF adapter with the freshly evaluated Mario SFT baseline. Both conditions already have 500 validation and 500 test outputs, so no GPU or new model generation is needed.
+The automated evaluation is complete: DPO scored higher under the frozen Mario rubric on both splits. See the [results](../reports/RLAIF_RESULTS.md). The [blinded human-review packet](../reports/persona_review/review.md) is ready, but human ratings are still pending.
+
+We tested persona performance rather than reference wording. Both conditions had 500 validation and 500 test outputs, so judging needed no GPU or new model generation. The protocol below records how we evaluated them.
 
 ## Protocol
 
@@ -16,12 +18,14 @@ The primary outcome is the paired difference in the judge's overall persona scor
 
 Put `ANTHROPIC_API_KEY` in the ignored root `.env`. This requires Anthropic API credit, not RunPod credit. Check pilot usage before committing to the full API bill. The commands below retain the frozen Haiku rubric but use the API backend consistently for both conditions.
 
+To recalculate the completed evaluation for free, run `python evaluate_persona.py summarize`. Use the scoring commands only for new output files or an incomplete run. A limited pilot must not overwrite a completed score file; the runner refuses that operation.
+
 ```bash
 # Pilot: 10 answers per condition. Scores are resumable.
-python judge.py score results/mario_rlaif_baseline_val.jsonl results/rlaif_val.jsonl --env-file .env --limit 10 --workers 2 --provenance-dir provenance/judge/rlaif-api
+python judge.py score results/mario_rlaif_baseline_val.jsonl results/rlaif_val.jsonl --env-file .env --limit 10 --workers 2 --max-tokens 512 --budget-usd 8 --provenance-dir provenance/judge/rlaif-api
 
 # Full run: resumes the pilot, then scores both splits.
-python judge.py score results/mario_rlaif_baseline_val.jsonl results/rlaif_val.jsonl results/mario_rlaif_baseline_test.jsonl results/rlaif_test.jsonl --env-file .env --workers 4 --provenance-dir provenance/judge/rlaif-api
+python judge.py score results/mario_rlaif_baseline_val.jsonl results/rlaif_val.jsonl results/mario_rlaif_baseline_test.jsonl results/rlaif_test.jsonl --env-file .env --workers 4 --max-tokens 512 --budget-usd 8 --provenance-dir provenance/judge/rlaif-api
 
 python judge.py summarize results/judge/mario_rlaif_baseline_val.jsonl results/judge/rlaif_val.jsonl
 python judge.py summarize results/judge/mario_rlaif_baseline_test.jsonl results/judge/rlaif_test.jsonl
