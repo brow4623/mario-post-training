@@ -23,6 +23,7 @@ Similarity is measured on validation answers using character n-gram TF-IDF cosin
 
 ## What to read
 
+- [Stage 3 RLVR plan](docs/RLVR_PLAN.md): math-only and combined math/persona training, budget checks, and matched evaluation. Training has not started.
 - [SFT report](reports/SFT_RESULTS.md) and [RLAIF report](reports/RLAIF_RESULTS.md): findings, comparisons, and remaining checks.
 - [Trained adapters](adapters/README.md): download links and checksums for Mario SFT, plain-GSM8K SFT, and RLAIF weights. Course staff need access to this private repository and its releases.
 - [Model outputs](results/): the original 4,000 SFT evaluation answers and 2,000 answers from the matched RLAIF comparison.
