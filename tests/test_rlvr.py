@@ -17,6 +17,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 import make_rlvr_data  # noqa: E402
+import rewards  # noqa: E402
 import rlvr  # noqa: E402
 from eval import FORMAT_PROMPT  # noqa: E402
 from mario_data import read_jsonl, write_jsonl  # noqa: E402
@@ -104,6 +105,16 @@ class Arguments(unittest.TestCase):
                                                                          "questions_per_update": 16}))
         self.assertEqual(args.revision, rlvr.QWEN_REVISION)
         self.assertEqual(args.run_name, "rlvr-test")
+
+    def test_persona_weight_defaults_to_the_plan_and_reaches_the_reward(self):
+        # The sensitivity sweep in docs/RLVR_SENSITIVITY.md varies only this flag, so it has to
+        # arrive at the Reward unchanged; rlvr.py records it in the manifest to tell runs apart.
+        self.assertEqual(self.parse()[0].persona_weight, 0.25)
+        args, _ = rlvr.parse_args(["--reward", "combined", "--output", "/tmp/x",
+                                   "--persona-weight", "1.0"])
+        self.assertEqual(args.persona_weight, 1.0)
+        reward = rewards.Reward("combined", rater=object(), weight=args.persona_weight)
+        self.assertEqual(rewards.combined_reward(1.0, 1.0, reward.weight), 2.0)
 
     def test_the_math_run_refuses_judge_flags_and_a_smaller_model_needs_its_own_revision(self):
         with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
