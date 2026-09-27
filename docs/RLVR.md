@@ -144,6 +144,15 @@ pinned environment, runs the offline tests, then:
 3. the two training runs, independent and identical except for the reward;
 4. the matched evaluation of all three conditions on both splits, into `results/rlvr/`.
 
+Start the pod on `runpod/pytorch:2.8.0-py3.11-cuda12.8.1-cudnn-devel-ubuntu22.04`. PyPI has
+since withdrawn torch 2.8.0, so `requirements-rlvr.txt` can no longer install it and it has to
+come from the image; `run_rlvr.sh` checks the installed version first and stops with that
+message rather than failing several minutes into pip.
+
+`RLVR_SENSITIVITY_WEIGHTS="0.5 0.75 1.0"` adds an optional persona-weight sweep after step 3,
+described in [RLVR_SENSITIVITY.md](RLVR_SENSITIVITY.md). It is exploratory, outside the matched
+comparison below, and roughly quadruples the judge spend and the evaluation time.
+
 Never initialise the combined run from the math-only adapter: that would confound the
 reward comparison with extra training. Measure throughput, memory, judge latency, and
 actual API usage during the pilot instead of extrapolating from DPO's three-minute training

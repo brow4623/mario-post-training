@@ -8,9 +8,13 @@ The multi-objective reward function combines math correctness (C) and persona (P
 R = C * (1 + w * P)
 ```
 
-where **w** is the persona weight. The default value is **w = 0.25**, which gives correct answers a bonus of up to 25% based on persona quality.
+where **w** is the persona weight, `--persona-weight` in `rlvr.py`. The default is **w = 0.25**,
+which gives a correct answer a bonus of up to 25% according to its persona rating.
 
-To understand how sensitive the model's outputs are to this parameter, the RLVR pipeline includes **sensitivity runs** with different weight values: **w ∈ {0.5, 0.75, 1.0}** in addition to the default w = 0.25.
+That 0.25 was chosen when the reward was designed, not measured. This page describes an
+optional sweep over **w ∈ {0.5, 0.75, 1.0}**, alongside the planned w = 0.25 run, to find out
+whether the choice matters. It is exploratory and sits outside the matched comparison the
+stage 3 plan predeclares; read the caveats at the end before reporting anything from it.
 
 ## Reward Scaling Table
 
@@ -36,21 +40,22 @@ Wrong answers always score 0, regardless of w or persona quality.
 ## Running the Sensitivity Analysis
 
 The sweep is opt-in, because it adds three training runs and three evaluation pairs to the
-two-condition matched design in [RLVR_PLAN.md](RLVR_PLAN.md):
+two-condition matched design in [RLVR_PLAN.md](RLVR_PLAN.md). On the GPU pod described in
+[RLVR.md](RLVR.md), set the weights and run the ordinary script:
 
 ```bash
-source venv/bin/activate
-modal run modal_rlvr.py --sensitivity
+RLVR_SENSITIVITY_WEIGHTS="0.5 0.75 1.0" bash run_rlvr.sh
 ```
 
-Or the training stage alone, once the pilot gate has passed:
+With the variable unset, `run_rlvr.sh` runs only the planned `rlvr_math` and `rlvr_combined`
+(w = 0.25) conditions. Each listed weight adds one combined training run, trained from the
+RLAIF adapter like every other condition, and one evaluation pair.
+
+A single weight on its own is the cheapest way to see whether `w` moves anything at all:
 
 ```bash
-modal run modal_rlvr.py --stage train --sensitivity
+RLVR_SENSITIVITY_WEIGHTS="1.0" bash run_rlvr.sh
 ```
-
-Without `--sensitivity` the pipeline runs only the planned `rlvr_math` and `rlvr_combined`
-(w = 0.25) conditions.
 
 ## Output Conditions
 
