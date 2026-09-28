@@ -1,0 +1,23 @@
+{
+  "changed_adapter_tensors": 504,
+  "trained": true,
+  "reference": "frozen copy of the RLAIF adapter",
+  "reference_sha256_after": "3b3cb3c9726089b2fd56bf40c2e2b7d1456e13ba1f6c014fd49896621cf7965f",
+  "reference_unchanged": true,
+  "initial_kl": 0.0011561696592252702,
+  "max_initial_kl": 0.002,
+  "policy_started_at_reference": true,
+  "finite_parameters": true,
+  "reward_summary": {
+    "completions": 2048,
+    "groups": 512,
+    "mixed_correctness_groups": 255,
+    "all_correct_groups": 218,
+    "all_wrong_groups": 39,
+    "mean_correct": 0.7041015625,
+    "judged_completions": 0,
+    "mean_persona_overall": null,
+    "mean_persona_scale": null,
+    "mean_reward": 0.7041015625
+  }
+}

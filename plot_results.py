@@ -14,6 +14,7 @@ INK, MUTED, GRID = "#182B39", "#596873", "#DCE2E4"
 def font(size, bold=False):
     candidates = (
         "C:/Windows/Fonts/" + ("arialbd.ttf" if bold else "arial.ttf"),
+        "/System/Library/Fonts/Supplemental/" + ("Arial Bold.ttf" if bold else "Arial.ttf"),
         "DejaVuSans-Bold.ttf" if bold else "DejaVuSans.ttf",
     )
     for candidate in candidates:
