@@ -1,0 +1,114 @@
+{
+  "arguments": {
+    "reward": "math",
+    "output": "checkpoints/rlvr-pilot",
+    "frozen": "provenance/rlvr/training_questions.json",
+    "data": null,
+    "model": "Qwen/Qwen2.5-3B-Instruct",
+    "revision": "aa8e72537993ba99e69dfaafa59ed015b17504d1",
+    "adapter": "adapters/rlaif",
+    "persona_weight": 0.25,
+    "num_generations": 4,
+    "temperature": 1.0,
+    "top_p": 0.95,
+    "max_completion_length": 1024,
+    "lr": 0.0,
+    "beta": 0.02,
+    "batch_size": 8,
+    "grad_accum": 8,
+    "warmup_steps": 0,
+    "epochs": 1,
+    "max_steps": -1,
+    "max_examples": 64,
+    "seed": 42,
+    "max_initial_kl": 0.002,
+    "run_name": "pilot",
+    "judge_model": "claude-haiku-4-5",
+    "judge_max_tokens": 512,
+    "judge_workers": 8,
+    "budget_usd": null,
+    "env_file": null,
+    "cache": null,
+    "sample_completions": 32,
+    "push_to_hub": null
+  },
+  "questions": 64,
+  "batching": {
+    "completions_per_update": 64,
+    "questions_per_update": 16
+  },
+  "max_prompt_tokens": 154,
+  "frozen_questions": {
+    "source": "data/train_mario.jsonl",
+    "source_sha256": "e300a17faf98e688b77fb68218072950c9a515eed9fd066b3c5997ab45920f48",
+    "seed": 42,
+    "count": 512,
+    "selection": "random.Random(seed).sample over dataset indices, kept in dataset order",
+    "script_sha256": "ee5ab9fd7f43ef8a9499eecfae35f9989d9762fdeff472e8fcb4a482e4ae1684",
+    "ids_sha256": "ffe47dbfebf77605d4c38301ab399b5cbd1705acf2cb21870ad376911b868e65",
+    "questions_sha256": "59d9e872e85e60281ced9d86e594eed733019894f7864cebc3a92f43993a0bf6",
+    "overlap": [
+      {
+        "split": "data/val.jsonl",
+        "shared_ids": [],
+        "shared_questions": 0
+      },
+      {
+        "split": "data/test.jsonl",
+        "shared_ids": [],
+        "shared_questions": 0
+      }
+    ],
+    "note": "Gold answers stay with the verifier; the policy and the persona judge see the question only."
+  },
+  "reward": {
+    "kind": "math",
+    "persona_weight": 0.25,
+    "formula": "C"
+  },
+  "trl_settings": {
+    "beta": 0.02,
+    "learning_rate": 0.0,
+    "lr_scheduler_type": "constant",
+    "warmup_steps": 0,
+    "num_train_epochs": 1,
+    "max_steps": -1,
+    "per_device_train_batch_size": 8,
+    "gradient_accumulation_steps": 8,
+    "num_generations": 4,
+    "temperature": 1.0,
+    "top_p": 0.95,
+    "max_completion_length": 1024,
+    "scale_rewards": "none",
+    "bf16": true,
+    "gradient_checkpointing": true,
+    "logging_steps": 1,
+    "save_strategy": "no",
+    "report_to": "none",
+    "seed": 42
+  },
+  "ignored_settings": [
+    "dataset_num_proc",
+    "max_prompt_length"
+  ],
+  "base_revision": "aa8e72537993ba99e69dfaafa59ed015b17504d1",
+  "script_sha256": "b2f8b1d8a35a01d49391ca4a088d89e1ca2b72227ddfdffb7e89f24a19c9debf",
+  "rewards_sha256": "1e6fc2370e9424c3f9b56f2af705918159214a95125d23ea83e3b292e7d01772",
+  "verifier_sha256": "dafdb6543cfdfd80f8f2496fdb397cf5ee274be2b4fb965d9f7b95820d58da5e",
+  "adapter_hashes": {
+    "adapter_config.json": "1c2f505419297a40d06c3bcf02ec18409ff79b308bd2759f5d846cb0fced31b7",
+    "adapter_model.safetensors": "278224dcc00ea44511fcce4a760e6f50e5a99813dacd73baaae1837e6f158e58"
+  },
+  "packages": {
+    "torch": "2.8.0+cu128",
+    "transformers": "5.17.0",
+    "datasets": "5.0.1",
+    "peft": "0.21.0",
+    "accelerate": "1.15.0",
+    "trl": "1.13.0"
+  },
+  "gpu": "NVIDIA A100-SXM4-80GB",
+  "reference": "frozen copy of the RLAIF adapter",
+  "frozen_reference_parameters": 0,
+  "reference_sha256_before": "3b3cb3c9726089b2fd56bf40c2e2b7d1456e13ba1f6c014fd49896621cf7965f"
+}
