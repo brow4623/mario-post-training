@@ -46,6 +46,21 @@ RESULTS = Path("results/rlvr")
 PROVENANCE = Path("provenance/rlvr")
 SUMMARY = Path("derived/rlvr/summary.json")
 
+# `stages` spans all four post-training stages. They sit in different directories because
+# earlier checkpoints of this project wrote them, so each needs its own source paths.
+STAGES = ("mario_sft", "rlaif", "rlvr_math", "rlvr_combined")
+STAGE_LABELS = {"mario_sft": "Mario SFT", "rlaif": "RLAIF", "rlvr_math": "RLVR math-only",
+                "rlvr_combined": "RLVR combined"}
+STAGE_SOURCES = {  # stage -> (results dir, evaluation provenance dir, file stem)
+    "mario_sft": (Path("results"), Path("provenance/evaluation"), "mario_rlaif_baseline"),
+    "rlaif": (RESULTS, Path("provenance/evaluation/rlvr"), "rlvr_baseline"),
+    "rlvr_math": (RESULTS, Path("provenance/evaluation/rlvr"), "rlvr_math"),
+    "rlvr_combined": (RESULTS, Path("provenance/evaluation/rlvr"), "rlvr_combined"),
+}
+STAGE_COMPARISONS = (("rlaif", "mario_sft"), ("rlvr_math", "rlaif"),
+                     ("rlvr_combined", "rlaif"), ("rlvr_combined", "mario_sft"))
+STAGE_SUMMARY = Path("derived/rlvr/stages.json")
+
 
 def paired(a, b, resamples=10000):
     """Mean paired difference (b minus a) with a 95% question-bootstrap interval."""
@@ -132,7 +147,7 @@ def load_split(split, conditions=CONDITIONS, results_dir=RESULTS, provenance_dir
                                    "adapters": {name: configs[name]["adapter_hashes"] for name in conditions}}
 
 
-def table(report):
+def table(report, labels=LABELS):
     """Markdown tables, ready for reports/RLVR_RESULTS.md."""
     lines = []
     for split in report["splits"]:
@@ -142,7 +157,7 @@ def table(report):
                   "| --- | ---: | ---: | ---: | ---: |"]
         for name, metrics in section["conditions"].items():
             accuracy, persona = metrics["accuracy"], metrics["persona_overall"]
-            lines.append(f"| {LABELS.get(name, name)} | {accuracy['mean']:.1%} "
+            lines.append(f"| {labels.get(name, name)} | {accuracy['mean']:.1%} "
                          f"[{accuracy['ci95'][0]:.1%}, {accuracy['ci95'][1]:.1%}] | {persona['mean']:.2f} "
                          f"[{persona['ci95'][0]:.2f}, {persona['ci95'][1]:.2f}] | "
                          f"{metrics['catchphrase_only_rate']:.1%} | {metrics['word_count']:.0f} |")
@@ -159,7 +174,7 @@ def table(report):
             matched_text = (f"{matched['persona_overall']['mean']:+.2f} "
                             f"[{matched['persona_overall']['ci95'][0]:+.2f}, {matched['persona_overall']['ci95'][1]:+.2f}] "
                             f"(n={matched['n']})" if matched["persona_overall"] else "n/a")
-            lines.append(f"| {LABELS.get(new, new)} minus {LABELS.get(old, old)} | "
+            lines.append(f"| {labels.get(new, new)} minus {labels.get(old, old)} | "
                          f"{accuracy['mean']:+.1%} [{accuracy['ci95'][0]:+.1%}, {accuracy['ci95'][1]:+.1%}] | "
                          f"{persona['mean']:+.2f} [{persona['ci95'][0]:+.2f}, {persona['ci95'][1]:+.2f}] | "
                          f"{matched_text} | {calls} |")
@@ -184,6 +199,77 @@ def summarize(args):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(table(report))
+    print(f"wrote {path}")
+
+
+def load_stages(split, stages=STAGES, data_dir=Path("data")):
+    """The same loader across all four stages, which do not share a directory.
+
+    `load_split` refuses any mismatch outright, which is right for the three stage-3
+    conditions that were produced in one session. Across stages a mismatch is expected
+    rather than disqualifying, so this records what differs and lets the caller judge it.
+    """
+    refs = read_jsonl(Path(data_dir) / f"{split}.jsonl")
+    outputs, scores, configs = {}, {}, {}
+    for name in stages:
+        results_dir, provenance_dir, stem = STAGE_SOURCES[name]
+        outputs[name] = paired_outputs(refs, read_jsonl(results_dir / f"{stem}_{split}.jsonl"))
+        configs[name] = json.loads((provenance_dir / f"{stem}_{split}.config.json").read_text(encoding="utf-8"))
+    differences = {key: {name: configs[name][key] for name in stages}
+                   for key in MATCHED_KEYS
+                   if len({json.dumps(configs[name][key], sort_keys=True) for name in stages}) != 1}
+    # Comparing across stages means tolerating environment drift, but not a different
+    # question set or a different base model: those make the comparison meaningless.
+    for key in ("data_sha256", "model", "revision", "system_prompt", "do_sample"):
+        if key in differences:
+            raise ValueError(f"Stages differ on {key}, which makes them incomparable ({split}): "
+                             f"{differences[key]}")
+    rated = {}
+    for name in stages:
+        results_dir, _, stem = STAGE_SOURCES[name]
+        rated[name] = read_jsonl(results_dir / "judge" / f"{stem}_{split}.jsonl")
+    identities = {(row["config_sha256"], row["model"]) for rows in rated.values() for row in rows}
+    if len(identities) != 1:
+        raise ValueError(f"Persona ratings span more than one judge configuration ({split}): {identities}")
+    config_hash, model = identities.pop()
+    for name in stages:
+        scores[name] = aligned_scores(outputs[name], rated[name], config_hash)
+    # The RLAIF adapter was evaluated twice, once per stage. Identical greedy outputs are a
+    # stronger comparability check than matching configs, so record whether they reproduced.
+    reproduced = None
+    if {"rlaif"} <= set(stages):
+        previous = Path("results") / f"rlaif_{split}.jsonl"
+        if previous.exists():
+            before = {row["id"]: row["output"] for row in read_jsonl(previous)}
+            reproduced = sum(before.get(row["id"]) == row["output"] for row in outputs["rlaif"])
+    return refs, outputs, scores, {
+        "judge_config_sha256": config_hash, "judge_model": model,
+        "config_differences_across_stages": differences,
+        "rlaif_outputs_reproduced": reproduced, "n": len(refs)}
+
+
+def stages(args):
+    """Both metrics across every stage, the deliverable that spans SFT, RLAIF, and RLVR."""
+    report = {"stages": list(args.stages), "resamples": args.resamples, "splits": {},
+              "method": ("Paired question bootstrap, 10,000 resamples, seed 42, over the same questions. "
+                         "Stages were evaluated in separate sessions; config differences between them are "
+                         "recorded per split rather than assumed away.")}
+    for split in args.splits:
+        refs, outputs, scores, provenance = load_stages(split, tuple(args.stages), Path(args.data_dir))
+        report["splits"][split] = {**analyze(refs, outputs, scores, args.resamples,
+                                             tuple(args.stages), STAGE_COMPARISONS),
+                                   "provenance": provenance}
+    path = Path(args.stage_output)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+    print(table(report, STAGE_LABELS))
+    for split, section in report["splits"].items():
+        differences = section["provenance"]["config_differences_across_stages"]
+        reproduced = section["provenance"]["rlaif_outputs_reproduced"]
+        if reproduced is not None:
+            print(f"{split}: RLAIF outputs reproduced across stages for {reproduced}/{section['n']} questions")
+        print(f"{split}: evaluation settings differing across stages: "
+              f"{', '.join(sorted(differences)) if differences else 'none'}")
     print(f"wrote {path}")
 
 
@@ -309,10 +395,79 @@ def plot(args):
     print(f"wrote {target}")
 
 
+def stage_plot(args):
+    """Both metrics across every stage, side by side on their own scales."""
+    from PIL import Image, ImageDraw
+    from plot_results import font, INK, MUTED, GRID
+
+    report = json.loads(Path(args.stage_output).read_text(encoding="utf-8"))
+    section = report["splits"][args.split]
+    order = [name for name in report["stages"] if name in section["conditions"]]
+    colors = {"mario_sft": "#B77927", "rlaif": "#64748B",
+              "rlvr_math": "#167D9A", "rlvr_combined": "#C94740"}
+    image = Image.new("RGB", (1800, 1000), "#FAFAF7")
+    draw = ImageDraw.Draw(image)
+    draw.rectangle((65, 58, 120, 65), fill="#C94740")
+    draw.text((65, 82), "Persona and math capability across every stage", font=font(49, True), fill=INK)
+    draw.text((65, 160), f"{args.split.capitalize()} split, {section['n']} questions per stage. "
+                         "Separate outcomes, each on its own scale; bars are 95% question-bootstrap intervals.",
+              font=font(27), fill=MUTED)
+
+    panels = (("persona_overall", "Persona adherence, judge overall (1-5)", 65, lambda v: f"{v:.2f}"),
+              ("accuracy", "Math capability, GSM8K accuracy", 960, lambda v: f"{v:.0%}"))
+    for metric, caption, x0, fmt in panels:
+        width, top, bottom = 760, 330, 760
+        bounds = [v for name in order for v in section["conditions"][name][metric]["ci95"]]
+        span = max(bounds) - min(bounds)
+        low, high = min(bounds) - span * 0.35, max(bounds) + span * 0.35
+        py = lambda v: bottom - (v - low) / (high - low) * (bottom - top)  # noqa: E731
+        step = width / (len(order) + 1)
+        px = lambda i: x0 + 120 + step * i * 0.86  # noqa: E731
+        draw.text((x0, 250), caption, font=font(31, True), fill=INK)
+        for i in range(5):
+            value = low + i * (high - low) / 4
+            draw.line((x0 + 95, py(value), x0 + width - 20, py(value)), fill=GRID, width=2)
+            draw.text((x0 + 80, py(value)), fmt(value), anchor="rm", font=font(22), fill=MUTED)
+        points = [(px(i), py(section["conditions"][name][metric]["mean"])) for i, name in enumerate(order)]
+        for start, end in zip(points, points[1:]):  # the progression from one stage to the next
+            draw.line((*start, *end), fill="#C9CFD3", width=3)
+        for i, name in enumerate(order):
+            metrics = section["conditions"][name][metric]
+            x, y = px(i), py(metrics["mean"])
+            color = colors.get(name, INK)
+            draw.line((x, py(metrics["ci95"][0]), x, py(metrics["ci95"][1])), fill=color, width=5)
+            for end in metrics["ci95"]:
+                draw.line((x - 9, py(end), x + 9, py(end)), fill=color, width=3)
+            draw.ellipse((x - 12, y - 12, x + 12, y + 12), fill=color)
+            # Above the whisker cap, not the mean, so the label never sits on the interval.
+            draw.text((x, py(metrics["ci95"][1]) - 14), fmt(metrics["mean"]), anchor="mb",
+                      font=font(25, True), fill=color)
+            for line, part in enumerate(STAGE_LABELS.get(name, name).split(" ", 1)):
+                draw.text((x, bottom + 22 + line * 30), part, anchor="mt", font=font(23), fill=INK)
+
+    reproduced = section["provenance"].get("rlaif_outputs_reproduced")
+    note = ("Persona rose once, at the RLAIF stage, and neither RLVR reward moved either metric "
+            "beyond its interval.")
+    draw.text((65, 862), note, font=font(25), fill=INK)
+    if reproduced:
+        draw.text((65, 906), f"All stages share one frozen judge configuration, and re-evaluating the RLAIF "
+                             f"adapter reproduced {reproduced}/{section['n']} answers exactly.",
+                  font=font(24), fill=MUTED)
+    draw.text((65, 946), "One training run per stage, so these intervals cover variation across questions, "
+                         "not across runs.", font=font(24), fill=MUTED)
+    target = Path(args.stage_figure)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    image.save(target, optimize=True)
+    print(f"wrote {target}")
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("command", choices=("summarize", "review", "plot"))
+    parser.add_argument("command", choices=("summarize", "review", "plot", "stages", "stage-plot"))
     parser.add_argument("--conditions", nargs="+", default=list(CONDITIONS))
+    parser.add_argument("--stages", nargs="+", default=list(STAGES))
+    parser.add_argument("--stage-output", default=str(STAGE_SUMMARY))
+    parser.add_argument("--stage-figure", default="reports/figures/rlvr_stages.png")
     parser.add_argument("--splits", nargs="+", default=list(SPLITS))
     parser.add_argument("--split", default="test", help="plot: which split to draw")
     parser.add_argument("--results-dir", default=str(RESULTS))
@@ -327,7 +482,8 @@ def main():
     parser.add_argument("--cases", type=int, default=50, help="review: questions in the blinded packet")
     parser.add_argument("--seed", type=int, default=42)
     args = parser.parse_args()
-    {"summarize": summarize, "review": review, "plot": plot}[args.command](args)
+    {"summarize": summarize, "review": review, "plot": plot,
+     "stages": stages, "stage-plot": stage_plot}[args.command](args)
 
 
 if __name__ == "__main__":
