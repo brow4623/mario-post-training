@@ -15,3 +15,5 @@ provenance/generation/records/
 *.pyc
 *.safetensors
 .DS_Store
+mario-persona-key
+mario-persona-key.pub
