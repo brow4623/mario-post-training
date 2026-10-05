@@ -1,3 +1,4 @@
+HW1 Write Up: [link](AI_Safety_HW_1_Report.pdf)
 # Mario post-training on GSM8K
 
 **DPO improved Mario persona scores under the rubric judge, with no clear change in math accuracy.** The test persona rating rose from 2.58 to 2.93 out of 5; the gain remained positive among similar-length answers. Test accuracy was 66.2% versus 67.0% for the matched SFT baseline. Independent human review is still pending. See the [RLAIF report](reports/RLAIF_RESULTS.md), [adapter release](https://github.com/harvard-cs2881f26/brown-ogbogu-tantia/releases/tag/rlaif-v1), and [blinded review packet](reports/persona_review/review.md).
